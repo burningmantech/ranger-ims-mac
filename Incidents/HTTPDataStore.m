@@ -459,8 +459,15 @@ static int nextTemporaryNumber = -1;
             else {
                 id <DataStoreDelegate> delegate = self.delegate;
                 NSString *path = nil;
-                // FIXME: Reverse sort incidentsNumbersToLoad
-                for (NSNumber *number in self.incidentsNumbersToLoad) {
+
+                // Reverse sort incidentsNumbersToLoad
+                NSArray *incidentsNumbersToLoad = [
+                    [self.incidentsNumbersToLoad allObjects] sortedArrayUsingComparator:^(NSNumber* a, NSNumber* b) {
+                        return [b compare:a];
+                    }
+                ];
+
+                for (NSNumber *number in incidentsNumbersToLoad) {
                     //NSLog(@"Loading queued incident: %@", number);
 
                     path = [NSString stringWithFormat:@"incidents/%@", number];
