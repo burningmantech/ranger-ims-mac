@@ -53,6 +53,8 @@ NSString *formattedDateTimeShort(NSDate *date);
 
 @property (strong,nonatomic) NSArray *sortedIncidents;
 @property (strong,nonatomic) NSArray *sortedOpenIncidents;
+@property (strong,nonatomic) NSArray *filteredIncidents;
+@property (strong,nonatomic) NSArray *filteredIncidentsKey;
 
 @property (strong,nonatomic) NSMutableDictionary *incidentControllersToReplace;
 
@@ -78,6 +80,8 @@ NSString *formattedDateTimeShort(NSDate *date);
         self.incidentControllers = [NSMutableDictionary dictionary];
         self.sortedIncidents = nil;
         self.sortedOpenIncidents = nil;
+        self.filteredIncidents = nil;
+        self.filteredIncidentsKey = @[];
         self.incidentControllersToReplace = [NSMutableDictionary dictionary];
         self.reloadTimer = nil;
         self.lastLoadedDate = [NSDate distantPast];
@@ -164,6 +168,8 @@ NSString *formattedDateTimeShort(NSDate *date);
 {
     self.sortedIncidents = nil;
     self.sortedOpenIncidents = nil;
+    self.filteredIncidents = nil;
+    self.filteredIncidentsKey = @[];
 
     NSTableView *dispatchTable = self.dispatchTable;
     if (dispatchTable) {
@@ -256,6 +262,16 @@ NSString *formattedDateTimeShort(NSDate *date);
 
 
 - (NSArray *) sortedIncidents {
+    NSSearchField *searchField = self.searchField;
+    NSSearchFieldCell *searchFieldCell = searchField.cell;
+    NSString *searchText = searchFieldCell.stringValue;
+    NSButton *showClosed = self.showClosed;
+    NSArray *filteredIncidentsKey = @[searchText, self.showClosed];
+
+    if ([self.filteredIncidentsKey isEqualToArray:filteredIncidentsKey]) {
+        return self.filteredIncidents;
+    }
+    
     if (! _sortedIncidents) {
         // FIXME: If the table has no sort descriptors,
         // default to something useful.
@@ -275,17 +291,12 @@ NSString *formattedDateTimeShort(NSDate *date);
     }
 
     NSArray *result;
-    NSButton *showClosed = self.showClosed;
     if (showClosed.state == NSOffState) {
         result = _sortedOpenIncidents;
     }
     else {
         result = _sortedIncidents;
     }
-
-    NSSearchField *searchField = self.searchField;
-    NSSearchFieldCell *searchFieldCell = searchField.cell;
-    NSString *searchText = searchFieldCell.stringValue;
 
     if (searchText.length) {
         BOOL(^searchFilter)(Incident *, NSDictionary *) = ^(Incident *incident, NSDictionary *bindings) {
@@ -346,6 +357,9 @@ NSString *formattedDateTimeShort(NSDate *date);
         result = [result filteredArrayUsingPredicate:searchPredicate];
     }
 
+    self.filteredIncidentsKey = filteredIncidentsKey;
+    self.filteredIncidents = result;
+    
     return result;
 }
 
