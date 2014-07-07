@@ -37,7 +37,6 @@
 		35025DF716E155D100961AC5 /* IncidentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IncidentController.h; sourceTree = "<group>"; };
 		35025DF816E155D100961AC5 /* IncidentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IncidentController.m; sourceTree = "<group>"; };
 		35025DF916E155D100961AC5 /* IncidentController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IncidentController.xib; sourceTree = "<group>"; };
-		3503A58E173C4EED00C13D17 /* PasswordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PasswordController.h; sourceTree = "<group>"; };
 		352089E016D84E6F0037733C /* Incidents.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Incidents.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		352089E416D84E6F0037733C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		352089E716D84E6F0037733C /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -173,7 +172,6 @@
 				35025DF716E155D100961AC5 /* IncidentController.h */,
 				35025DF816E155D100961AC5 /* IncidentController.m */,
 				35025DF916E155D100961AC5 /* IncidentController.xib */,
-				3503A58E173C4EED00C13D17 /* PasswordController.h */,
 				35841BC1173C718800E4BFC0 /* PasswordController.h */,
 				35841BC2173C718800E4BFC0 /* PasswordController.m */,
 				35841BC3173C718800E4BFC0 /* PasswordController.xib */,
@@ -254,7 +252,7 @@
 		352089D716D84E6F0037733C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Wilfredo Sánchez Vega";
 				TargetAttributes = {
 					352089DF16D84E6F0037733C = {
@@ -358,7 +356,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -386,7 +383,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
