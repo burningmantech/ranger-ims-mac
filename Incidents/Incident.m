@@ -68,7 +68,7 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
     };
     
     NSNumber *(^toNumber)(NSNumber *) = ^(NSNumber *json) {
-        if (json == (id)nullObject) return (NSNumber *)nil;
+        if (! json || json == (id)nullObject) return (NSNumber *)nil;
 
         if (json && [json isKindOfClass:[NSNumber class]]) return json;
 
@@ -85,7 +85,7 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
     };
 
     NSArray *(^toArray)(NSArray *) = ^(NSArray *json) {
-        if (json == (id)nullObject) return (NSArray *)nil;
+        if (! json || json == (id)nullObject) return (NSArray *)nil;
 
         if (json && [json isKindOfClass:[NSArray class]]) return json;
 
@@ -94,7 +94,7 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
     };
 
     NSDate *(^toDate)(NSString *) = ^(NSString *json) {
-        if (json == (id)nullObject) return (NSDate *)nil;
+        if (! json || json == (id)nullObject) return (NSDate *)nil;
 
         if (json && [json isKindOfClass:[NSString class]]) return dateFromRFC3339String(json);
 
