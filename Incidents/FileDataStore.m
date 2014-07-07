@@ -30,7 +30,7 @@ NSArray *getRangerHandles(void);
 @interface FileDataStore ()
 
 @property (strong) NSMutableDictionary *allIncidentsByNumber;
-@property (assign) int nextIncidentNumber;
+@property (assign) NSUInteger nextIncidentNumber;
 @property (strong) NSFileWrapper *fileStorage;
 
 @end
@@ -192,7 +192,7 @@ NSArray *getRangerHandles(void);
         return;
     }
     if (incident.isNew) {
-        incident.number = [NSNumber numberWithInt:self.nextIncidentNumber++];
+        incident.number = [NSNumber numberWithInteger:(NSInteger)self.nextIncidentNumber++];
     }
     self.allIncidentsByNumber[incident.number] = incident;
     [self writeIncident:incident];
