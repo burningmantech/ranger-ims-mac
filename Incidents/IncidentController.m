@@ -1027,14 +1027,6 @@ static NSDateFormatter *entryDateFormatter = nil;
         };
         NSPredicate *predicate = [NSPredicate predicateWithBlock:startsWithFilter];
 
-        // FIXME: This doesn't work because completion rewrites the entered text
-//        BOOL(^containsFilter)(NSString *, NSDictionary *) = ^(NSString *text, NSDictionary *bindings) {
-//            NSRange range = [text rangeOfString:word options:NSCaseInsensitiveSearch];
-//
-//            return (BOOL)(range.location != NSNotFound);
-//        };
-//        NSPredicate *predicate = [NSPredicate predicateWithBlock:containsFilter];
-
         source = [source filteredArrayUsingPredicate:predicate];
     }
     source = [source sortedArrayUsingSelector:NSSelectorFromString(@"localizedCaseInsensitiveCompare:")];
