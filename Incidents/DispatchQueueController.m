@@ -451,7 +451,13 @@ NSString *formattedDateTimeShort(NSDate *date);
 
 - (void) dataStore:(id)dataStore didUpdateIncident:(Incident *)incident
 {
-    [self loadTable];
+    NSButton *showClosed = self.showClosed;
+
+    // Only reload the table if the updated incident would be displayed.
+    // That means "show closed" is enabled, or the incident is still open
+    if (showClosed.state != NSOffState || ! incident.closed) {
+        [self loadTable];
+    }
 
     // Check for an existing controller with a temporary (new) incident that needs to be replaced
     IncidentController *controller = self.incidentControllersToReplace[incident.number];
