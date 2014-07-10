@@ -108,6 +108,27 @@
 }
 
 
+- (BOOL) serverUseTLS
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    if (! [defaults.dictionaryRepresentation.allKeys containsObject:@"IMSServerUseTLS"]) {
+        return YES;
+    }
+    
+    return [defaults boolForKey:@"IMSServerUseTLS"];
+}
+
+
+- (void) setServerUseTLS:(BOOL)serverUseTLS
+{
+    if (self.serverUseTLS == serverUseTLS) { return; }
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:serverUseTLS forKey:@"IMSServerUseTLS"];
+}
+
+
 - (NSString *) serverUserName
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -135,7 +156,13 @@
         }
         else if ([self.dataStoreType isEqualToString:@"HTTP"]) {
             NSString *hostAndPort = [NSString stringWithFormat:@"%@:%@", self.serverHostName, self.serverPort];
-            NSURL* url = [[NSURL alloc] initWithScheme:@"http" host:hostAndPort path:@"/"];
+
+            NSString *scheme = @"https";
+            if (! self.serverUseTLS) {
+                scheme = @"http";
+            }
+            
+            NSURL* url = [[NSURL alloc] initWithScheme:scheme host:hostAndPort path:@"/"];
             dataStore = [[HTTPDataStore alloc] initWithURL:url];
         }
         else {

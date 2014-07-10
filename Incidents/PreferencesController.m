@@ -28,6 +28,7 @@
 
 @property (weak) IBOutlet NSTextField *serverNameField;
 @property (weak) IBOutlet NSTextField *serverPortField;
+@property (weak) IBOutlet NSButton    *serverUseTLSButton;
 
 @end
 
@@ -56,6 +57,9 @@
 
     NSTextField *serverPortField = self.serverPortField;
     serverPortField.integerValue = appDelegate.serverPort.integerValue;
+
+    NSButton *serverUseTLSButton = self.serverUseTLSButton;
+    serverUseTLSButton.intValue = appDelegate.serverUseTLS ? 1 : 0;
 }
 
 
@@ -72,6 +76,14 @@
     AppDelegate *appDelegate = self.appDelegate;
     NSTextField *field = sender;
     appDelegate.serverPort = [NSNumber numberWithInteger:field.integerValue];
+}
+
+
+- (IBAction) editServerUseTLS:(id)sender
+{
+    AppDelegate *appDelegate = self.appDelegate;
+    NSButton *button = sender;
+    appDelegate.serverUseTLS = (button.integerValue != 0);
 }
 
 

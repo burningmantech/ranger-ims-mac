@@ -30,6 +30,7 @@
 @property (strong) NSNumber *serverPort;
 @property (strong) NSString *serverUserName;
 @property (strong) NSString *serverPassword;
+@property (assign) BOOL serverUseTLS;
 
 
 - (NSURLCredential *) credentialForChallenge:(NSURLAuthenticationChallenge *)challenge;
