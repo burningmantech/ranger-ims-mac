@@ -115,7 +115,7 @@
 											<reference key="NSNextResponder" ref="72230686"/>
 											<int key="NSvFlags">256</int>
 											<array class="NSMutableArray" key="NSSubviews"/>
-											<string key="NSFrameSize">{1351, 190}</string>
+											<string key="NSFrameSize">{1371, 190}</string>
 											<reference key="NSSuperview" ref="72230686"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="1061822789"/>
@@ -126,7 +126,7 @@
 											<object class="NSTableHeaderView" key="NSHeaderView" id="539592701">
 												<reference key="NSNextResponder" ref="942431304"/>
 												<int key="NSvFlags">256</int>
-												<string key="NSFrameSize">{1351, 17}</string>
+												<string key="NSFrameSize">{1371, 17}</string>
 												<reference key="NSSuperview" ref="942431304"/>
 												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="72230686"/>
@@ -230,9 +230,9 @@
 												</object>
 												<object class="NSTableColumn" id="282153918">
 													<string key="NSIdentifier">state</string>
-													<double key="NSWidth">60</double>
-													<double key="NSMinWidth">60</double>
-													<double key="NSMaxWidth">60</double>
+													<double key="NSWidth">80</double>
+													<double key="NSMinWidth">80</double>
+													<double key="NSMaxWidth">80</double>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
 														<int key="NSCellFlags">75497536</int>
 														<int key="NSCellFlags2">2048</int>
@@ -471,7 +471,7 @@
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="573431162"/>
 									<string key="NSAction">_doScroller:</string>
-									<double key="NSPercent">0.52479644707623985</double>
+									<double key="NSPercent">0.51714077315827867</double>
 								</object>
 							</array>
 							<string key="NSFrame">{{20, 45}, {711, 208}}</string>
