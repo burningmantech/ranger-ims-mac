@@ -370,6 +370,41 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
 }
 
 
+- (NSString *) stateName
+{
+    if (self.closed) {
+        return @"Closed";
+    }
+    if (self.onScene) {
+        return @"On Scene";
+    }
+    if (self.dispatched) {
+        return @"Dispatched";
+    }
+    if (self.created) {
+        return @"New";
+    }
+    return @"*** ERROR ***";
+}
+
+
+- (NSNumber *) stateSortKey {
+    if (self.closed) {
+        return @4;
+    }
+    if (self.onScene) {
+        return @3;
+    }
+    if (self.dispatched) {
+        return @2;
+    }
+    if (self.created) {
+        return @1;
+    }
+    return @-1;
+}
+
+
 - (NSString *) priorityName
 {
     NSInteger integerPriority = self.priority.integerValue;

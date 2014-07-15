@@ -530,17 +530,20 @@ NSString *formattedDateTimeShort(NSDate *date);
     else if ([identifier isEqualToString:@"priority"]) {
         return incident.priorityName;
     }
-    else if ([identifier isEqualToString:@"created"]) {
-        return formattedDateTimeShort(incident.created);
-    }
-    else if ([identifier isEqualToString:@"dispatched"]) {
-        return formattedDateTimeShort(incident.dispatched);
-    }
-    else if ([identifier isEqualToString:@"onScene"]) {
-        return formattedDateTimeShort(incident.onScene);
-    }
-    else if ([identifier isEqualToString:@"closed"]) {
-        return formattedDateTimeShort(incident.closed);
+//    else if ([identifier isEqualToString:@"created"]) {
+//        return formattedDateTimeShort(incident.created);
+//    }
+//    else if ([identifier isEqualToString:@"dispatched"]) {
+//        return formattedDateTimeShort(incident.dispatched);
+//    }
+//    else if ([identifier isEqualToString:@"onScene"]) {
+//        return formattedDateTimeShort(incident.onScene);
+//    }
+//    else if ([identifier isEqualToString:@"closed"]) {
+//        return formattedDateTimeShort(incident.closed);
+//    }
+    else if ([identifier isEqualToString:@"state"]) {
+        return incident.stateName;
     }
     else if ([identifier isEqualToString:@"rangers"]) {
         return incident.summaryOfRangers;

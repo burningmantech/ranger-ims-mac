@@ -32,18 +32,20 @@
 
 @property (weak) id <DataStoreProtocol> dataStore;
 
-@property (strong) NSNumber       *number;
-@property (strong) NSDictionary   *rangersByHandle;
-@property (strong) Location       *location;
-@property (strong) NSMutableArray *types;
-@property (strong) NSString       *summary;
-@property (strong) NSArray        *reportEntries;
-@property (strong) NSDate         *created;
-@property (strong) NSDate         *dispatched;
-@property (strong) NSDate         *onScene;
-@property (strong) NSDate         *closed;
-@property (strong) NSNumber       *priority;
-@property (readonly) NSNumber     *priorityName;
+@property (strong)   NSNumber       *number;
+@property (strong)   NSDictionary   *rangersByHandle;
+@property (strong)   Location       *location;
+@property (strong)   NSMutableArray *types;
+@property (strong)   NSString       *summary;
+@property (strong)   NSArray        *reportEntries;
+@property (strong)   NSDate         *created;
+@property (strong)   NSDate         *dispatched;
+@property (strong)   NSDate         *onScene;
+@property (strong)   NSDate         *closed;
+@property (readonly) NSString       *stateName;
+@property (readonly) NSNumber       *stateSortKey;
+@property (strong)   NSNumber       *priority;
+@property (readonly) NSNumber       *priorityName;
 
 
 + (Incident *) incidentInDataStore:(id <DataStoreProtocol>)dataStore
