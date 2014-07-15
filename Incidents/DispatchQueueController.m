@@ -528,7 +528,7 @@ NSString *formattedDateTimeShort(NSDate *date);
         return incident.number;
     }
     else if ([identifier isEqualToString:@"priority"]) {
-        return incident.priority;
+        return incident.priorityName;
     }
     else if ([identifier isEqualToString:@"created"]) {
         return formattedDateTimeShort(incident.created);

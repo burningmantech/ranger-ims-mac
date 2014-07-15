@@ -43,6 +43,7 @@
 @property (strong) NSDate         *onScene;
 @property (strong) NSDate         *closed;
 @property (strong) NSNumber       *priority;
+@property (readonly) NSNumber     *priorityName;
 
 
 + (Incident *) incidentInDataStore:(id <DataStoreProtocol>)dataStore

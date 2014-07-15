@@ -195,10 +195,21 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
               priority:(NSNumber *)priority
 {
     if (self = [super init]) {
-//        if (! location) {
-//            location = [[Location alloc] initWithName:nil address:nil];
-//        }
+        // Map priority 1-5 to priority 1/3/5.
+        
+        NSInteger integerPriority = priority.integerValue;
 
+        switch (integerPriority) {
+            case 2:
+                integerPriority = 1;
+                break;
+            case 4:
+                integerPriority = 5;
+                break;
+        }
+        
+        priority = [NSNumber numberWithInteger:integerPriority];
+        
         self.dataStore       = dataStore;
         self.number          = number;
         self.rangers         = rangers;
@@ -356,6 +367,23 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
         @"closed"          : jsonDate(self.closed),
         @"priority"        : nilNULL(self.priority),
     };
+}
+
+
+- (NSString *) priorityName
+{
+    NSInteger integerPriority = self.priority.integerValue;
+    
+    switch (integerPriority) {
+        case 1:
+            return @"High";
+        case 3:
+            return @"Normal";
+        case 5:
+            return @"Low";
+        default:
+            return @"*** ERROR ***";
+    }
 }
 
 
