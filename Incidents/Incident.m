@@ -142,11 +142,33 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
     NSNumber *number     = toNumber(jsonIncident[@"number"        ]); if (*error) return nil;
     NSArray  *types      = toArray (jsonIncident[@"incident_types"]); if (*error) return nil;
     NSString *summary    = toString(jsonIncident[@"summary"       ]); if (*error) return nil;
-    NSDate   *created    = toDate  (jsonIncident[@"created"       ]); if (*error) return nil;
-    NSDate   *dispatched = toDate  (jsonIncident[@"dispatched"    ]); if (*error) return nil;
-    NSDate   *onScene    = toDate  (jsonIncident[@"on_scene"      ]); if (*error) return nil;
-    NSDate   *closed     = toDate  (jsonIncident[@"closed"        ]); if (*error) return nil;
     NSNumber *priority   = toNumber(jsonIncident[@"priority"      ]); if (*error) return nil;
+
+    NSString *stateJSON = jsonIncident[@"state"];
+    if (! [stateJSON isKindOfClass:[NSString class]]) {
+        fillError(@"JSON for state must be a string.");
+        return nil;
+    }
+    NSNumber *state;
+    if ([stateJSON isEqualToString:@"new"]) {
+        state = [NSNumber numberWithInteger:kIncidentStateNew];
+    }
+    else if ([stateJSON isEqualToString:@"on_hold"]) {
+        state = [NSNumber numberWithInteger:kIncidentStateOnHold];
+    }
+    else if ([stateJSON isEqualToString:@"dispatched"]) {
+        state = [NSNumber numberWithInteger:kIncidentStateDispatched];
+    }
+    else if ([stateJSON isEqualToString:@"on_scene"]) {
+        state = [NSNumber numberWithInteger:kIncidentStateOnScene];
+    }
+    else if ([stateJSON isEqualToString:@"closed"]) {
+        state = [NSNumber numberWithInteger:kIncidentStateClosed];
+    }
+    else {
+        fillError([NSString stringWithFormat:@"JSON for state unknown: %@", stateJSON]);
+        return nil;
+    }
 
     return [[Incident alloc] initInDataStore:dataStore
                                   withNumber:number
@@ -155,10 +177,7 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
                                        types:types
                                      summary:summary
                                reportEntries:reportEntries
-                                     created:created
-                                  dispatched:dispatched
-                                     onScene:onScene
-                                      closed:closed
+                                       state:state
                                     priority:priority];
 }
 
@@ -173,42 +192,38 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
                            types:@[]
                          summary:nil
                    reportEntries:@[]
-                         created:[NSDate date]
-                      dispatched:nil
-                         onScene:nil
-                          closed:nil
+                           state:[NSNumber numberWithInteger:kIncidentStateNew]
                         priority:@3];
 }
 
 
 - (id) initInDataStore:(id <DataStoreProtocol>)dataStore
-            withNumber:(NSNumber *)number
-               rangers:(NSArray *)rangers
-              location:(Location *)location
-                 types:(NSArray *)types
-               summary:(NSString *)summary
-         reportEntries:(NSArray *)reportEntries
-               created:(NSDate *)created
-            dispatched:(NSDate *)dispatched
-               onScene:(NSDate *)onScene
-                closed:(NSDate *)closed
-              priority:(NSNumber *)priority
+            withNumber:(NSNumber  *)number
+               rangers:(NSArray   *)rangers
+              location:(Location  *)location
+                 types:(NSArray   *)types
+               summary:(NSString  *)summary
+         reportEntries:(NSArray   *)reportEntries
+                 state:(NSNumber  *)state
+              priority:(NSNumber  *)priority
 {
     if (self = [super init]) {
-        // Map priority 1-5 to priority 1/3/5.
-        
-        NSInteger integerPriority = priority.integerValue;
+        if (priority) {
+            // Map priority 1-5 to priority 1/3/5.
+            
+            NSInteger integerPriority = priority.integerValue;
 
-        switch (integerPriority) {
-            case 2:
-                integerPriority = 1;
-                break;
-            case 4:
-                integerPriority = 5;
-                break;
+            switch (integerPriority) {
+                case 2:
+                    integerPriority = 1;
+                    break;
+                case 4:
+                    integerPriority = 5;
+                    break;
+            }
+            
+            priority = [NSNumber numberWithInteger:integerPriority];
         }
-        
-        priority = [NSNumber numberWithInteger:integerPriority];
         
         self.dataStore       = dataStore;
         self.number          = number;
@@ -217,10 +232,7 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
         self.types           = [types mutableCopy];
         self.summary         = summary;
         self.reportEntries   = [reportEntries mutableCopy];
-        self.created         = created;
-        self.dispatched      = dispatched;
-        self.onScene         = onScene;
-        self.closed          = closed;
+        self.state           = state;
         self.priority        = priority;
     }
     return self;
@@ -238,10 +250,7 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
                                types:self.types
                              summary:self.summary
                        reportEntries:self.reportEntries
-                             created:self.created
-                          dispatched:self.dispatched
-                             onScene:self.onScene
-                              closed:self.closed
+                               state:self.state
                             priority:self.priority];
     }
     return copy;
@@ -275,10 +284,7 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
     if ((self.types         != other.types        ) && (! [self.types         isEqualToArray:    other.types        ])) { return NO; }
     if ((self.summary       != other.summary      ) && (! [self.summary       isEqualToString:   other.summary      ])) { return NO; }
     if ((self.reportEntries != other.reportEntries) && (! [self.reportEntries isEqualToArray:    other.reportEntries])) { return NO; }
-    if ((self.created       != other.created      ) && (! [self.created       isEqualToDate:     other.created      ])) { return NO; }
-    if ((self.dispatched    != other.dispatched   ) && (! [self.dispatched    isEqualToDate:     other.dispatched   ])) { return NO; }
-    if ((self.onScene       != other.onScene      ) && (! [self.onScene       isEqualToDate:     other.onScene      ])) { return NO; }
-    if ((self.closed        != other.closed       ) && (! [self.closed        isEqualToDate:     other.closed       ])) { return NO; }
+    if ((self.state         != other.state        ) && (! [self.state         isEqualToNumber:   other.state        ])) { return NO; }
     if ((self.priority      != other.priority     ) && (! [self.priority      isEqualToNumber:   other.priority     ])) { return NO; }
 
     return YES;
@@ -287,14 +293,6 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
 
 - (NSString *) description
 {
-    NSString *state;
-    if      (self.closed    ) { state = @"closed"    ; }
-    else if (self.onScene   ) { state = @"on scene"  ; }
-    else if (self.dispatched) { state = @"dispatched"; }
-    else if (self.created   ) { state = @"new"       ; }
-    else                      { state = @"NONE"      ; }
-
-
     NSString *description = nil;
     for (Ranger* ranger in self.rangers) {
         if (description) {
@@ -313,7 +311,7 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
     
     return [NSString stringWithFormat:
                @"Incident #%@ (%@) %@: %@",
-               self.number, state, description, self.summaryFromReport];
+               self.number, self.stateName, description, self.summaryFromReport];
 }
 
 
@@ -353,6 +351,29 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
         }];
     }
 
+    NSString *jsonState;
+    switch (self.state.integerValue) {
+        case kIncidentStateNew:
+            jsonState = @"new";
+            break;
+
+        case kIncidentStateOnHold:
+            jsonState = @"on_hold";
+            break;
+
+        case kIncidentStateDispatched:
+            jsonState = @"dispatched";
+            break;
+
+        case kIncidentStateOnScene:
+            jsonState = @"on_scene";
+            break;
+
+        case kIncidentStateClosed:
+            jsonState = @"closed";
+            break;
+    }
+    
     return @{
         @"number"          : nilNULL(self.number),
         @"ranger_handles"  : nilNULL(self.rangersByHandle.allKeys),
@@ -361,10 +382,7 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
         @"incident_types"  : nilNULL(self.types),
         @"summary"         : nilNULL(self.summary),
         @"report_entries"  : nilNULL(reportEntriesAsJSON),
-        @"created"         : jsonDate(self.created),
-        @"dispatched"      : jsonDate(self.dispatched),
-        @"on_scene"        : jsonDate(self.onScene),
-        @"closed"          : jsonDate(self.closed),
+        @"state"           : jsonState,
         @"priority"        : nilNULL(self.priority),
     };
 }
@@ -372,36 +390,20 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
 
 - (NSString *) stateName
 {
-    if (self.closed) {
-        return @"Closed";
+    switch (self.state.integerValue) {
+        case kIncidentStateNew:
+            return @"New";
+        case kIncidentStateOnHold:
+            return @"On Hold";
+        case kIncidentStateDispatched:
+            return @"Dispatched";
+        case kIncidentStateOnScene:
+            return @"On Scene";
+        case kIncidentStateClosed:
+            return @"Closed";
+        default:
+            return @"*** ERROR ***";
     }
-    if (self.onScene) {
-        return @"On Scene";
-    }
-    if (self.dispatched) {
-        return @"Dispatched";
-    }
-    if (self.created) {
-        return @"New";
-    }
-    return @"*** ERROR ***";
-}
-
-
-- (NSNumber *) stateSortKey {
-    if (self.closed) {
-        return @4;
-    }
-    if (self.onScene) {
-        return @3;
-    }
-    if (self.dispatched) {
-        return @2;
-    }
-    if (self.created) {
-        return @1;
-    }
-    return @-1;
 }
 
 

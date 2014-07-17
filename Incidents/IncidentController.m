@@ -341,31 +341,47 @@ static NSDateFormatter *entryDateFormatter = nil;
     if (statePopUp) {
         NSInteger stateTag;
 
-        if      (incident.closed    ) { stateTag = 4; }
-        else if (incident.onScene   ) { stateTag = 3; }
-        else if (incident.dispatched) { stateTag = 2; }
-        else if (incident.created   ) { stateTag = 1; }
-        else {
-            performAlert(@"Unknown incident state.");
-            stateTag = 0;
+        switch (incident.state.integerValue) {
+            case kIncidentStateNew:
+                stateTag = 10;
+                break;
+            case kIncidentStateOnHold:
+                stateTag = 11;
+                break;
+            case kIncidentStateDispatched:
+                stateTag = 12;
+                break;
+            case kIncidentStateOnScene:
+                stateTag = 13;
+                break;
+            case kIncidentStateClosed:
+                stateTag = 14;
+                break;
+            default:
+                performAlert(@"Unknown incident state.");
+                stateTag = 0;
+                break;
         }
+        
         [statePopUp selectItemWithTag:stateTag];
 
-        void (^enableState)(NSInteger, BOOL) = ^(NSInteger tag, BOOL enabled) {
-            [[statePopUp itemAtIndex: [statePopUp indexOfItemWithTag:tag]] setEnabled:enabled];
-        };
-
-        void (^enableStates)(BOOL, BOOL, BOOL, BOOL) = ^(BOOL one, BOOL two, BOOL three, BOOL four) {
-            enableState(1, one);
-            enableState(2, two);
-            enableState(3, three);
-            enableState(4, four);
-        };
-
-        if      (stateTag == 1) { enableStates(YES, YES, YES, YES); }
-        else if (stateTag == 2) { enableStates(YES, YES, YES, YES); }
-        else if (stateTag == 3) { enableStates(NO , YES, YES, YES); }
-        else if (stateTag == 4) { enableStates(YES, NO , NO , YES); }
+//        void (^enableState)(NSInteger, BOOL) = ^(NSInteger tag, BOOL enabled) {
+//            [[statePopUp itemAtIndex: [statePopUp indexOfItemWithTag:tag]] setEnabled:enabled];
+//        };
+//
+//        void (^enableStates)(BOOL, BOOL, BOOL, BOOL, BOOL) = ^(BOOL one, BOOL two, BOOL three, BOOL four, BOOL five) {
+//            enableState(10, one);
+//            enableState(11, two);
+//            enableState(12, three);
+//            enableState(13, four);
+//            enableState(14, five);
+//        };
+//
+//        if      (stateTag == 10) { enableStates(YES, YES, YES, YES, YES); }
+//        else if (stateTag == 11) { enableStates(NO, YES, YES, YES, YES); }
+//        else if (stateTag == 12) { enableStates(NO, YES, YES, YES); }
+//        else if (stateTag == 13) { enableStates(YES, NO , NO , YES); }
+//        else if (stateTag == 14) { enableStates(YES, NO , NO , YES); }
     }
     else {
         performAlert(@"No statePopUp?");
@@ -457,10 +473,7 @@ static NSDateFormatter *entryDateFormatter = nil;
         NSArray  *rangers    = nil; if (self.rangersDidChange  ) { edited = YES; rangers    = self.incident.rangersByHandle.allValues; }
         NSArray  *types      = nil; if (self.typesDidChange    ) { edited = YES; types      = self.incident.types;                     }
         NSString *summary    = nil; if (self.summaryDidChange  ) { edited = YES; summary    = self.incident.summary;                   }
-        NSDate   *created    = nil; if (self.stateDidChange    ) { edited = YES; created    = self.incident.created;                   }
-        NSDate   *dispatched = nil; if (self.stateDidChange    ) { edited = YES; dispatched = self.incident.dispatched;                }
-        NSDate   *onScene    = nil; if (self.stateDidChange    ) { edited = YES; onScene    = self.incident.onScene;                   }
-        NSDate   *closed     = nil; if (self.stateDidChange    ) { edited = YES; closed     = self.incident.closed;                    }
+        NSNumber *state      = nil; if (self.stateDidChange    ) { edited = YES; state      = self.incident.state;                     }
         NSNumber *priority   = nil; if (self.priorityDidChange ) { edited = YES; priority   = self.incident.priority;                  }
 
         Location *location = nil;
@@ -486,10 +499,7 @@ static NSDateFormatter *entryDateFormatter = nil;
                                                                      types:types
                                                                    summary:summary
                                                              reportEntries:reportEntries
-                                                                   created:created
-                                                                dispatched:dispatched
-                                                                   onScene:onScene
-                                                                    closed:closed
+                                                                     state:state
                                                                   priority:priority];
 
             [self.dispatchQueueController.dataStore updateIncident:incidentToCommit];
@@ -646,63 +656,28 @@ static NSDateFormatter *entryDateFormatter = nil;
     NSPopUpButton *statePopUp = self.statePopUp;
     NSInteger stateTag = statePopUp.selectedItem.tag;
 
-    if (stateTag == 1) {
-        if (incident.dispatched || incident.onScene || incident.closed) {
-            self.stateDidChange = YES;
-            incident.dispatched = nil;
-            incident.onScene    = nil;
-            incident.closed     = nil;
-        }
-    }
-    else if (stateTag == 2) {
-        if (! incident.dispatched) {
-            self.stateDidChange = YES;
-            incident.dispatched = [NSDate date];
-        }
-
-        if (incident.onScene || incident.closed) {
-            self.stateDidChange = YES;
-            incident.onScene = nil;
-            incident.closed  = nil;
-        }
-    }
-    else if (stateTag == 3) {
-        if (! incident.dispatched) {
-            self.stateDidChange = YES;
-            incident.dispatched = [NSDate date];
-        }
-
-        if (! incident.onScene) {
-            self.stateDidChange = YES;
-            incident.onScene = [NSDate date];
-        }
-
-        if (incident.closed) {
-            self.stateDidChange = YES;
-            incident.closed = nil;
-        }
-    }
-    else if (stateTag == 4) {
-        if (! incident.dispatched) {
-            self.stateDidChange = YES;
-            incident.dispatched = [NSDate date];
-        }
-
-        if (! incident.onScene) {
-            self.stateDidChange = YES;
-            incident.onScene = [NSDate date];
-        }
-
-        if (! incident.closed) {
-            self.stateDidChange = YES;
-            incident.closed = [NSDate date];
-        }
-    }
-    else {
-        performAlert(@"Unknown state tag: %ld", stateTag);
-        return;
+    switch (stateTag) {
+        case 10:
+            incident.state = [NSNumber numberWithInteger:kIncidentStateNew];
+            break;
+        case 11:
+            incident.state = [NSNumber numberWithInteger:kIncidentStateOnHold];
+            break;
+        case 12:
+            incident.state = [NSNumber numberWithInteger:kIncidentStateDispatched];
+            break;
+        case 13:
+            incident.state = [NSNumber numberWithInteger:kIncidentStateOnScene];
+            break;
+        case 14:
+            incident.state = [NSNumber numberWithInteger:kIncidentStateClosed];
+            break;
+        default:
+            performAlert(@"Unknown state tag: %ld", stateTag);
+            return;
     }
 
+    self.stateDidChange = YES;
     self.window.documentEdited = YES;
 }
 

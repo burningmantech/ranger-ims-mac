@@ -26,6 +26,14 @@
 @class DispatchQueue;
 
 
+typedef NS_ENUM(NSUInteger, IncidentState) {
+    kIncidentStateNew,
+    kIncidentStateOnHold,
+    kIncidentStateDispatched,
+    kIncidentStateOnScene,
+    kIncidentStateClosed,
+};
+
 
 @interface Incident : NSObject <NSCopying>
 
@@ -38,12 +46,8 @@
 @property (strong)   NSMutableArray *types;
 @property (strong)   NSString       *summary;
 @property (strong)   NSArray        *reportEntries;
-@property (strong)   NSDate         *created;
-@property (strong)   NSDate         *dispatched;
-@property (strong)   NSDate         *onScene;
-@property (strong)   NSDate         *closed;
-@property (readonly) NSString       *stateName;
-@property (readonly) NSNumber       *stateSortKey;
+@property (strong)   NSNumber       *state;
+@property (readonly) NSNumber       *stateName;
 @property (strong)   NSNumber       *priority;
 @property (readonly) NSNumber       *priorityName;
 
@@ -61,10 +65,7 @@
                  types:(NSArray  *)types
                summary:(NSString *)summary
          reportEntries:(NSArray  *)reportEntries
-               created:(NSDate   *)created
-            dispatched:(NSDate   *)dispatched
-               onScene:(NSDate   *)onScene
-                closed:(NSDate   *)closed
+                 state:(NSNumber *)state
               priority:(NSNumber *)priority;
 
 - (BOOL) isEqualToIncident:(Incident *)other;

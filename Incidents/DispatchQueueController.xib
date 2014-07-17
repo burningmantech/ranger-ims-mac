@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">14A298c</string>
+		<string key="IBDocument.SystemVersion">14A298f</string>
 		<string key="IBDocument.InterfaceBuilderVersion">6154.18</string>
-		<string key="IBDocument.AppKitVersion">1326</string>
-		<string key="IBDocument.HIToolboxVersion">742.00</string>
+		<string key="IBDocument.AppKitVersion">1326.11</string>
+		<string key="IBDocument.HIToolboxVersion">743.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">6154.18</string>
@@ -118,7 +118,7 @@
 											<string key="NSFrameSize">{1371, 190}</string>
 											<reference key="NSSuperview" ref="72230686"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="1061822789"/>
+											<reference key="NSNextKeyView" ref="942431304"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -477,7 +477,7 @@
 							<string key="NSFrame">{{20, 45}, {711, 208}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="942431304"/>
+							<reference key="NSNextKeyView" ref="72230686"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133810</int>
 							<reference key="NSVScroller" ref="1061822789"/>
@@ -522,7 +522,6 @@
 							<string key="NSFrame">{{633, 13}, {104, 32}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="623968642">
@@ -1540,11 +1539,11 @@
 						<string key="reload:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="loadTable:" id="341143417">
+						<object class="IBActionInfo" key="loadTable:" id="772321331">
 							<string key="name">loadTable:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="reload:" id="592815180">
+						<object class="IBActionInfo" key="reload:" id="507070456">
 							<string key="name">reload:</string>
 							<string key="candidateClassName">id</string>
 						</object>
@@ -1558,27 +1557,27 @@
 						<string key="updatedLabel">NSTextField</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="dispatchTable" id="1063810315">
+						<object class="IBToOneOutletInfo" key="dispatchTable" id="77349247">
 							<string key="name">dispatchTable</string>
 							<string key="candidateClassName">NSTableView</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="loadingIndicator" id="967071032">
+						<object class="IBToOneOutletInfo" key="loadingIndicator" id="595034301">
 							<string key="name">loadingIndicator</string>
 							<string key="candidateClassName">NSProgressIndicator</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="reloadButton" id="966932121">
+						<object class="IBToOneOutletInfo" key="reloadButton" id="76350140">
 							<string key="name">reloadButton</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="searchField" id="761900076">
+						<object class="IBToOneOutletInfo" key="searchField" id="554748380">
 							<string key="name">searchField</string>
 							<string key="candidateClassName">NSSearchField</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="showClosed" id="67950274">
+						<object class="IBToOneOutletInfo" key="showClosed" id="345588014">
 							<string key="name">showClosed</string>
 							<string key="candidateClassName">NSButton</string>
 						</object>
-						<object class="IBToOneOutletInfo" key="updatedLabel" id="160940871">
+						<object class="IBToOneOutletInfo" key="updatedLabel" id="898152653">
 							<string key="name">updatedLabel</string>
 							<string key="candidateClassName">NSTextField</string>
 						</object>
@@ -1596,8 +1595,8 @@
 						<string key="reload:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<reference key="loadTable:" ref="341143417"/>
-						<reference key="reload:" ref="592815180"/>
+						<reference key="loadTable:" ref="772321331"/>
+						<reference key="reload:" ref="507070456"/>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="dispatchTable">NSTableView</string>
@@ -1608,12 +1607,12 @@
 						<string key="updatedLabel">NSTextField</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<reference key="dispatchTable" ref="1063810315"/>
-						<reference key="loadingIndicator" ref="967071032"/>
-						<reference key="reloadButton" ref="966932121"/>
-						<reference key="searchField" ref="761900076"/>
-						<reference key="showClosed" ref="67950274"/>
-						<reference key="updatedLabel" ref="160940871"/>
+						<reference key="dispatchTable" ref="77349247"/>
+						<reference key="loadingIndicator" ref="595034301"/>
+						<reference key="reloadButton" ref="76350140"/>
+						<reference key="searchField" ref="554748380"/>
+						<reference key="showClosed" ref="345588014"/>
+						<reference key="updatedLabel" ref="898152653"/>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>

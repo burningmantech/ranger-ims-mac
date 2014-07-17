@@ -283,8 +283,12 @@ NSString *formattedDateTimeShort(NSDate *date);
 
     if (! _sortedOpenIncidents) {
         BOOL(^openFilter)(Incident *, NSDictionary *) = ^(Incident *incident, NSDictionary *bindings) {
-            if (incident.closed) { return NO ; }
-            else                 { return YES; }
+            if (incident.state.integerValue == kIncidentStateClosed) {
+                return NO;
+            }
+            else {
+                return YES;
+            }
         };
         NSPredicate *openPredicate = [NSPredicate predicateWithBlock:openFilter];
         _sortedOpenIncidents = [_sortedIncidents filteredArrayUsingPredicate:openPredicate];
@@ -455,7 +459,7 @@ NSString *formattedDateTimeShort(NSDate *date);
 
     // Only reload the table if the updated incident would be displayed.
     // That means "show closed" is enabled, or the incident is still open
-    if (showClosed.state != NSOffState || ! incident.closed) {
+    if (showClosed.state != NSOffState || incident.state.integerValue != kIncidentStateClosed) {
         [self loadTable];
     }
 

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1080</int>
-		<string key="IBDocument.SystemVersion">12E55</string>
-		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.39</string>
-		<string key="IBDocument.HIToolboxVersion">626.00</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">14A298f</string>
+		<string key="IBDocument.InterfaceBuilderVersion">6154.18</string>
+		<string key="IBDocument.AppKitVersion">1326.11</string>
+		<string key="IBDocument.HIToolboxVersion">743.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">3084</string>
+			<string key="NS.object.0">6154.18</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSCustomObject</string>
@@ -2183,6 +2183,13 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">AppDelegate</string>
 					<string key="superclassName">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../Incidents/AppDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AppDelegate</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="findIncident:">id</string>
 						<string key="newIncident:">id</string>
@@ -2195,39 +2202,39 @@
 						<string key="showPreferences:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="findIncident:">
+						<object class="IBActionInfo" key="findIncident:" id="395772828">
 							<string key="name">findIncident:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="newIncident:">
+						<object class="IBActionInfo" key="newIncident:" id="658949285">
 							<string key="name">newIncident:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="openHelp:">
+						<object class="IBActionInfo" key="openHelp:" id="490632179">
 							<string key="name">openHelp:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showAllIncidentTypes:">
+						<object class="IBActionInfo" key="showAllIncidentTypes:" id="764409348">
 							<string key="name">showAllIncidentTypes:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showAllIncidents:">
+						<object class="IBActionInfo" key="showAllIncidents:" id="803396933">
 							<string key="name">showAllIncidents:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showAllRangers:">
+						<object class="IBActionInfo" key="showAllRangers:" id="461383353">
 							<string key="name">showAllRangers:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showDispatchQueue:">
+						<object class="IBActionInfo" key="showDispatchQueue:" id="654336346">
 							<string key="name">showDispatchQueue:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showOpenIncidents:">
+						<object class="IBActionInfo" key="showOpenIncidents:" id="1024193721">
 							<string key="name">showOpenIncidents:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showPreferences:">
+						<object class="IBActionInfo" key="showPreferences:" id="986879909">
 							<string key="name">showPreferences:</string>
 							<string key="candidateClassName">id</string>
 						</object>
@@ -2238,20 +2245,431 @@
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<string key="NS.key.0">serverResourcesMenu</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
+						<object class="IBToOneOutletInfo" key="NS.object.0" id="889850358">
 							<string key="name">serverResourcesMenu</string>
 							<string key="candidateClassName">NSMenu</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../Incidents/AppDelegate.m</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">AppDelegate</string>
+					<string key="superclassName">NSObject</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="findIncident:">id</string>
+						<string key="newIncident:">id</string>
+						<string key="openHelp:">id</string>
+						<string key="showAllIncidentTypes:">id</string>
+						<string key="showAllIncidents:">id</string>
+						<string key="showAllRangers:">id</string>
+						<string key="showDispatchQueue:">id</string>
+						<string key="showOpenIncidents:">id</string>
+						<string key="showPreferences:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<reference key="findIncident:" ref="395772828"/>
+						<reference key="newIncident:" ref="658949285"/>
+						<reference key="openHelp:" ref="490632179"/>
+						<reference key="showAllIncidentTypes:" ref="764409348"/>
+						<reference key="showAllIncidents:" ref="803396933"/>
+						<reference key="showAllRangers:" ref="461383353"/>
+						<reference key="showDispatchQueue:" ref="654336346"/>
+						<reference key="showOpenIncidents:" ref="1024193721"/>
+						<reference key="showPreferences:" ref="986879909"/>
+					</dictionary>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">serverResourcesMenu</string>
+						<string key="NS.object.0">NSMenu</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">serverResourcesMenu</string>
+						<reference key="NS.object.0" ref="889850358"/>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AppDelegate.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">DispatchQueueController</string>
+					<string key="superclassName">NSWindowController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../Incidents/DispatchQueueController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">DispatchQueueController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="loadTable:">id</string>
+						<string key="reload:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="loadTable:" id="1069399339">
+							<string key="name">loadTable:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="reload:" id="834922592">
+							<string key="name">reload:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="dispatchTable">NSTableView</string>
+						<string key="loadingIndicator">NSProgressIndicator</string>
+						<string key="reloadButton">NSButton</string>
+						<string key="searchField">NSSearchField</string>
+						<string key="showClosed">NSButton</string>
+						<string key="updatedLabel">NSTextField</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="dispatchTable" id="229445032">
+							<string key="name">dispatchTable</string>
+							<string key="candidateClassName">NSTableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="loadingIndicator" id="362936728">
+							<string key="name">loadingIndicator</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="reloadButton" id="568485403">
+							<string key="name">reloadButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="searchField" id="138357012">
+							<string key="name">searchField</string>
+							<string key="candidateClassName">NSSearchField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="showClosed" id="712195100">
+							<string key="name">showClosed</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="updatedLabel" id="23261508">
+							<string key="name">updatedLabel</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../Incidents/DispatchQueueController.m</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">DispatchQueueController</string>
+					<string key="superclassName">NSWindowController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="loadTable:">id</string>
+						<string key="reload:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<reference key="loadTable:" ref="1069399339"/>
+						<reference key="reload:" ref="834922592"/>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="dispatchTable">NSTableView</string>
+						<string key="loadingIndicator">NSProgressIndicator</string>
+						<string key="reloadButton">NSButton</string>
+						<string key="searchField">NSSearchField</string>
+						<string key="showClosed">NSButton</string>
+						<string key="updatedLabel">NSTextField</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<reference key="dispatchTable" ref="229445032"/>
+						<reference key="loadingIndicator" ref="362936728"/>
+						<reference key="reloadButton" ref="568485403"/>
+						<reference key="searchField" ref="138357012"/>
+						<reference key="showClosed" ref="712195100"/>
+						<reference key="updatedLabel" ref="23261508"/>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/DispatchQueueController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FirstResponder</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">IncidentController</string>
+					<string key="superclassName">NSWindowController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../Incidents/IncidentController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">IncidentController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="editLocationAddress:">id</string>
+						<string key="editLocationName:">id</string>
+						<string key="editPriority:">id</string>
+						<string key="editState:">id</string>
+						<string key="editSummary:">id</string>
+						<string key="markClosedAndSave:">id</string>
+						<string key="reload:">id</string>
+						<string key="save:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="editLocationAddress:" id="588174956">
+							<string key="name">editLocationAddress:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editLocationName:" id="140312457">
+							<string key="name">editLocationName:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editPriority:" id="932608282">
+							<string key="name">editPriority:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editState:" id="805010533">
+							<string key="name">editState:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="editSummary:" id="442565849">
+							<string key="name">editSummary:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="markClosedAndSave:" id="937595125">
+							<string key="name">markClosedAndSave:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="reload:" id="814351447">
+							<string key="name">reload:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="save:" id="166811162">
+							<string key="name">save:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="loadingIndicator">NSProgressIndicator</string>
+						<string key="locationAddressField">NSTextField</string>
+						<string key="locationNameField">NSTextField</string>
+						<string key="numberField">NSTextField</string>
+						<string key="priorityPopUp">NSPopUpButton</string>
+						<string key="rangerToAddField">NSTextField</string>
+						<string key="rangersTable">NSTableView</string>
+						<string key="reloadButton">NSButton</string>
+						<string key="reportEntriesView">NSTextView</string>
+						<string key="reportEntryToAddView">NSTextView</string>
+						<string key="saveButton">NSButton</string>
+						<string key="statePopUp">NSPopUpButton</string>
+						<string key="summaryField">NSTextField</string>
+						<string key="typeToAddField">NSTextField</string>
+						<string key="typesTable">NSTableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="loadingIndicator" id="534980518">
+							<string key="name">loadingIndicator</string>
+							<string key="candidateClassName">NSProgressIndicator</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="locationAddressField" id="448503724">
+							<string key="name">locationAddressField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="locationNameField" id="966266802">
+							<string key="name">locationNameField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="numberField" id="482807789">
+							<string key="name">numberField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="priorityPopUp" id="1045731976">
+							<string key="name">priorityPopUp</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rangerToAddField" id="288295808">
+							<string key="name">rangerToAddField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rangersTable" id="68013251">
+							<string key="name">rangersTable</string>
+							<string key="candidateClassName">NSTableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="reloadButton" id="462620332">
+							<string key="name">reloadButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="reportEntriesView" id="1052704156">
+							<string key="name">reportEntriesView</string>
+							<string key="candidateClassName">NSTextView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="reportEntryToAddView" id="871407186">
+							<string key="name">reportEntryToAddView</string>
+							<string key="candidateClassName">NSTextView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="saveButton" id="924002685">
+							<string key="name">saveButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="statePopUp" id="633298678">
+							<string key="name">statePopUp</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="summaryField" id="821857084">
+							<string key="name">summaryField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="typeToAddField" id="837138772">
+							<string key="name">typeToAddField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="typesTable" id="449405213">
+							<string key="name">typesTable</string>
+							<string key="candidateClassName">NSTableView</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">../Incidents/IncidentController.m</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">IncidentController</string>
+					<string key="superclassName">NSWindowController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="editLocationAddress:">id</string>
+						<string key="editLocationName:">id</string>
+						<string key="editPriority:">id</string>
+						<string key="editState:">id</string>
+						<string key="editSummary:">id</string>
+						<string key="markClosedAndSave:">id</string>
+						<string key="reload:">id</string>
+						<string key="save:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<reference key="editLocationAddress:" ref="588174956"/>
+						<reference key="editLocationName:" ref="140312457"/>
+						<reference key="editPriority:" ref="932608282"/>
+						<reference key="editState:" ref="805010533"/>
+						<reference key="editSummary:" ref="442565849"/>
+						<reference key="markClosedAndSave:" ref="937595125"/>
+						<reference key="reload:" ref="814351447"/>
+						<reference key="save:" ref="166811162"/>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="loadingIndicator">NSProgressIndicator</string>
+						<string key="locationAddressField">NSTextField</string>
+						<string key="locationNameField">NSTextField</string>
+						<string key="numberField">NSTextField</string>
+						<string key="priorityPopUp">NSPopUpButton</string>
+						<string key="rangerToAddField">NSTextField</string>
+						<string key="rangersTable">NSTableView</string>
+						<string key="reloadButton">NSButton</string>
+						<string key="reportEntriesView">NSTextView</string>
+						<string key="reportEntryToAddView">NSTextView</string>
+						<string key="saveButton">NSButton</string>
+						<string key="statePopUp">NSPopUpButton</string>
+						<string key="summaryField">NSTextField</string>
+						<string key="typeToAddField">NSTextField</string>
+						<string key="typesTable">NSTableView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<reference key="loadingIndicator" ref="534980518"/>
+						<reference key="locationAddressField" ref="448503724"/>
+						<reference key="locationNameField" ref="966266802"/>
+						<reference key="numberField" ref="482807789"/>
+						<reference key="priorityPopUp" ref="1045731976"/>
+						<reference key="rangerToAddField" ref="288295808"/>
+						<reference key="rangersTable" ref="68013251"/>
+						<reference key="reloadButton" ref="462620332"/>
+						<reference key="reportEntriesView" ref="1052704156"/>
+						<reference key="reportEntryToAddView" ref="871407186"/>
+						<reference key="saveButton" ref="924002685"/>
+						<reference key="statePopUp" ref="633298678"/>
+						<reference key="summaryField" ref="821857084"/>
+						<reference key="typeToAddField" ref="837138772"/>
+						<reference key="typesTable" ref="449405213"/>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/IncidentController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSDocument</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="printDocument:">id</string>
+						<string key="revertDocumentToSaved:">id</string>
+						<string key="runPageLayout:">id</string>
+						<string key="saveDocument:">id</string>
+						<string key="saveDocumentAs:">id</string>
+						<string key="saveDocumentTo:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="printDocument:" id="817512600">
+							<string key="name">printDocument:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="revertDocumentToSaved:" id="598317541">
+							<string key="name">revertDocumentToSaved:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="runPageLayout:" id="678849245">
+							<string key="name">runPageLayout:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="saveDocument:" id="106705506">
+							<string key="name">saveDocument:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="saveDocumentAs:" id="93059121">
+							<string key="name">saveDocumentAs:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="saveDocumentTo:" id="817205257">
+							<string key="name">saveDocumentTo:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/NSDocument.h</string>
+					</object>
+				</object>
+			</array>
+			<array class="NSMutableArray" key="referencedPartialClassDescriptionsV3.2+">
+				<object class="IBPartialClassDescription">
+					<string key="className">NSDocument</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="printDocument:">id</string>
+						<string key="revertDocumentToSaved:">id</string>
+						<string key="runPageLayout:">id</string>
+						<string key="saveDocument:">id</string>
+						<string key="saveDocumentAs:">id</string>
+						<string key="saveDocumentTo:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<reference key="printDocument:" ref="817512600"/>
+						<reference key="revertDocumentToSaved:" ref="598317541"/>
+						<reference key="runPageLayout:" ref="678849245"/>
+						<reference key="saveDocument:" ref="106705506"/>
+						<reference key="saveDocumentAs:" ref="93059121"/>
+						<reference key="saveDocumentTo:" ref="817205257"/>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">AppKit.framework/Headers/NSDocument.h</string>
 					</object>
 				</object>
 			</array>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
+		<bool key="IBDocument.previouslyAttemptedUpgradeToXcode5">NO</bool>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
+			<real value="1070" key="NS.object.0"/>
+		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
 			<integer value="4600" key="NS.object.0"/>
@@ -2259,8 +2677,8 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="NSMenuCheckmark">{11, 11}</string>
-			<string key="NSMenuMixedState">{10, 3}</string>
+			<string key="NSMenuCheckmark">{12, 12}</string>
+			<string key="NSMenuMixedState">{10, 2}</string>
 		</dictionary>
 		<bool key="IBDocument.UseAutolayout">YES</bool>
 	</data>
