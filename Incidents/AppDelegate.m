@@ -277,9 +277,15 @@
 - (void) openLink:(NSMenuItem *)item
 {
     NSDictionary *link = item.representedObject;
-    NSLog(@"Opening link: %@", link);
-
-    [self openURLPathOnServer:link[@"url"]];
+    NSString *url = link[@"url"];
+    
+    if (url) {
+        NSLog(@"Opening link: %@", link);
+        [self openURLPathOnServer:link[@"url"]];
+    }
+    else {
+        NSLog(@"No URL provided for link: %@", link);
+    }
 }
 
 
@@ -290,7 +296,14 @@
     [serverResourcesMenu removeAllItems];
 
     for (NSDictionary *link in links) {
-        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:link[@"name"]
+        NSString *name = link[@"name"];
+
+        if (! name) {
+            NSLog(@"No name for link: %@", link);
+            name = @"*** ERROR ***";
+        }
+
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:name
                                                       action:NSSelectorFromString(@"openLink:")
                                                keyEquivalent:@""];
         item.target = self;
