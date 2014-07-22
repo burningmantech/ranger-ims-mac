@@ -364,24 +364,6 @@ static NSDateFormatter *entryDateFormatter = nil;
         }
         
         [statePopUp selectItemWithTag:stateTag];
-
-//        void (^enableState)(NSInteger, BOOL) = ^(NSInteger tag, BOOL enabled) {
-//            [[statePopUp itemAtIndex: [statePopUp indexOfItemWithTag:tag]] setEnabled:enabled];
-//        };
-//
-//        void (^enableStates)(BOOL, BOOL, BOOL, BOOL, BOOL) = ^(BOOL one, BOOL two, BOOL three, BOOL four, BOOL five) {
-//            enableState(10, one);
-//            enableState(11, two);
-//            enableState(12, three);
-//            enableState(13, four);
-//            enableState(14, five);
-//        };
-//
-//        if      (stateTag == 10) { enableStates(YES, YES, YES, YES, YES); }
-//        else if (stateTag == 11) { enableStates(NO, YES, YES, YES, YES); }
-//        else if (stateTag == 12) { enableStates(NO, YES, YES, YES); }
-//        else if (stateTag == 13) { enableStates(YES, NO , NO , YES); }
-//        else if (stateTag == 14) { enableStates(YES, NO , NO , YES); }
     }
     else {
         performAlert(@"No statePopUp?");
@@ -825,7 +807,8 @@ static NSDateFormatter *entryDateFormatter = nil;
 {
     return YES;
 
-    if (
+/*
+ if (
         self.stateDidChange    ||
         self.priorityDidChange ||
         self.summaryDidChange  ||
@@ -852,6 +835,7 @@ static NSDateFormatter *entryDateFormatter = nil;
 
     NSLog(@"Should close.");
     return YES;
+ */
 }
 
 
