@@ -352,26 +352,31 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
     }
 
     NSString *jsonState;
-    switch (self.state.integerValue) {
-        case kIncidentStateNew:
-            jsonState = @"new";
-            break;
+    if (self.state) {
+        switch (self.state.integerValue) {
+            case kIncidentStateNew:
+                jsonState = @"new";
+                break;
 
-        case kIncidentStateOnHold:
-            jsonState = @"on_hold";
-            break;
+            case kIncidentStateOnHold:
+                jsonState = @"on_hold";
+                break;
 
-        case kIncidentStateDispatched:
-            jsonState = @"dispatched";
-            break;
+            case kIncidentStateDispatched:
+                jsonState = @"dispatched";
+                break;
 
-        case kIncidentStateOnScene:
-            jsonState = @"on_scene";
-            break;
+            case kIncidentStateOnScene:
+                jsonState = @"on_scene";
+                break;
 
-        case kIncidentStateClosed:
-            jsonState = @"closed";
-            break;
+            case kIncidentStateClosed:
+                jsonState = @"closed";
+                break;
+        }
+    }
+    else {
+        jsonState = (NSString *)nullObject;
     }
     
     return @{
