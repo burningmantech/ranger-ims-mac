@@ -247,8 +247,8 @@ static NSDateFormatter *entryDateFormatter = nil;
     NSPopUpButton *statePopUp = self.statePopUp;
     NSInteger stateTag = statePopUp.selectedItem.tag;
 
-    if (stateTag != 4) {
-        [statePopUp selectItemWithTag:4];
+    if (stateTag != 14) {
+        [statePopUp selectItemWithTag:14];
         [self editState:self];
     }
 
