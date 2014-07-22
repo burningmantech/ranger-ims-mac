@@ -159,8 +159,10 @@ static int nextTemporaryNumber = -1;
         NSUInteger options = 0;
         if (verbose) { options = NSJSONWritingPrettyPrinted; } // If we're logging traffic, make it more readable.
 
+        id json = [incident asJSON];
+
         NSError *error;
-        body = [NSJSONSerialization dataWithJSONObject:[incident asJSON] options:options error:&error];
+        body = [NSJSONSerialization dataWithJSONObject:json options:options error:&error];
         if (! body) {
             performAlert(@"Unable to serialize incident %@ to JSON: %@", incident, error);
             return;
