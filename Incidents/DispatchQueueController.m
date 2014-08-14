@@ -534,9 +534,9 @@ NSString *formattedDateTimeShort(NSDate *date);
     else if ([identifier isEqualToString:@"priority"]) {
         return incident.priorityName;
     }
-//    else if ([identifier isEqualToString:@"created"]) {
-//        return formattedDateTimeShort(incident.created);
-//    }
+    else if ([identifier isEqualToString:@"created"]) {
+        return formattedDateTimeShort(incident.createdDate);
+    }
 //    else if ([identifier isEqualToString:@"dispatched"]) {
 //        return formattedDateTimeShort(incident.dispatched);
 //    }
@@ -644,7 +644,7 @@ NSString *formattedDateTimeShort(NSDate *date)
 {
     if (! shortDayTimeFormatter) {
         shortDayTimeFormatter = [[NSDateFormatter alloc] init];
-        [shortDayTimeFormatter setDateFormat:@"EEEEE.HH:mm"];
+        [shortDayTimeFormatter setDateFormat:@"dd/HH:mm"];
     }
     return [shortDayTimeFormatter stringFromDate:date];
 }

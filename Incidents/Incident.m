@@ -478,7 +478,17 @@ NSDate *dateFromRFC3339String(NSString *rfc3339String);
 }
 
 
-- (NSString *) summaryFromReport {
+- (NSDate*) createdDate
+{
+    for (ReportEntry *entry in self.reportEntries) {
+        return entry.createdDate;
+    }
+    return nil;
+}
+
+
+- (NSString *) summaryFromReport
+{
     if (self.summary && self.summary.length) {
         return self.summary;
     }

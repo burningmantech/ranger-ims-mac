@@ -48,6 +48,7 @@ typedef NS_ENUM(NSUInteger, IncidentState) {
 @property (strong)   NSArray        *reportEntries;
 @property (strong)   NSNumber       *state;
 @property (readonly) NSNumber       *stateName;
+@property (readonly) NSDate         *createdDate;
 @property (strong)   NSNumber       *priority;
 @property (readonly) NSNumber       *priorityName;
 
