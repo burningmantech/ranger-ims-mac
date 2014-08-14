@@ -64,11 +64,14 @@
                                    errorHandler:(HTTPErrorHandler)onError
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:[self userAgent] forHTTPHeaderField:@"User-Agent"];
-    [request setHTTPBody:[NSData data]];
 
+    request.HTTPMethod = @"GET";
+    request.HTTPBody = [NSData data];
+    request.timeoutInterval = 2.0;
+
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+    
     return [[self alloc] initWithRequest:request
                          responseHandler:onSuccess
                    authenticationHandler:onAuthenticationChallenge
@@ -83,11 +86,13 @@
                                   errorHandler:(HTTPErrorHandler)onError
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
+
+    request.HTTPMethod = @"POST";
+    request.HTTPBody = body;
+
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:[self userAgent] forHTTPHeaderField:@"User-Agent"];
-    [request setHTTPBody:body];
+    [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
 
     return [[self alloc] initWithRequest:request
                          responseHandler:onSuccess

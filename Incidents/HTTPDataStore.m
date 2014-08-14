@@ -307,18 +307,6 @@ static int nextTemporaryNumber = -1;
 }
 
 
-- (NSURLConnection *) getJSONConnectionForPath:(NSString *)path
-{
-    NSURL *url = [self.url URLByAppendingPathComponent:path];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setHTTPBody:[NSData data]];
-
-    return [NSURLConnection connectionWithRequest:request delegate:self];
-}
-
-
 - (void) loadLinks {
     @synchronized(self) {
         if (self.serverAvailable) {
