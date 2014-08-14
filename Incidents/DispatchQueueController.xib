@@ -108,7 +108,7 @@
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="stateSortKey"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="state"/>
                                         </tableColumn>
                                         <tableColumn identifier="rangers" editable="NO" width="100" minWidth="60" maxWidth="600" headerToolTip="Incident personnel" id="28">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Rangers">
