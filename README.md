@@ -10,4 +10,5 @@ The server is the master repository for incident information.  Clients connect
 to the server over the network and provide an interface to users which enables
 them to view and manage incident information.
 
-This package includes the Mac OS client.
+This package provides the Mac OS client.  The server package is available at:
+https://github.com/burningmantech/ranger-ims-server.
