@@ -68,7 +68,8 @@
     request.HTTPMethod = @"GET";
     request.HTTPBody = [NSData data];
     request.timeoutInterval = 2.0;
-
+    request.HTTPShouldUsePipelining = YES;
+    
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
     
