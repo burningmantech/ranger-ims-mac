@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="DispatchQueueController" customModule="Incidents" customModuleProvider="target">
+            <connections>
+                <outlet property="dispatchTable" destination="Ojp-VW-FpW" id="TkM-qP-fcZ"/>
+                <outlet property="loadingIndicator" destination="hkF-rW-4Rh" id="oov-r3-Fcx"/>
+                <outlet property="reloadButton" destination="Nlw-Bf-HID" id="TgW-6Q-zds"/>
+                <outlet property="searchField" destination="RsS-6c-dHe" id="oFV-CV-ove"/>
+                <outlet property="showClosedButton" destination="Ddb-4N-bt8" id="OWu-PW-pri"/>
+                <outlet property="updatedLabel" destination="6PJ-pD-vB6" id="ll5-3P-rwK"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="uHx-q8-H3f"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <rect key="contentRect" x="196" y="240" width="700" height="300"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <value key="minSize" type="size" width="700" height="300"/>
+            <view key="contentView" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="700" height="300"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RsS-6c-dHe">
+                        <rect key="frame" x="20" y="258" width="660" height="22"/>
+                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="Gfq-gh-JLh">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </searchFieldCell>
+                        <connections>
+                            <action selector="updateViewedIncidents:" target="-2" id="FcT-3g-Ks5"/>
+                        </connections>
+                    </searchField>
+                    <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="hkF-rW-4Rh">
+                        <rect key="frame" x="20" y="20" width="16" height="16"/>
+                    </progressIndicator>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="Nlw-Bf-HID">
+                        <rect key="frame" x="18" y="18" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="eS6-Qt-kV5"/>
+                            <constraint firstAttribute="height" constant="20" id="obS-hj-bOL"/>
+                        </constraints>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRefreshFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="9Jv-dl-luN">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="Ddb-4N-bt8">
+                        <rect key="frame" x="578" y="19" width="104" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="1Op-Kb-Hb5"/>
+                        </constraints>
+                        <buttonCell key="cell" type="check" title="Show Closed" bezelStyle="regularSquare" imagePosition="left" inset="2" id="8wN-ZV-mZl">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent">]</string>
+                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="updateViewedIncidents:" target="-2" id="bki-XV-rmr"/>
+                        </connections>
+                    </button>
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pno-px-x3d">
+                        <rect key="frame" x="20" y="46" width="660" height="204"/>
+                        <clipView key="contentView" id="JKx-99-KN2">
+                            <rect key="frame" x="1" y="17" width="238" height="117"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="uSe-IY-Bn6" id="Ojp-VW-FpW">
+                                    <rect key="frame" x="0.0" y="0.0" width="1558" height="19"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <size key="intercellSpacing" width="3" height="2"/>
+                                    <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                    <tableColumns>
+                                        <tableColumn identifier="number" editable="NO" width="40" minWidth="40" maxWidth="40" headerToolTip="Incident number" id="0KV-sG-w47">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="#">
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="MOQ-13-Zko">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="number"/>
+                                        </tableColumn>
+                                        <tableColumn identifier="priority" editable="NO" width="25" minWidth="25" maxWidth="25" headerToolTip="Incident priority" id="5Bc-LG-Glh">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Pri">
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="b9u-4A-Vt7">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="priority"/>
+                                        </tableColumn>
+                                        <tableColumn identifier="created" editable="NO" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Incident created timestamp" id="7qe-dE-Cbd">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Created">
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="J1n-at-IMS">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="created"/>
+                                        </tableColumn>
+                                        <tableColumn identifier="state" editable="NO" width="80" minWidth="80" maxWidth="80" headerToolTip="Incident state" id="GUF-AT-jOt">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="State">
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="kkG-UM-sSA">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="state"/>
+                                        </tableColumn>
+                                        <tableColumn identifier="rangers" editable="NO" width="100" minWidth="60" maxWidth="600" headerToolTip="Incident personnel" id="Eou-PB-kbd">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Rangers">
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="JrU-sO-EgP">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="caseInsensitiveCompare:" sortKey="rangers"/>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        </tableColumn>
+                                        <tableColumn identifier="location" editable="NO" width="125" minWidth="60" maxWidth="600" headerToolTip="Incident location" id="NOq-yS-GvQ">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Location">
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="1Ei-Qh-R7x">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="location"/>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        </tableColumn>
+                                        <tableColumn identifier="incidentTypes" editable="NO" width="100" minWidth="60" maxWidth="600" headerToolTip="Incident type" id="phE-bC-Unv">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Types">
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="75w-wh-NC0">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="incidentTypes"/>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        </tableColumn>
+                                        <tableColumn identifier="summary" editable="NO" width="1000" minWidth="10" maxWidth="100000" headerToolTip="Incident summary" id="vw4-pd-12g">
+                                            <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Summary">
+                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                            </tableHeaderCell>
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="yUM-vI-ARf">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="summary"/>
+                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        </tableColumn>
+                                    </tableColumns>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-2" id="QlC-2n-ySe"/>
+                                        <outlet property="delegate" destination="-2" id="xPo-GD-piP"/>
+                                    </connections>
+                                </tableView>
+                            </subviews>
+                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="gNC-pb-LHP">
+                            <rect key="frame" x="1" y="119" width="223" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="zQR-Ll-BBy">
+                            <rect key="frame" x="224" y="17" width="15" height="102"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <tableHeaderView key="headerView" id="uSe-IY-Bn6">
+                            <rect key="frame" x="0.0" y="0.0" width="238" height="17"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </tableHeaderView>
+                    </scrollView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6PJ-pD-vB6">
+                        <rect key="frame" x="42" y="20" width="62" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="58" id="yAr-H9-IuS"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Updated:" id="D1L-Re-MVu">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kf4-KH-mAw">
+                        <rect key="frame" x="108" y="20" width="466" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="…" id="ARX-Jq-pxG">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="RsS-6c-dHe" secondAttribute="trailing" constant="20" id="1hb-cN-vuc"/>
+                    <constraint firstItem="6PJ-pD-vB6" firstAttribute="leading" secondItem="Nlw-Bf-HID" secondAttribute="trailing" constant="6" id="35o-hy-Ia8"/>
+                    <constraint firstAttribute="trailing" secondItem="Ddb-4N-bt8" secondAttribute="trailing" constant="20" id="6Du-c5-qLx"/>
+                    <constraint firstItem="Nlw-Bf-HID" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="18" id="CPL-UU-h5M"/>
+                    <constraint firstItem="kf4-KH-mAw" firstAttribute="centerY" secondItem="6PJ-pD-vB6" secondAttribute="centerY" id="Dba-9P-U4l"/>
+                    <constraint firstItem="hkF-rW-4Rh" firstAttribute="centerX" secondItem="Nlw-Bf-HID" secondAttribute="centerX" id="Eyr-yp-yOq"/>
+                    <constraint firstItem="Nlw-Bf-HID" firstAttribute="top" secondItem="pno-px-x3d" secondAttribute="bottom" constant="8" id="FjO-2W-rNX"/>
+                    <constraint firstItem="RsS-6c-dHe" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="FrW-3h-Bmx"/>
+                    <constraint firstItem="pno-px-x3d" firstAttribute="top" secondItem="RsS-6c-dHe" secondAttribute="bottom" constant="8" id="OWs-hA-r0S"/>
+                    <constraint firstAttribute="trailing" secondItem="pno-px-x3d" secondAttribute="trailing" constant="20" id="Qt1-Tr-UYV"/>
+                    <constraint firstItem="pno-px-x3d" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="RjJ-HI-KxO"/>
+                    <constraint firstAttribute="bottom" secondItem="Nlw-Bf-HID" secondAttribute="bottom" constant="18" id="SJQ-sd-WZW"/>
+                    <constraint firstItem="Nlw-Bf-HID" firstAttribute="centerY" secondItem="6PJ-pD-vB6" secondAttribute="centerY" id="SPe-Em-VhR"/>
+                    <constraint firstItem="Ddb-4N-bt8" firstAttribute="leading" secondItem="kf4-KH-mAw" secondAttribute="trailing" constant="8" id="UAp-i8-XaO"/>
+                    <constraint firstItem="RsS-6c-dHe" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="Vc3-4d-gRT"/>
+                    <constraint firstAttribute="bottom" secondItem="hkF-rW-4Rh" secondAttribute="bottom" constant="20" id="bgf-Wb-hZz"/>
+                    <constraint firstItem="kf4-KH-mAw" firstAttribute="centerY" secondItem="Ddb-4N-bt8" secondAttribute="centerY" id="hBP-pv-G1S"/>
+                    <constraint firstItem="hkF-rW-4Rh" firstAttribute="centerY" secondItem="Nlw-Bf-HID" secondAttribute="centerY" id="mGo-2U-2E0"/>
+                    <constraint firstItem="kf4-KH-mAw" firstAttribute="leading" secondItem="6PJ-pD-vB6" secondAttribute="trailing" constant="8" id="us9-Qh-9F3"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="oJC-2f-DVj"/>
+            </connections>
+            <point key="canvasLocation" x="693" y="189"/>
+        </window>
+    </objects>
+    <resources>
+        <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
+    </resources>
+</document>
