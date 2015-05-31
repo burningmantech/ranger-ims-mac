@@ -63,7 +63,7 @@ struct Incident: Printable, Hashable {
             _number = number
         }
     }
-    var _number: Int?
+    private var _number: Int?
 
     var priority     : IncidentPriority?
     var summary      : String?
