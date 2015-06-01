@@ -10,6 +10,15 @@ import Foundation
 
 
 
+func logInfo(_ format: String? = nil) {
+    // FIXME
+    if format != nil {
+        NSLog(format!)
+    }
+}
+
+
+
 func logError(_ format: String? = nil) {
     // FIXME
     if format != nil {
