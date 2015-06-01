@@ -17,7 +17,7 @@ class HTTPSession: NSObject {
         status: Int,
         headers: HTTPHeaders,
         body:[UInt8]
-        ) -> Void
+    ) -> Void
     typealias ErrorHandler = (message: String) -> Void
 
     private var nsSession: NSURLSession
