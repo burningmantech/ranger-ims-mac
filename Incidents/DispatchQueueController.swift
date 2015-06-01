@@ -118,10 +118,40 @@ class DispatchQueueController: NSWindowController {
 
 
     override init(window: NSWindow?) {
-        ims = InMemoryIncidentManagementSystem()
+//        ims = InMemoryIncidentManagementSystem()
+//
+//        // For debugging... ************************************************************************************
+//        _populateWithFakeData(ims as! InMemoryIncidentManagementSystem)
 
-        // For debugging... ************************************************************************************
-        _populateWithFakeData(ims as! InMemoryIncidentManagementSystem)
+        var defaults = NSUserDefaults.standardUserDefaults()
+
+        let scheme: String
+        if defaults.boolForKey("IMSServerDisableTLS") {
+            scheme = "http"
+        } else {
+            scheme = "https"
+        }
+
+        let host: String
+        if let _host = defaults.stringForKey("IMSServerHostName") {
+            host = _host
+        } else {
+            host = "localhost"
+        }
+
+        let port: String
+        if let _port = defaults.stringForKey("IMSServerPort") {
+            port = ":\(_port)"
+        } else {
+            port = ""
+        }
+
+        let path = "/"
+
+        let url = "\(scheme)://\(host)\(port)\(path)"
+
+        logInfo("Connecting to IMS Server: \(url)")
+        ims = HTTPIncidentManagementSystem(url: url)
 
         super.init(window: window)
     }
@@ -132,8 +162,10 @@ class DispatchQueueController: NSWindowController {
     }
 
 
-    func pokeTimer () {
-        if (reloadTimer == nil || !reloadTimer!.valid) {
+    func reload(force: Bool = false) {
+        if (force || reloadTimer == nil || !reloadTimer!.valid) {
+//            ims.reload()
+
             reloadTimer = NSTimer.scheduledTimerWithTimeInterval(
                 reloadInterval,
                 target: ims as! AnyObject,
@@ -195,7 +227,7 @@ extension DispatchQueueController: NSWindowDelegate {
             arghEvilDeath("DDispatchQueueController doesn't respond to openClickedIncident()")
         }
 
-        ims.reload()
+        reload()
     }
 
 }
@@ -311,6 +343,11 @@ extension DispatchQueueController: NSTableViewDataSource {
         }
     }
 
+
+    @IBAction func reload(sender: AnyObject?) {
+        reload(force: true)
+    }
+
 }
 
 
@@ -321,22 +358,6 @@ extension DispatchQueueController: NSTableViewDelegate {
         resort(self)
     }
 
-}
-
-
-
-class HoldOntoThisForMe: Printable {
-    let this: Printable!
-
-    var description: String {
-        if let t = this {
-            return t.description
-        } else {
-            return ""
-        }
-    }
-
-    init(_ this: Printable!) { self.this = this }
 }
 
 

@@ -6,7 +6,11 @@
 //  See the file COPYRIGHT.md for terms.
 //
 
-class InMemoryIncidentManagementSystem: IncidentManagementSystem {
+import Foundation
+
+
+
+class InMemoryIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
     var incidentTypes: Set<String> {
         return _incidentTypes
