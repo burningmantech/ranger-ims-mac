@@ -53,15 +53,15 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    func ping() {
+    func connect() {
         if !_connected {
-            let requestURL = "\(self.url)ping/"
+            let pingURL = "\(self.url)ping/"
 
             var headers = HTTPHeaders()
             headers.add(name: "Accept", value: "application/json")
 
             let request = HTTPRequest(
-                url: requestURL,
+                url: pingURL,
                 method: HTTPMethod.GET,
                 headers: headers,
                 body: []
@@ -73,8 +73,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 headers: HTTPHeaders,
                 body:[UInt8]
             ) {
-                if url != requestURL {
-                    logError("URL in response does not match URL in ping request: \(url) != \(requestURL)")
+                if url != pingURL {
+                    logError("URL in response does not match URL in ping request: \(url) != \(pingURL)")
                     return
                 }
 
@@ -101,13 +101,25 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 logInfo("Successfully connected to IMS Server: \(self.url)")
                 _connected = true
             }
+
+            func onError(message: String) {
+                logError("Error while attempting ping request: \(message)")
+                _connected = false
+            }
+
+            logInfo("Attempting ping request to: \(pingURL)")
+            self.httpSession.send(
+                request: request,
+                responseHandler: onResponse,
+                errorHandler: onError
+            )
         }
     }
     private var _connected: Bool = false
 
 
     func reload() -> Failable {
-        ping()
+        connect()
 
 
 
@@ -116,19 +128,16 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
     func createIncident(incident: Incident) -> Failable {
-        ping()
         return Failable(Error("Unimplemented"))
     }
 
 
     func updateIncident(incident: Incident) -> Failable {
-        ping()
         return Failable(Error("Unimplemented"))
     }
 
 
     func reloadIncidentWithNumber(number: Int) -> Failable {
-        ping()
         return Failable(Error("Unimplemented"))
     }
 
