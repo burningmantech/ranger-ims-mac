@@ -42,6 +42,13 @@ class AppDelegate: NSObject {
         dispatchQueueController.showWindow(self)
     }
 
+
+    @IBAction func serverSettingsDidChange(sender: AnyObject) {
+        if _dispatchQueueController != nil {
+            _dispatchQueueController.close()
+            _dispatchQueueController = nil
+        }
+    }
 }
 
 

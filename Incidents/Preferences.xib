@@ -45,6 +45,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <action selector="serverSettingsDidChange:" target="-2" id="BOY-VQ-mbH"/>
                             <binding destination="cSI-RP-DSq" name="value" keyPath="values.IMSServerHostName" id="aHT-UG-2R8"/>
                             <outlet property="nextKeyView" destination="gQr-kF-eg9" id="hGs-uK-4Bv"/>
                         </connections>
@@ -56,6 +57,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
+                            <action selector="serverSettingsDidChange:" target="-2" id="sgG-qR-qk3"/>
                             <binding destination="cSI-RP-DSq" name="value" keyPath="values.IMSServerDisableTLS" id="Pwu-fF-tjl">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -90,6 +92,7 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
+                            <action selector="serverSettingsDidChange:" target="-2" id="VzO-mi-JWE"/>
                             <binding destination="cSI-RP-DSq" name="value" keyPath="values.IMSServerPort" id="xTq-cn-gaI"/>
                             <outlet property="nextKeyView" destination="8oj-y9-7Bd" id="xgv-ua-bef"/>
                         </connections>

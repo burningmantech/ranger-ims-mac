@@ -30,6 +30,13 @@ class PreferencesController: NSWindowController {
         fatalError("init(coder:) has not been implemented")
     }
 
+
+    @IBAction func serverSettingsDidChange(sender: AnyObject) {
+        if appDelegate != nil {
+            appDelegate.serverSettingsDidChange(self)
+        }
+    }
+
 }
 
 
