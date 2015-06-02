@@ -150,7 +150,7 @@ class DispatchQueueController: NSWindowController {
 
         let url = "\(scheme)://\(host)\(port)\(path)"
 
-        logInfo("Connecting to IMS Server: \(url)")
+        logInfo("IMS Server: \(url)")
         ims = HTTPIncidentManagementSystem(url: url)
 
         super.init(window: window)
@@ -162,18 +162,30 @@ class DispatchQueueController: NSWindowController {
     }
 
 
-    func reload(force: Bool = false) {
-        if (force || reloadTimer == nil || !reloadTimer!.valid) {
-//            ims.reload()
+    func reload(force: Bool) {
+        if force && reloadTimer != nil {
+            reloadTimer!.invalidate()
+            reloadTimer = nil
+        }
 
+        if (reloadTimer == nil || !reloadTimer!.valid) {
+            ims.reload()
+
+            logInfo("Restarting reload timer")
             reloadTimer = NSTimer.scheduledTimerWithTimeInterval(
                 reloadInterval,
-                target: ims as! AnyObject,
-                selector: Selector("reload"),
-                userInfo: nil,
+                target: self,
+                selector: Selector("reloadTimerFired:"),
+                userInfo: self,
                 repeats: false
             )
         }
+    }
+
+
+    func reloadTimerFired(timer: NSTimer) {
+        logInfo("Reloading after timer")
+        reload(false)
     }
 
 
@@ -227,7 +239,7 @@ extension DispatchQueueController: NSWindowDelegate {
             arghEvilDeath("DDispatchQueueController doesn't respond to openClickedIncident()")
         }
 
-        reload()
+        reload(false)
     }
 
 }
@@ -344,8 +356,8 @@ extension DispatchQueueController: NSTableViewDataSource {
     }
 
 
-    @IBAction func reload(sender: AnyObject?) {
-        reload(force: true)
+    @IBAction func userReload(sender: AnyObject?) {
+        reload(true)
     }
 
 }
