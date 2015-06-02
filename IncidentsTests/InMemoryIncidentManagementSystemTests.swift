@@ -278,15 +278,15 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
     }
 
 
-    func test_reloadIncidentWithNumber() {
-        let f = ims!.reloadIncidentWithNumber(2)
-        XCTAssertFalse(f.failed)
-    }
-
-
-    func test_reloadIncidentWithNumber_noneSuch() {
-        let f = ims!.reloadIncidentWithNumber(999)
-        XCTAssertTrue(f.failed)
-    }
+//    func test_reloadIncidentWithNumber() {
+//        let f = ims!.reloadIncidentWithNumber(2)
+//        XCTAssertFalse(f.failed)
+//    }
+//
+//
+//    func test_reloadIncidentWithNumber_noneSuch() {
+//        let f = ims!.reloadIncidentWithNumber(999)
+//        XCTAssertTrue(f.failed)
+//    }
 
 }

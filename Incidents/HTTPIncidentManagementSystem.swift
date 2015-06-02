@@ -137,9 +137,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    func reloadIncidentWithNumber(number: Int) -> Failable {
-        return Failable(Error("Unimplemented"))
-    }
+//    func reloadIncidentWithNumber(number: Int) -> Failable {
+//        return Failable(Error("Unimplemented"))
+//    }
 
 }
 

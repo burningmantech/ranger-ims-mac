@@ -16,5 +16,5 @@ protocol IncidentManagementSystem {
 
     func createIncident(Incident) -> Failable
     func updateIncident(Incident) -> Failable
-    func reloadIncidentWithNumber(Int) -> Failable
+//    func reloadIncidentWithNumber(Int) -> Failable
 }
