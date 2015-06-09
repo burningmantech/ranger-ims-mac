@@ -42,9 +42,7 @@ class InMemoryIncidentManagementSystem: NSObject, IncidentManagementSystem {
     private var _incidentsByNumber: [Int: Incident] = [:]
 
 
-    func reload() -> Failable {
-        return Failable.Success
-    }
+    func reload() {}
 
 
     func createIncident(incident: Incident) -> Failable {

@@ -204,12 +204,6 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
     }
 
 
-    func test_reload_success() {
-        let f = ims!.reload()
-        XCTAssertFalse(f.failed)
-    }
-
-
     func test_createIncident() {
         var incident = Incident(number: nil)
         if ims!.createIncident(incident).failed {

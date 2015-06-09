@@ -12,7 +12,7 @@ protocol IncidentManagementSystem {
     var locationsByName  : [String: Location] { get }
     var incidentsByNumber: [Int   : Incident] { get }
 
-    func reload() -> Failable
+    func reload()
 
     func createIncident(Incident) -> Failable
     func updateIncident(Incident) -> Failable
