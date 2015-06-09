@@ -14,7 +14,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
     let url: String
 
-    private var loadingState: IMSLoadingState = IMSLoadingState.Reset("New")
+    private var loadingState: IMSLoadingState = IMSLoadingState.Reset
 
     var incidentTypes: Set<String> {
         return _incidentTypes
@@ -54,76 +54,177 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
     func connect() {
-        if !_connected {
-            let pingURL = "\(self.url)ping/"
+        switch loadingState {
+            case .Reset:
+                break
+            default:
+                return
+        }
 
-            var headers = HTTPHeaders()
-            headers.add(name: "Accept", value: "application/json")
+        let pingURL = "\(self.url)ping/"
 
-            let request = HTTPRequest(
-                url: pingURL,
-                method: HTTPMethod.GET,
-                headers: headers,
-                body: []
-            )
+        var headers = HTTPHeaders()
+        headers.add(name: "Accept", value: "application/json")
 
-            func onResponse(
-                url: String,
-                status: Int,
-                headers: HTTPHeaders,
-                body:[UInt8]
+        let request = HTTPRequest(
+            url: pingURL,
+            method: HTTPMethod.GET,
+            headers: headers,
+            body: []
+        )
+
+        func onResponse(
+            url: String,
+            status: Int,
+            headers: HTTPHeaders,
+            body:[UInt8]
+        ) {
+            if url != pingURL {
+                logError("URL in response does not match URL in ping request: \(url) != \(pingURL)")
+                return
+            }
+
+            if status < 200 || status >= 300 {
+                logError("Non-success response status to ping request: \(status)")
+                return
+            }
+
+            if let contentTypes = headers["Content-Type"] {
+                if contentTypes.count != 1 {
+                    logError("Multiple Content-Types in response to ping request: \(contentTypes)")
+                    return
+                }
+                if contentTypes[0] != "application/json" {
+                    logError("Non-JSON Content-Type in response to ping request: \(contentTypes[0])")
+                    return
+                }
+            }
+            else {
+                logError("No Content-Type header in response to ping request")
+                return
+            }
+
+            logInfo("Successfully connected to IMS Server: \(self.url)")
+            loadingState = IMSLoadingState.Idle
+
+            reload()
+        }
+
+        func onError(message: String) {
+            logError("Error while attempting ping request: \(message)")
+            loadingState = IMSLoadingState.Reset
+        }
+
+        logInfo("Sending ping request to: \(pingURL)")
+        if let connection = self.httpSession.send(
+            request: request,
+            responseHandler: onResponse,
+            errorHandler: onError
+        ) {
+            loadingState = IMSLoadingState.Trying(connection)
+        }
+        else {
+            logError("Unable to create ping connection?")
+            loadingState = IMSLoadingState.Reset
+        }
+    }
+
+
+    func loadIncidentTypes() {
+        var connections: [String: HTTPConnection]
+
+        switch loadingState {
+            case .Loading(let loading):
+                if loading.indexForKey("incident types") != nil {
+                    return
+                }
+                connections = loading
+            default:
+                logError("loadIncidentTypes() called while not in loading state")
+                return
+        }
+
+        let typesURL = "\(self.url)incident_types/"
+
+        var headers = HTTPHeaders()
+        headers.add(name: "Accept", value: "application/json")
+
+        let request = HTTPRequest(
+            url: typesURL,
+            method: HTTPMethod.GET,
+            headers: headers,
+            body: []
+        )
+
+        func onResponse(
+            url: String,
+            status: Int,
+            headers: HTTPHeaders,
+            body:[UInt8]
             ) {
-                if url != pingURL {
-                    logError("URL in response does not match URL in ping request: \(url) != \(pingURL)")
+                if url != typesURL {
+                    logError("URL in response does not match URL in incident types request: \(url) != \(typesURL)")
                     return
                 }
 
                 if status < 200 || status >= 300 {
-                    logError("Non-success response status to ping request: \(status)")
+                    logError("Non-success response status to incident types request: \(status)")
                     return
                 }
 
                 if let contentTypes = headers["Content-Type"] {
                     if contentTypes.count != 1 {
-                        logError("Multiple Content-Types in response to ping request: \(contentTypes)")
+                        logError("Multiple Content-Types in response to incident types request: \(contentTypes)")
                         return
                     }
                     if contentTypes[0] != "application/json" {
-                        logError("Non-JSON Content-Type in response to ping request: \(contentTypes[0])")
+                        logError("Non-JSON Content-Type in response to incident types request: \(contentTypes[0])")
                         return
                     }
                 }
                 else {
-                    logError("No Content-Type header in response to ping request")
+                    logError("No Content-Type header in response to incident types request")
                     return
                 }
 
-                logInfo("Successfully connected to IMS Server: \(self.url)")
-                _connected = true
-            }
+                logInfo("Loaded incident types")
 
-            func onError(message: String) {
-                logError("Error while attempting ping request: \(message)")
-                _connected = false
-            }
+                // ***********************************
+        }
 
-            logInfo("Attempting ping request to: \(pingURL)")
-            self.httpSession.send(
-                request: request,
-                responseHandler: onResponse,
-                errorHandler: onError
-            )
+        func onError(message: String) {
+            logError("Error while attempting incident types request: \(message)")
+            loadingState = IMSLoadingState.Reset
+        }
+
+        logInfo("Sending incident types request to: \(typesURL)")
+        if let connection = self.httpSession.send(
+            request: request,
+            responseHandler: onResponse,
+            errorHandler: onError
+        ) {
+            connections["incident types"] = connection
+            loadingState = IMSLoadingState.Loading(connections)
+        }
+        else {
+            logError("Unable to create incident types connection?")
+            loadingState = IMSLoadingState.Reset
         }
     }
-    private var _connected: Bool = false
 
 
-    func reload() -> Failable {
-        connect()
-
-
-
-        return Failable.Success
+    func reload() {
+        switch loadingState {
+            case .Reset:
+                connect()
+            case .Trying:
+                return
+            case .Loading:
+                return
+            case .Idle:
+                loadingState = IMSLoadingState.Loading([:])
+                loadIncidentTypes()
+        }
     }
 
 
@@ -146,7 +247,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
 enum IMSLoadingState {
-    case Reset(String)
+    case Reset
+    case Trying(HTTPConnection)
     case Idle
-    case Loading
+    case Loading([String: HTTPConnection])
 }
