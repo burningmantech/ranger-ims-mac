@@ -6,7 +6,7 @@
 //  See the file COPYRIGHT.md for terms.
 //
 
-struct Ranger: Printable, Hashable {
+struct Ranger: CustomStringConvertible, Hashable {
     var handle: String
     var name:   String?
     var status: String?

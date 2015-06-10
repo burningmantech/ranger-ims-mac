@@ -17,7 +17,7 @@
 // To avoid accidental data modifications, properties below
 // are made read-only.
 
-class Address: Printable, Hashable, NillishEquatable {
+class Address: CustomStringConvertible, Hashable, NillishEquatable {
 
     var hashValue: Int {
         var hash = 0
@@ -70,7 +70,7 @@ class RodGarettAddress: Address {
         if let h = concentric?     .hashValue { hash ^= h }
         if let h = radialHour?     .hashValue { hash ^= h }
         if let h = radialMinute?   .hashValue { hash ^= h }
-        if var h = textDescription?.hashValue { hash ^= h }
+        if let h = textDescription?.hashValue { hash ^= h }
         return hash
     }
 
@@ -165,7 +165,7 @@ func <(lhs: RodGarettAddress, rhs: RodGarettAddress) -> Bool {
 
 
 
-enum ConcentricStreet: Int, Printable {
+enum ConcentricStreet: Int, CustomStringConvertible {
 
     case Esplanade = 0
     case A

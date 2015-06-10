@@ -6,7 +6,7 @@
 //  See the file COPYRIGHT.md for terms.
 //
 
-public struct Error: Printable {
+public struct Error: CustomStringConvertible {
     public let reason: String
 
     public init(_ reason: String) {

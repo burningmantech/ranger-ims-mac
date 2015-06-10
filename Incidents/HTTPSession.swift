@@ -34,7 +34,7 @@ class HTTPSession: NSObject {
         idleTimeOut: Int = 30,
         timeOut: Int = 3600
     ) {
-        var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
 
         if userAgent != nil {
             configuration.HTTPAdditionalHeaders = [
@@ -60,7 +60,7 @@ class HTTPSession: NSObject {
 
 
     func send(
-        #request: HTTPRequest,
+        request request: HTTPRequest,
         responseHandler: ResponseHandler,
         errorHandler: ErrorHandler
     ) -> HTTPConnection? {
@@ -74,18 +74,18 @@ class HTTPSession: NSObject {
 
         let nsRequest = NSMutableURLRequest(URL: nsURL!)
 
-        var task = nsSession.dataTaskWithRequest(
+        if let task = nsSession.dataTaskWithRequest(
             nsRequest,
             completionHandler: {
                 nsData, nsResponse, nsError -> Void in
 
-                if nsError != nil {
-                    errorHandler(message: nsError.localizedDescription)
+                if let e = nsError {
+                    errorHandler(message: e.localizedDescription)
                     return
                 }
 
                 let status: Int
-                var headers = HTTPHeaders()
+                let headers = HTTPHeaders()
 
                 if let nsHTTPResponse = nsResponse as? NSHTTPURLResponse {
                     status = nsHTTPResponse.statusCode
@@ -100,8 +100,8 @@ class HTTPSession: NSObject {
                     status = 0
                 }
                 
-                let p = UnsafePointer<UInt8>(nsData.bytes)
-                let c = nsData.length / 4
+                let p = UnsafePointer<UInt8>(nsData!.bytes)
+                let c = nsData!.length / 4
 
                 // Get our buffer pointer and make an array out of it
                 let buffer = UnsafeBufferPointer<UInt8>(
@@ -111,10 +111,12 @@ class HTTPSession: NSObject {
 
                 responseHandler(url: request.url, status: status, headers: headers, body: body)
             }
-        )
-        task.resume()
-
-        return HTTPConnection(nsTask: task)
+        ) {
+            task.resume()
+            return HTTPConnection(nsTask: task)
+        } else {
+            return nil
+        }
     }
 
 }

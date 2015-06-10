@@ -62,7 +62,7 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
-        var ims = InMemoryIncidentManagementSystem()
+        let ims = InMemoryIncidentManagementSystem()
 
         cannedIncidents = [
             Incident(
@@ -235,7 +235,7 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
 
             incident.summary = "Blocked road by Roller Disco"
 
-            if var incidentAgain = ims!.incidentsByNumber[5] {
+            if let incidentAgain = ims!.incidentsByNumber[5] {
                 XCTAssertNil(
                     incidentAgain.summary,
                     "Canned incident 5 summary should still be nil"

@@ -36,7 +36,7 @@ class DispatchQueueController: NSWindowController {
 
 
     var searchText: String {
-        if let searchFieldCell = searchField?.cell() as? NSSearchFieldCell {
+        if let searchFieldCell = searchField?.cell as? NSSearchFieldCell {
             return searchFieldCell.stringValue
         } else {
             return ""
@@ -55,23 +55,17 @@ class DispatchQueueController: NSWindowController {
 
     var sortedIncidents: [Incident] {
         if _sortedIncidents == nil {
-            if let sortDescriptors = dispatchTable?.sortDescriptors as? [NSSortDescriptor] {
+            if let sortDescriptors = dispatchTable?.sortDescriptors as [NSSortDescriptor]? {
                 func isOrderedBefore(lhs: Incident, rhs: Incident) -> Bool {
                     return incident(lhs, isOrderedBeforeIncident: rhs, usingDescriptors: sortDescriptors)
                 }
-                _sortedIncidents = sorted(
-                    ims.incidentsByNumber.values,
-                    isOrderedBefore
-                )
+                _sortedIncidents = ims.incidentsByNumber.values.sort(isOrderedBefore)
             }
             else {
                 func isOrderedBefore(i1: Incident, i2: Incident) -> Bool {
                     return i1.number < i2.number
                 }
-                _sortedIncidents = sorted(
-                    ims.incidentsByNumber.values,
-                    isOrderedBefore
-                )
+                _sortedIncidents = ims.incidentsByNumber.values.sort(isOrderedBefore)
             }
         }
         return _sortedIncidents!
@@ -123,7 +117,7 @@ class DispatchQueueController: NSWindowController {
 //        // For debugging... ************************************************************************************
 //        _populateWithFakeData(ims as! InMemoryIncidentManagementSystem)
 
-        var defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = NSUserDefaults.standardUserDefaults()
 
         let scheme: String
         if defaults.boolForKey("IMSServerDisableTLS") {
@@ -366,7 +360,7 @@ extension DispatchQueueController: NSTableViewDataSource {
 
 extension DispatchQueueController: NSTableViewDelegate {
 
-    func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [AnyObject]) {
+    func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
         resort(self)
     }
 
@@ -380,7 +374,7 @@ func incident(
     usingDescriptors descriptors: [NSSortDescriptor]
 ) -> Bool {
     for descriptor in descriptors {
-        if let keyPath: String = descriptor.key() {
+        if let keyPath: String = descriptor.key {
             func isOrderedBefore() -> Bool {
                 switch keyPath {
                     case "number":

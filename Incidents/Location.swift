@@ -6,7 +6,7 @@
 //  See the file COPYRIGHT.md for terms.
 //
 
-struct Location: Printable, Hashable, NillishEquatable {
+struct Location: CustomStringConvertible, Hashable, NillishEquatable {
 
     var name: String?
     var address: Address?

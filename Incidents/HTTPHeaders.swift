@@ -54,17 +54,17 @@ class HTTPHeaders: CollectionType, SequenceType {
     }
 
 
-    func set(#name: String, value: String) {
+    func set(name name: String, value: String) {
         self[name] = [value]
     }
 
 
-    func set(#name: String, values: [String]) {
+    func set(name name: String, values: [String]) {
         self[name] = values
     }
 
 
-    func add(#name: String, value: String) {
+    func add(name name: String, value: String) {
         if var values = self[name] {
             values.append(value)
             self[name] = values
@@ -74,7 +74,7 @@ class HTTPHeaders: CollectionType, SequenceType {
     }
 
 
-    func add(#name: String, values: [String]) {
+    func add(name name: String, values: [String]) {
         if var existing = self[name] {
             existing += values
             self[name] = existing
@@ -85,14 +85,14 @@ class HTTPHeaders: CollectionType, SequenceType {
     }
 
 
-    func add(#dictionary: [String: [String]]) {
+    func add(dictionary dictionary: [String: [String]]) {
         for (name, values) in dictionary {
             self.add(name: name, values: values)
         }
     }
 
 
-    func add(#headers: HTTPHeaders) {
+    func add(headers headers: HTTPHeaders) {
         for (name, values) in headers {
             self.add(name: name, values: values)
         }

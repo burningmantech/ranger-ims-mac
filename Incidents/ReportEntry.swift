@@ -6,7 +6,7 @@
 //  See the file COPYRIGHT.md for terms.
 //
 
-struct ReportEntry: Printable, Hashable {
+struct ReportEntry: CustomStringConvertible, Hashable {
     var author     : Ranger
     var text       : String
     var created    : DateTime

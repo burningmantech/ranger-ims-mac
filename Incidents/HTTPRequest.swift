@@ -6,7 +6,7 @@
 //  See the file COPYRIGHT.md for terms.
 //
 
-enum HTTPMethod: String, Printable {
+enum HTTPMethod: String, CustomStringConvertible {
 
     case HEAD = "HEAD"
     case GET  = "GET"

@@ -6,7 +6,7 @@
 //  See the file COPYRIGHT.md for terms.
 //
 
-enum IncidentState: Int, Printable, Comparable {
+enum IncidentState: Int, CustomStringConvertible, Comparable {
     case New, OnHold, Dispatched, OnScene, Closed
 
     var description: String {
@@ -31,7 +31,7 @@ func <(lhs: IncidentState, rhs: IncidentState) -> Bool {
 
 
 
-enum IncidentPriority: Int, Printable {
+enum IncidentPriority: Int, CustomStringConvertible {
     case High   = 1
     case Medium = 3
     case Low    = 5
@@ -55,7 +55,7 @@ func <(lhs: IncidentPriority, rhs: IncidentPriority) -> Bool {
 
 
 
-struct Incident: Printable, Hashable {
+struct Incident: CustomStringConvertible, Hashable {
     var number: Int? {
         get { return _number }
         set(number) {
@@ -80,7 +80,7 @@ struct Incident: Printable, Hashable {
             for ranger in rangers {
                 handles.append(ranger.handle)
             }
-            return ", ".join(sorted(handles))
+            return ", ".join(handles.sort())
         } else {
             return ""
         }
@@ -88,7 +88,7 @@ struct Incident: Printable, Hashable {
 
     var incidentTypesAsText: String {
         if let incidentTypes = self.incidentTypes {
-            return ", ".join(sorted(incidentTypes))
+            return ", ".join(incidentTypes.sort())
         } else {
             return ""
         }

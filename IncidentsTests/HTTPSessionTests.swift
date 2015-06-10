@@ -79,7 +79,7 @@ class HTTPSessionSendTests: XCTestCase {
             expectation.fulfill()
         }
 
-        var connection = session.send(
+        let connection = session.send(
             request: request,
             responseHandler: responseHandler,
             errorHandler: errorHandler
@@ -166,7 +166,7 @@ class MockNSURLSessionDataTask: NSURLSessionDataTask {
 class MockNSURLSession: NSURLSession {
     override func dataTaskWithRequest(
         request: NSURLRequest,
-        completionHandler: ((NSData!, NSURLResponse!, NSError!) -> Void)?
+        completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void
     ) -> NSURLSessionDataTask {
         return MockNSURLSessionDataTask(
             request: request,

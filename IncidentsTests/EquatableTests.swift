@@ -20,8 +20,8 @@ class OptionalsEqualTests: XCTestCase {
 
 
     func test_nillLeft() {
-        var l1: NillishThing? = nil
-        var l2: NillishThing? = NillishThing("foo")
+        let l1: NillishThing? = nil
+        let l2: NillishThing? = NillishThing("foo")
         XCTAssertFalse(optionalsEqual(l2, l1))
     }
 

@@ -23,7 +23,7 @@ func nillish(obj: Nillish?) -> Bool {
 protocol NillishEquatable: Nillish, Equatable {}
 
 
-func optionalsEqual<T: NillishEquatable>(a: T?, b: T?) -> Bool {
+func optionalsEqual<T: NillishEquatable>(a: T?, _ b: T?) -> Bool {
     let aIsNillish: Bool = nillish(a)
     let bIsNillish: Bool = nillish(b)
 
@@ -35,7 +35,7 @@ func optionalsEqual<T: NillishEquatable>(a: T?, b: T?) -> Bool {
 }
 
 
-func optionalArrayEquals<T: Equatable>(a1: Array<T>?, a2: Array<T>?) -> Bool {
+func optionalArrayEquals<T: Equatable>(a1: Array<T>?, _ a2: Array<T>?) -> Bool {
     if a1 == nil {
         return a2 == nil || a2!.count == 0
     }
@@ -47,7 +47,7 @@ func optionalArrayEquals<T: Equatable>(a1: Array<T>?, a2: Array<T>?) -> Bool {
 }
 
 
-func optionalSetEquals<T: Equatable>(a1: Set<T>?, a2: Set<T>?) -> Bool {
+func optionalSetEquals<T: Equatable>(a1: Set<T>?, _ a2: Set<T>?) -> Bool {
     if a1 == nil {
         return a2 == nil || a2!.count == 0
     }

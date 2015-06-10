@@ -10,7 +10,7 @@ import Foundation
 
 
 
-struct DateTime: Printable, Comparable, Hashable {
+struct DateTime: CustomStringConvertible, Comparable, Hashable {
     private static let rfc3339Formatter = makeRFC3339Formatter()
     private static let shortFormatter   = makeFormatter("dd/HH:mm")
     private static let longFormatter    = makeFormatter("EEEE, MMMM d, yyyy HH:mm:ss zzz")

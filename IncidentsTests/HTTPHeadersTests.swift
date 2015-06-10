@@ -13,7 +13,7 @@ import XCTest
 class HTTPHeadersCollectionTests: XCTestCase {
 
     func test_indexes() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         XCTAssertEqual(headers.startIndex, headers.endIndex)
 
@@ -27,7 +27,7 @@ class HTTPHeadersCollectionTests: XCTestCase {
 
 
     func test_count() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         XCTAssertEqual(headers.count, 0)
 
@@ -38,7 +38,7 @@ class HTTPHeadersCollectionTests: XCTestCase {
 
 
     func test_isEmpty() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         XCTAssertTrue(headers.isEmpty)
 
@@ -49,7 +49,7 @@ class HTTPHeadersCollectionTests: XCTestCase {
 
 
     func test_keys() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         for key in headers.keys {
             XCTFail("No keys expected")
@@ -70,7 +70,7 @@ class HTTPHeadersCollectionTests: XCTestCase {
 
 
     func test_values() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         for key in headers.values {
             XCTFail("No values expected")
@@ -91,7 +91,7 @@ class HTTPHeadersCollectionTests: XCTestCase {
 
 
     func test_subscript_setAndGet() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         headers["accept"] = ["application/json"]
 
@@ -104,7 +104,7 @@ class HTTPHeadersCollectionTests: XCTestCase {
 
 
     func test_subscript_setAndGetCaseInsensitive() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         // Use both uppercase and lowercase in both set and get
         // operations, to make sure that both are normalized.
@@ -124,7 +124,7 @@ class HTTPHeadersCollectionTests: XCTestCase {
 
 
     func test_generate() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         headers["accept"] = ["application/json"]
 
@@ -149,7 +149,7 @@ class HTTPHeadersCollectionTests: XCTestCase {
 class HTTPHeadersEditTests: XCTestCase {
 
     func test_setValue() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         headers.set(name: "Accept", value: "application/json")
 
@@ -162,7 +162,7 @@ class HTTPHeadersEditTests: XCTestCase {
 
 
     func test_setValues() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         headers.set(name: "Accept", values: ["application/json"])
 
@@ -175,7 +175,7 @@ class HTTPHeadersEditTests: XCTestCase {
 
 
     func test_addValue() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         // addValue() adds an initial value
         headers.add(name: "Accept", value: "application/json")
@@ -198,7 +198,7 @@ class HTTPHeadersEditTests: XCTestCase {
 
 
     func test_addValues_fromArray() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         // Adds initial values
         headers.add(name: "Accept", values: ["application/json"])
@@ -221,7 +221,7 @@ class HTTPHeadersEditTests: XCTestCase {
 
 
     func test_addValues_fromDictionary() {
-        var headers = HTTPHeaders()
+        let headers = HTTPHeaders()
 
         headers.set(name: "Accept", values: ["application/json"])
 
@@ -247,8 +247,8 @@ class HTTPHeadersEditTests: XCTestCase {
 
 
     func test_addValues_fromHeaders() {
-        var headers     = HTTPHeaders()
-        var moreHeaders = HTTPHeaders()
+        let headers     = HTTPHeaders()
+        let moreHeaders = HTTPHeaders()
 
         headers    .set(name: "Accept"      , values: ["application/json"])
         moreHeaders.set(name: "Accept"      , values: ["text/plain"      ])
