@@ -128,19 +128,17 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         id: IMSConnectionID,
         connection: HTTPConnection
     ) {
+        if case .Loading(var loading) = loadingState {
+            if loading[group] == nil {
+                loading[group] = [:]
+            }
 
-        switch loadingState {
-            case .Loading(var loading):
-                if loading[group] == nil {
-                    loading[group] = [:]
-                }
+            loading[group]![id] = connection
 
-                loading[group]![id] = connection
-
-                loadingState = IMSLoadingState.Loading(loading)
-
-            default:
-                logError("Incorrect loading state.")
+            loadingState = IMSLoadingState.Loading(loading)
+        }
+        else {
+            logError("Incorrect loading state.")
         }
     }
 
@@ -149,33 +147,32 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         group group: IMSLoadingGroup,
         id: IMSConnectionID
     ) {
-        switch loadingState {
-            case .Loading(var loading):
-                if loading[group] == nil {
-                    logError("No such connection.")
+        if case .Loading(var loading) = loadingState {
+            if loading[group] == nil {
+                logError("No such connection.")
+                return
+            }
+
+            if loading[group]!.removeValueForKey(id) == nil {
+                logError("No such connection.")
+                return
+            }
+
+            if loading[group]!.count == 0 {
+                // Nothing left for this group; remove the group
+                loading.removeValueForKey(group)
+
+                if loading.count == 0 {
+                    // No groups loading data; switch to idle state
+                    loadingState = IMSLoadingState.Idle
                     return
                 }
+            }
 
-                if loading[group]!.removeValueForKey(id) == nil {
-                    logError("No such connection.")
-                    return
-                }
-
-                if loading[group]!.count == 0 {
-                    // Nothing left for this group; remove the group
-                    loading.removeValueForKey(group)
-
-                    if loading.count == 0 {
-                        // No groups loading data; switch to idle state
-                        loadingState = IMSLoadingState.Idle
-                        return
-                    }
-                }
-
-                loadingState = IMSLoadingState.Loading(loading)
-
-            default:
-                logError("Incorrect loading state.")
+            loadingState = IMSLoadingState.Loading(loading)
+        }
+        else {
+            logError("Incorrect loading state.")
         }
     }
 
