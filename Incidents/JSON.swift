@@ -46,15 +46,14 @@ typealias IncidentDictionary = [String: AnyObject]
 func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
     let json = JSON(input)
 
-    let number: Int
-    if let jsonNumber = json["number"].int {
-        if jsonNumber < 0 {
-            return FailableOf(Error("Incident number may not be negative"))
-        }
-        number = jsonNumber
-    } else {
+    guard let jsonNumber = json["number"].int else {
         return FailableOf(Error("Incident number is required"))
     }
+
+    if jsonNumber < 0 {
+        return FailableOf(Error("Incident number may not be negative"))
+    }
+    let number = jsonNumber
 
     let priority: IncidentPriority?
     if let jsonPriority = json["priority"].int {
@@ -122,19 +121,15 @@ func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
 
     var reportEntries: [ReportEntry] = []
     for (index, jsonEntry) in json["report_entries"] {
-        let author: Ranger
-        if let jsonAuthor = jsonEntry["author"].string {
-            author = Ranger(handle: jsonAuthor)
-        } else {
+        guard let jsonAuthor = jsonEntry["author"].string else {
             return FailableOf(Error("Report entry author is required"))
         }
+        let author = Ranger(handle: jsonAuthor)
 
-        let entryCreated: DateTime
-        if let jsonEntryCreated = jsonEntry["created"].string {
-            entryCreated = DateTime.fromRFC3339String(jsonEntryCreated)
-        } else {
+        guard let jsonEntryCreated = jsonEntry["created"].string else {
             return FailableOf(Error("Report entry created is required"))
         }
+        let entryCreated = DateTime.fromRFC3339String(jsonEntryCreated)
 
         let systemEntry: Bool
         if let jsonSystemEntry = jsonEntry["system_entry"].bool {
@@ -143,13 +138,11 @@ func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
             systemEntry = false  // default
         }
 
-        let text: String
-        if let jsonText = jsonEntry["text"].string {
-            text = jsonText
-        } else {
+        guard let jsonText = jsonEntry["text"].string else {
             logError("JSON for incident #\(number) has an empty report entry")
             continue
         }
+        let text = jsonText
 
         reportEntries.append(
             ReportEntry(

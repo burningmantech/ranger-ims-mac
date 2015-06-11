@@ -71,22 +71,20 @@ class InMemoryIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
     func updateIncident(incident: Incident) -> Failable {
-        if let number = incident.number {
-            _incidentsByNumber[number] = incident
-            return Failable.Success
-        }
-        else {
+        guard let number = incident.number else {
             return Failable(Error("Incident number may not be nil"))
         }
+
+        _incidentsByNumber[number] = incident
+        return Failable.Success
     }
 
 
 //    func reloadIncidentWithNumber(number: Int) -> Failable {
-//        if let incident = _incidentsByNumber[number] {
-//            return Failable.Success
-//        } else {
+//        guard let incident = _incidentsByNumber[number] else {
 //            return Failable(Error("No such incident"))
 //        }
+//        return Failable.Success
 //    }
 
 

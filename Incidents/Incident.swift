@@ -75,23 +75,22 @@ struct Incident: CustomStringConvertible, Hashable {
     var state        : IncidentState?
     
     var rangersAsText: String {
-        if let rangers = self.rangers {
-            var handles: [String] = []
-            for ranger in rangers {
-                handles.append(ranger.handle)
-            }
-            return ", ".join(handles.sort())
-        } else {
+        guard let rangers = self.rangers else {
             return ""
         }
+
+        var handles: [String] = []
+        for ranger in rangers {
+            handles.append(ranger.handle)
+        }
+        return ", ".join(handles.sort())
     }
 
     var incidentTypesAsText: String {
-        if let incidentTypes = self.incidentTypes {
-            return ", ".join(incidentTypes.sort())
-        } else {
+        guard let incidentTypes = self.incidentTypes else {
             return ""
         }
+        return ", ".join(incidentTypes.sort())
     }
 
     var summaryAsText: String {

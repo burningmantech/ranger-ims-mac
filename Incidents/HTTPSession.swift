@@ -74,7 +74,7 @@ class HTTPSession: NSObject {
 
         let nsRequest = NSMutableURLRequest(URL: nsURL!)
 
-        if let task = nsSession.dataTaskWithRequest(
+        guard let task = nsSession.dataTaskWithRequest(
             nsRequest,
             completionHandler: {
                 nsData, nsResponse, nsError -> Void in
@@ -111,12 +111,13 @@ class HTTPSession: NSObject {
 
                 responseHandler(url: request.url, status: status, headers: headers, body: body)
             }
-        ) {
-            task.resume()
-            return HTTPConnection(nsTask: task)
-        } else {
+        ) else {
             return nil
         }
+
+        task.resume()
+
+        return HTTPConnection(nsTask: task)
     }
 
 }

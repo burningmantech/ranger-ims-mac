@@ -36,20 +36,18 @@ class DispatchQueueController: NSWindowController {
 
 
     var searchText: String {
-        if let searchFieldCell = searchField?.cell as? NSSearchFieldCell {
-            return searchFieldCell.stringValue
-        } else {
+        guard let searchFieldCell = searchField?.cell as? NSSearchFieldCell else {
             return ""
         }
+        return searchFieldCell.stringValue
     }
 
 
     var showClosed: Bool {
-        if let showClosedState = showClosedButton?.state {
-            return showClosedState == NSOnState
-        } else {
+        guard let showClosedState = showClosedButton?.state else {
             return false
         }
+        return showClosedState == NSOnState
     }
 
 
@@ -189,18 +187,18 @@ class DispatchQueueController: NSWindowController {
 
 
     func openClickedIncident() {
-        if let dispatchTable = self.dispatchTable {
-            let rowIndex = dispatchTable.clickedRow
+        guard let dispatchTable = self.dispatchTable else { return }
 
-            let f = incidentForTableRow(rowIndex)
-            if f.failed {
-                logError("No incident for clicked row index \(rowIndex)")
-                return
-            }
-            let incident = f.value!
+        let rowIndex = dispatchTable.clickedRow
 
-            openIncident(incident)
+        let f = incidentForTableRow(rowIndex)
+        if f.failed {
+            logError("No incident for clicked row index \(rowIndex)")
+            return
         }
+        let incident = f.value!
+
+        openIncident(incident)
     }
 
 }
@@ -259,39 +257,39 @@ extension DispatchQueueController: NSTableViewDataSource {
         }
         let incident = f.value!
 
-        if let label = column?.identifier {
-            switch label {
-                case "number":
-                    return incident.number
-
-                case "priority":
-                    return incident.priority?.description
-
-                case "created":
-                    return incident.created?.asShortString()
-
-                case "state":
-                    return incident.state?.description
-
-                case "rangers":
-                    return incident.rangersAsText
-
-                case "location":
-                    return incident.location?.description
-
-                case "incidentTypes":
-                    return incident.incidentTypesAsText
-
-                case "summary":
-                    return incident.summaryAsText
-
-                default:
-                    logError("Unknown column: \(label)")
-                    return nil
-            }
-        } else {
+        guard let label = column?.identifier else {
             logError("Unidentified column: \(column)")
             return nil
+        }
+
+        switch label {
+            case "number":
+                return incident.number
+
+            case "priority":
+                return incident.priority?.description
+
+            case "created":
+                return incident.created?.asShortString()
+
+            case "state":
+                return incident.state?.description
+
+            case "rangers":
+                return incident.rangersAsText
+
+            case "location":
+                return incident.location?.description
+
+            case "incidentTypes":
+                return incident.incidentTypesAsText
+
+            case "summary":
+                return incident.summaryAsText
+
+            default:
+                logError("Unknown column: \(label)")
+                return nil
         }
     }
 
@@ -336,16 +334,16 @@ extension DispatchQueueController: NSTableViewDataSource {
 
 
     func selectedIncident() -> Incident? {
-        if let dispatchTable = self.dispatchTable {
-            let f = incidentForTableRow(dispatchTable.selectedRow)
-            if f.failed {
-                logError(f.error?.reason)
-                return nil
-            } else {
-                return f.value
-            }
-        } else {
+        guard let dispatchTable = self.dispatchTable else {
             return nil
+        }
+
+        let f = incidentForTableRow(dispatchTable.selectedRow)
+        if f.failed {
+            logError(f.error?.reason)
+            return nil
+        } else {
+            return f.value
         }
     }
 
@@ -374,53 +372,53 @@ func incident(
     usingDescriptors descriptors: [NSSortDescriptor]
 ) -> Bool {
     for descriptor in descriptors {
-        if let keyPath: String = descriptor.key {
-            func isOrderedBefore() -> Bool {
-                switch keyPath {
-                    case "number":
-                        return lhs.number < rhs.number
+        guard let keyPath: String = descriptor.key else { continue }
 
-                    case "priority":
-                        if lhs.priority == nil { logError("Displayed incident \(lhs) has nil priority"); return true  }
-                        if rhs.priority == nil { logError("Displayed incident \(rhs) has nil priority"); return false }
-                        return lhs.priority! < rhs.priority!
+        func isOrderedBefore() -> Bool {
+            switch keyPath {
+                case "number":
+                    return lhs.number < rhs.number
 
-                    case "summary":
-                        return lhs.summaryAsText < rhs.summaryAsText
+                case "priority":
+                    if lhs.priority == nil { logError("Displayed incident \(lhs) has nil priority"); return true  }
+                    if rhs.priority == nil { logError("Displayed incident \(rhs) has nil priority"); return false }
+                    return lhs.priority! < rhs.priority!
 
-                    case "location":
-                        if lhs.location == nil { return true  }
-                        if rhs.location == nil { return false }
-                        return lhs.location! < rhs.location!
+                case "summary":
+                    return lhs.summaryAsText < rhs.summaryAsText
 
-                    case "rangers":
-                        return lhs.rangersAsText < rhs.rangersAsText
+                case "location":
+                    if lhs.location == nil { return true  }
+                    if rhs.location == nil { return false }
+                    return lhs.location! < rhs.location!
 
-                    case "incidentTypes":
-                        return lhs.rangersAsText < rhs.rangersAsText
+                case "rangers":
+                    return lhs.rangersAsText < rhs.rangersAsText
 
-                    case "reportEntries":
-                        return false
+                case "incidentTypes":
+                    return lhs.rangersAsText < rhs.rangersAsText
 
-                    case "created":
-                        if lhs.created == nil { logError("Displayed incident \(lhs) has nil created"); return true  }
-                        if rhs.created == nil { logError("Displayed incident \(rhs) has nil created"); return false }
-                        return lhs.created! < rhs.created!
+                case "reportEntries":
+                    return false
 
-                    case "state":
-                        if lhs.state == nil { logError("Displayed incident \(lhs) has nil state"); return true  }
-                        if rhs.state == nil { logError("Displayed incident \(rhs) has nil state"); return false }
-                        return lhs.state! < rhs.state!
+                case "created":
+                    if lhs.created == nil { logError("Displayed incident \(lhs) has nil created"); return true  }
+                    if rhs.created == nil { logError("Displayed incident \(rhs) has nil created"); return false }
+                    return lhs.created! < rhs.created!
 
-                    default:
-                        logError("Unknown sort descriptor key path: \(keyPath)")
-                        return lhs.number < rhs.number
-                }
+                case "state":
+                    if lhs.state == nil { logError("Displayed incident \(lhs) has nil state"); return true  }
+                    if rhs.state == nil { logError("Displayed incident \(rhs) has nil state"); return false }
+                    return lhs.state! < rhs.state!
+
+                default:
+                    logError("Unknown sort descriptor key path: \(keyPath)")
+                    return lhs.number < rhs.number
             }
+        }
 
-            if isOrderedBefore() {
-                return descriptor.ascending
-            }
+        if isOrderedBefore() {
+            return descriptor.ascending
         }
     }
     return false

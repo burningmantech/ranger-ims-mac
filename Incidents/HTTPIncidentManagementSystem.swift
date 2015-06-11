@@ -89,18 +89,17 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-            if let contentTypes = headers["Content-Type"] {
-                if contentTypes.count != 1 {
-                    logError("Multiple Content-Types in response to ping request: \(contentTypes)")
-                    return
-                }
-                if contentTypes[0] != "application/json" {
-                    logError("Non-JSON Content-Type in response to ping request: \(contentTypes[0])")
-                    return
-                }
-            }
-            else {
+            guard let contentTypes = headers["Content-Type"] else {
                 logError("No Content-Type header in response to ping request")
+                return
+            }
+
+            if contentTypes.count != 1 {
+                logError("Multiple Content-Types in response to ping request: \(contentTypes)")
+                return
+            }
+            if contentTypes[0] != "application/json" {
+                logError("Non-JSON Content-Type in response to ping request: \(contentTypes[0])")
                 return
             }
 
@@ -116,17 +115,18 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         logInfo("Sending ping request to: \(pingURL)")
-        if let connection = self.httpSession.send(
+
+        guard let connection = self.httpSession.send(
             request: request,
             responseHandler: onResponse,
             errorHandler: onError
-        ) {
-            loadingState = IMSLoadingState.Trying(connection)
-        }
-        else {
+        ) else {
             logError("Unable to create ping connection?")
             loadingState = IMSLoadingState.Reset
+            return
         }
+
+        loadingState = IMSLoadingState.Trying(connection)
     }
 
 
@@ -172,18 +172,17 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                     return
                 }
 
-                if let contentTypes = headers["Content-Type"] {
-                    if contentTypes.count != 1 {
-                        logError("Multiple Content-Types in response to incident types request: \(contentTypes)")
-                        return
-                    }
-                    if contentTypes[0] != "application/json" {
-                        logError("Non-JSON Content-Type in response to incident types request: \(contentTypes[0])")
-                        return
-                    }
-                }
-                else {
+                guard let contentTypes = headers["Content-Type"] else {
                     logError("No Content-Type header in response to incident types request")
+                    return
+                }
+
+                if contentTypes.count != 1 {
+                    logError("Multiple Content-Types in response to incident types request: \(contentTypes)")
+                    return
+                }
+                if contentTypes[0] != "application/json" {
+                    logError("Non-JSON Content-Type in response to incident types request: \(contentTypes[0])")
                     return
                 }
 
@@ -198,18 +197,19 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         logInfo("Sending incident types request to: \(typesURL)")
-        if let connection = self.httpSession.send(
+
+        guard let connection = self.httpSession.send(
             request: request,
             responseHandler: onResponse,
             errorHandler: onError
-        ) {
-            connections["incident types"] = connection
-            loadingState = IMSLoadingState.Loading(connections)
-        }
-        else {
+        ) else {
             logError("Unable to create incident types connection?")
             loadingState = IMSLoadingState.Reset
+            return
         }
+
+        connections["incident types"] = connection
+        loadingState = IMSLoadingState.Loading(connections)
     }
 
 
