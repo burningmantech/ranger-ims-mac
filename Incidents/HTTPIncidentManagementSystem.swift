@@ -115,16 +115,14 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     ) {
 
         switch loadingState {
-            case .Loading(let loading):
-                var connections: [IMSConnectionID: HTTPConnection]
-
-                if let existing = loading[group] {
-                    connections = existing
-                } else {
-                    connections = [:]
+            case .Loading(var loading):
+                if loading[group] == nil {
+                    loading[group] = [:]
                 }
 
-                connections[id] = connection
+                loading[group]![id] = connection
+
+                loadingState = IMSLoadingState.Loading(loading)
 
             default:
                 logError("Incorrect loading state.")
@@ -136,20 +134,30 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         group group: IMSLoadingGroup,
         id: IMSConnectionID
     ) {
-
         switch loadingState {
-            case .Loading(let loading):
-                var connections: [IMSConnectionID: HTTPConnection]
-
-                guard let _connections = loading[group] else {
+            case .Loading(var loading):
+                if loading[group] == nil {
                     logError("No such connection.")
                     return
                 }
-                connections = _connections
 
-                if connections.removeValueForKey(id) == nil {
+                if loading[group]!.removeValueForKey(id) == nil {
                     logError("No such connection.")
+                    return
                 }
+
+                if loading[group]!.count == 0 {
+                    // Nothing left for this group; remove the group
+                    loading.removeValueForKey(group)
+
+                    if loading.count == 0 {
+                        // No groups loading data; switch to idle state
+                        loadingState = IMSLoadingState.Idle
+                        return
+                    }
+                }
+
+                loadingState = IMSLoadingState.Loading(loading)
 
             default:
                 logError("Incorrect loading state.")
@@ -247,12 +255,24 @@ enum IMSLoadingState: CustomStringConvertible {
         switch self {
             case .Reset:
                 return "reset"
+
             case .Trying:
                 return "trying"
+
             case .Idle:
                 return "idle"
-            case .Loading:
-                return "loading"
+
+            case .Loading(let connections):
+                var groups: [String] = []
+                for (group, connections) in connections {
+                    groups.append("\(group)(\(connections.count))")
+                }
+
+                var s = "loading("
+                s += ", ".join(groups)
+                s += ")"
+
+                return s
         }
     }
 
