@@ -53,7 +53,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    func connect() {
+    private func connect() {
         switch loadingState {
             case .Reset:
                 break
@@ -63,46 +63,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         let pingURL = "\(self.url)ping/"
 
-        var headers = HTTPHeaders()
-        headers.add(name: "Accept", value: "application/json")
-
-        let request = HTTPRequest(
-            url: pingURL,
-            method: HTTPMethod.GET,
-            headers: headers,
-            body: []
-        )
-
-        func onResponse(
-            url: String,
-            status: Int,
-            headers: HTTPHeaders,
-            body:[UInt8]
-        ) {
-            if url != pingURL {
-                logError("URL in response does not match URL in ping request: \(url) != \(pingURL)")
-                return
-            }
-
-            if status != 200 {
-                logError("Non-OK response status to ping request: \(status)")
-                return
-            }
-
-            guard let contentTypes = headers["Content-Type"] else {
-                logError("No Content-Type header in response to ping request")
-                return
-            }
-
-            if contentTypes.count != 1 {
-                logError("Multiple Content-Types in response to ping request: \(contentTypes)")
-                return
-            }
-            if contentTypes[0] != "application/json" {
-                logError("Non-JSON Content-Type in response to ping request: \(contentTypes[0])")
-                return
-            }
-
+        func onResponse(json: AnyObject?) {
             logInfo("Successfully connected to IMS Server: \(self.url)")
             loadingState = IMSLoadingState.Idle
 
@@ -116,8 +77,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         logInfo("Sending ping request to: \(pingURL)")
 
-        guard let connection = self.httpSession.send(
-            request: request,
+        guard let connection = self.httpSession.sendJSON(
+            url: pingURL,
+            json: nil,
             responseHandler: onResponse,
             errorHandler: onError
         ) else {
@@ -130,65 +92,57 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    func loadIncidentTypes() {
-        var connections: [String: HTTPConnection]
+    private func connectionsForLoadingGroup(group: IMSLoadingGroup) throws -> [HTTPConnection] {
+        switch loadingState {
+            case .Loading(let loading):
+                guard let connections = loading[group] else {
+                    return []
+                }
+                return connections
+            default:
+                throw IMSInternalError.IncorrectLoadingState
+        }
+    }
+
+
+    // FIXME: This all feels janky
+    private func addConnectionForLoadingGroup(
+        group: IMSLoadingGroup,
+        connection: HTTPConnection
+    ) throws -> [HTTPConnection] {
 
         switch loadingState {
             case .Loading(let loading):
-                if loading.indexForKey("incident types") != nil {
-                    return
-                }
-                connections = loading
-            default:
-                logError("loadIncidentTypes() called while not in loading state")
-                return
-        }
+                var connections: [HTTPConnection]
 
+                if let existing = loading[group] {
+                    connections = existing
+                } else {
+                    connections = []
+                }
+
+                connections.append(connection)
+
+                return connections
+
+            default:
+                throw IMSInternalError.IncorrectLoadingState
+        }
+    }
+
+
+    private func loadIncidentTypes() throws {
         let typesURL = "\(self.url)incident_types/"
 
-        var headers = HTTPHeaders()
-        headers.add(name: "Accept", value: "application/json")
+        func onResponse(json: AnyObject?) {
+            logInfo("Loaded incident types")
 
-        let request = HTTPRequest(
-            url: typesURL,
-            method: HTTPMethod.GET,
-            headers: headers,
-            body: []
-        )
+            guard let json = json else {
+                logError("Incident types request retrieved no JSON data")
+                return  // *************************
+            }
 
-        func onResponse(
-            url: String,
-            status: Int,
-            headers: HTTPHeaders,
-            body:[UInt8]
-            ) {
-                if url != typesURL {
-                    logError("URL in response does not match URL in incident types request: \(url) != \(typesURL)")
-                    return
-                }
-
-                if status != 200 {
-                    logError("Non-OK response status to incident types request: \(status)")
-                    return
-                }
-
-                guard let contentTypes = headers["Content-Type"] else {
-                    logError("No Content-Type header in response to incident types request")
-                    return
-                }
-
-                if contentTypes.count != 1 {
-                    logError("Multiple Content-Types in response to incident types request: \(contentTypes)")
-                    return
-                }
-                if contentTypes[0] != "application/json" {
-                    logError("Non-JSON Content-Type in response to incident types request: \(contentTypes[0])")
-                    return
-                }
-
-                logInfo("Loaded incident types")
-
-                // ***********************************
+            logInfo("\(json)")
         }
 
         func onError(message: String) {
@@ -198,8 +152,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         logInfo("Sending incident types request to: \(typesURL)")
 
-        guard let connection = self.httpSession.send(
-            request: request,
+        guard let connection = self.httpSession.sendJSON(
+            url: typesURL,
+            json: nil,
             responseHandler: onResponse,
             errorHandler: onError
         ) else {
@@ -208,12 +163,13 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             return
         }
 
-        connections["incident types"] = connection
-        loadingState = IMSLoadingState.Loading(connections)
+        try addConnectionForLoadingGroup(IMSLoadingGroup.IncidentTypes, connection: connection)
     }
 
 
     func reload() {
+        logInfo("Re-loading; state = \(loadingState)")
+
         switch loadingState {
             case .Reset:
                 connect()
@@ -223,7 +179,11 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             case .Idle:
                 loadingState = IMSLoadingState.Loading([:])
-                loadIncidentTypes()
+                do {
+                    try loadIncidentTypes()
+                } catch {
+                    logError("Unexpected error while attempting to reload incident types.")
+                }
         }
     }
 
@@ -250,5 +210,22 @@ enum IMSLoadingState {
     case Reset
     case Trying(HTTPConnection)
     case Idle
-    case Loading([String: HTTPConnection])
+    case Loading([IMSLoadingGroup: [HTTPConnection]])
+}
+
+
+
+enum IMSLoadingGroup {
+    case IncidentTypes
+}
+
+
+
+enum IMSError: ErrorType {
+}
+
+
+
+enum IMSInternalError: ErrorType {
+    case IncorrectLoadingState
 }
