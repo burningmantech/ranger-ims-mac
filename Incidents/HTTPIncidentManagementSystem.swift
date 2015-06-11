@@ -72,7 +72,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         func onError(message: String) {
             logError("Error while attempting ping request: \(message)")
-            loadingState = IMSLoadingState.Reset
+            resetConnection()
         }
 
         logInfo("Sending ping request to: \(pingURL)")
@@ -84,11 +84,26 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             errorHandler: onError
         ) else {
             logError("Unable to create ping connection?")
-            loadingState = IMSLoadingState.Reset
+            resetConnection()
             return
         }
 
         loadingState = IMSLoadingState.Trying(connection)
+    }
+
+
+    private func resetConnection() {
+        logError("Resetting IMS server connection")
+
+        loadingState = IMSLoadingState.Reset
+
+        guard let session = _httpSession else {
+            return
+        }
+
+        _httpSession = nil
+
+        session.invalidate()
     }
 
 
@@ -186,7 +201,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         func onError(message: String) {
             logError("Error while attempting incident types request: \(message)")
-            loadingState = IMSLoadingState.Reset
+            resetConnection()
         }
 
         logInfo("Sending incident types request to: \(typesURL)")
@@ -198,7 +213,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             errorHandler: onError
         ) else {
             logError("Unable to create incident types connection?")
-            loadingState = IMSLoadingState.Reset
+            resetConnection()
             return
         }
 
