@@ -139,7 +139,7 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
             ims.addIncidentType(incidentType)
         }
 
-        for (handle, ranger) in cannedRangers {
+        for ranger in cannedRangers.values {
             ims.addRanger(ranger)
         }
 

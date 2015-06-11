@@ -137,7 +137,7 @@ class JSONDeserializationTests: XCTestCase {
         if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
 
         if let incident = incidentResult.value {
-            if let location = incident.location {
+            if let _ = incident.location {
                 XCTAssertEqual(
                     incident,
                     Incident(

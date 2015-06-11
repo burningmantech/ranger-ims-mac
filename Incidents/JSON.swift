@@ -108,19 +108,19 @@ func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
     )
 
     var rangers: Set<Ranger> = Set()
-    for (index, jsonHandle) in json["ranger_handles"] {
+    for (_, jsonHandle) in json["ranger_handles"] {
         if let handle = jsonHandle.string {
             rangers.insert(Ranger(handle: handle))
         }
     }
 
     var incidentTypes : Set<String> = Set()
-    for (index, jsonIncidentType) in json["incident_types"] {
+    for (_, jsonIncidentType) in json["incident_types"] {
         incidentTypes.insert(jsonIncidentType.string!)
     }
 
     var reportEntries: [ReportEntry] = []
-    for (index, jsonEntry) in json["report_entries"] {
+    for (_, jsonEntry) in json["report_entries"] {
         guard let jsonAuthor = jsonEntry["author"].string else {
             return FailableOf(Error("Report entry author is required"))
         }

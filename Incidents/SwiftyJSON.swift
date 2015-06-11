@@ -117,13 +117,13 @@ public struct JSON {
                 } else {
                     _type = .Number
                 }
-            case let string as NSString:
+            case  _ as NSString:
                 _type = .String
-            case let null as NSNull:
+            case _ as NSNull:
                 _type = .Null
-            case let array as [AnyObject]:
+            case _ as [AnyObject]:
                 _type = .Array
-            case let dictionary as [String : AnyObject]:
+            case _ as [String : AnyObject]:
                 _type = .Dictionary
             default:
                 _type = .Unknown

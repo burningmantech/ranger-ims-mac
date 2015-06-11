@@ -51,7 +51,7 @@ class HTTPHeadersCollectionTests: XCTestCase {
     func test_keys() {
         let headers = HTTPHeaders()
 
-        for key in headers.keys {
+        for _ in headers.keys {
             XCTFail("No keys expected")
         }
 
@@ -72,7 +72,7 @@ class HTTPHeadersCollectionTests: XCTestCase {
     func test_values() {
         let headers = HTTPHeaders()
 
-        for key in headers.values {
+        for _ in headers.values {
             XCTFail("No values expected")
         }
 

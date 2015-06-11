@@ -102,12 +102,12 @@ class IncidentNumberMutabilityTests: XCTestCase {
     }
 
 
-    func test_setThenSet() {
-        var incident = Incident(number: 1)
-
-        // FIXME: verify this raises… can't do that in swift.  :-(
-        //incident.number = 2
-    }
+//    func test_setThenSet() {
+//        var incident = Incident(number: 1)
+//
+//        // FIXME: verify this raises… can't do that in swift.  :-(
+//        //incident.number = 2
+//    }
 }
 
 
