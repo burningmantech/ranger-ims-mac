@@ -37,9 +37,6 @@
 		35A5FEF11B0B5CD90056DF5C /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5FEF01B0B5CD90056DF5C /* SwiftyJSON.swift */; };
 		35A5FEF31B0B5D9A0056DF5C /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5FEF21B0B5D9A0056DF5C /* JSON.swift */; };
 		35A5FEF51B0B605B0056DF5C /* JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5FEF41B0B605B0056DF5C /* JSONTests.swift */; };
-		35BCCD941B1911FC00AD440C /* COPYRIGHT.md in Sources */ = {isa = PBXBuildFile; fileRef = 35BCCD911B1911FC00AD440C /* COPYRIGHT.md */; };
-		35BCCD951B1911FC00AD440C /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 35BCCD921B1911FC00AD440C /* LICENSE.txt */; };
-		35BCCD961B1911FC00AD440C /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 35BCCD931B1911FC00AD440C /* README.md */; };
 		35C49DBA1B0D2BEF00CB93BD /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C49DB91B0D2BEF00CB93BD /* Log.swift */; };
 		35C49DBB1B0D2E5B00CB93BD /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C49DB91B0D2BEF00CB93BD /* Log.swift */; };
 		35D2E9BD1B18E3D50037EA32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D2E9BC1B18E3D50037EA32 /* AppDelegate.swift */; };
@@ -151,17 +148,19 @@
 				350139051B0F21FA00E4A161 /* IMSProtocol.swift */,
 				350139081B0F276C00E4A161 /* HTTPIncidentManagementSystem.swift */,
 				3501390A1B0F279700E4A161 /* InMemoryIncidentManagementSystem.swift */,
+				3501390C1B0F44D600E4A161 /* tests */,
 			);
 			name = IMS;
 			sourceTree = "<group>";
 		};
-		3501390C1B0F44D600E4A161 /* IMS */ = {
+		3501390C1B0F44D600E4A161 /* tests */ = {
 			isa = PBXGroup;
 			children = (
 				3501390D1B0F44E700E4A161 /* InMemoryIncidentManagementSystemTests.swift */,
 			);
-			name = IMS;
-			sourceTree = "<group>";
+			name = tests;
+			path = IncidentsTests;
+			sourceTree = SOURCE_ROOT;
 		};
 		356CDAEE1B066F6B0030FCF3 /* HTTP */ = {
 			isa = PBXGroup;
@@ -169,6 +168,7 @@
 				35A5FEE61B09D7930056DF5C /* HTTPHeaders.swift */,
 				356CDAEF1B066F990030FCF3 /* HTTPRequest.swift */,
 				35A5FEEB1B09D97B0056DF5C /* HTTPSession.swift */,
+				35E7F0591B06AE7B00354B35 /* tests */,
 			);
 			name = HTTP;
 			sourceTree = "<group>";
@@ -207,36 +207,40 @@
 				35E0D7A51B0CBA42007499C0 /* Equatable.swift */,
 				35E0D7A21B0B7A0F007499C0 /* Error.swift */,
 				35E0D79E1B0B78B1007499C0 /* Failable.swift */,
+				35E0D7A81B0CBABE007499C0 /* tests */,
 			);
 			name = "Swift++";
 			sourceTree = "<group>";
 		};
-		35E0D7A81B0CBABE007499C0 /* Swift++ */ = {
+		35E0D7A81B0CBABE007499C0 /* tests */ = {
 			isa = PBXGroup;
 			children = (
 				35E0D7A91B0CBAEC007499C0 /* EquatableTests.swift */,
 			);
-			name = "Swift++";
-			sourceTree = "<group>";
+			name = tests;
+			path = IncidentsTests;
+			sourceTree = SOURCE_ROOT;
 		};
-		35E0D7AC1B0CC8D3007499C0 /* JSON */ = {
+		35E0D7AC1B0CC8D3007499C0 /* tests */ = {
 			isa = PBXGroup;
 			children = (
 				35A5FEF41B0B605B0056DF5C /* JSONTests.swift */,
 			);
-			name = JSON;
-			sourceTree = "<group>";
+			name = tests;
+			path = IncidentsTests;
+			sourceTree = SOURCE_ROOT;
 		};
 		35E0D7AD1B0CC8F3007499C0 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
 				35A5FEF21B0B5D9A0056DF5C /* JSON.swift */,
 				35A5FEF01B0B5CD90056DF5C /* SwiftyJSON.swift */,
+				35E0D7AC1B0CC8D3007499C0 /* tests */,
 			);
 			name = JSON;
 			sourceTree = "<group>";
 		};
-		35E7F0581B06AE4500354B35 /* Data */ = {
+		35E7F0581B06AE4500354B35 /* tests */ = {
 			isa = PBXGroup;
 			children = (
 				3510B58E1B111B44009E7D26 /* IncidentTests.swift */,
@@ -247,18 +251,20 @@
 				35943B8B1B02A156002E3053 /* DateTimeTests.swift */,
 				3521AD551B05665000B06A02 /* samples.swift */,
 			);
-			name = Data;
-			sourceTree = "<group>";
+			name = tests;
+			path = IncidentsTests;
+			sourceTree = SOURCE_ROOT;
 		};
-		35E7F0591B06AE7B00354B35 /* HTTP */ = {
+		35E7F0591B06AE7B00354B35 /* tests */ = {
 			isa = PBXGroup;
 			children = (
 				35A5FEE91B09D8250056DF5C /* HTTPHeadersTests.swift */,
 				35E7F05A1B06AE8600354B35 /* HTTPRequestTests.swift.swift */,
 				35A5FEED1B0A21B60056DF5C /* HTTPSessionTests.swift */,
 			);
-			name = HTTP;
-			sourceTree = "<group>";
+			name = tests;
+			path = IncidentsTests;
+			sourceTree = SOURCE_ROOT;
 		};
 		35F6749C1AFACA6600042EC9 = {
 			isa = PBXGroup;
@@ -310,11 +316,6 @@
 		35F674B81AFACA6600042EC9 /* IncidentsTests */ = {
 			isa = PBXGroup;
 			children = (
-				3501390C1B0F44D600E4A161 /* IMS */,
-				35E7F0591B06AE7B00354B35 /* HTTP */,
-				35E0D7AC1B0CC8D3007499C0 /* JSON */,
-				35E7F0581B06AE4500354B35 /* Data */,
-				35E0D7A81B0CBABE007499C0 /* Swift++ */,
 				35F674B91AFACA6600042EC9 /* Supporting Files */,
 			);
 			path = IncidentsTests;
@@ -338,6 +339,7 @@
 				35F674CC1AFAEA0D00042EC9 /* Location.swift */,
 				35F674CA1AFAE73900042EC9 /* Address.swift */,
 				35D6155F1AFC1D94005CB5AB /* DateTime.swift */,
+				35E7F0581B06AE4500354B35 /* tests */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -431,7 +433,6 @@
 				35F674AD1AFACA6600042EC9 /* Images.xcassets in Resources */,
 				35F674B01AFACA6600042EC9 /* MainMenu.xib in Resources */,
 				35D2E9C61B18E4140037EA32 /* DispatchQueue.xib in Resources */,
-				35BCCD951B1911FC00AD440C /* LICENSE.txt in Resources */,
 				35D2E9C11B18E3F90037EA32 /* Preferences.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,12 +459,10 @@
 				3501390B1B0F279700E4A161 /* InMemoryIncidentManagementSystem.swift in Sources */,
 				35A5FEF31B0B5D9A0056DF5C /* JSON.swift in Sources */,
 				35A5FEF11B0B5CD90056DF5C /* SwiftyJSON.swift in Sources */,
-				35BCCD961B1911FC00AD440C /* README.md in Sources */,
 				350139091B0F276C00E4A161 /* HTTPIncidentManagementSystem.swift in Sources */,
 				35D6155C1AFC142C005CB5AB /* Ranger.swift in Sources */,
 				35C49DBA1B0D2BEF00CB93BD /* Log.swift in Sources */,
 				350139061B0F21FA00E4A161 /* IMSProtocol.swift in Sources */,
-				35BCCD941B1911FC00AD440C /* COPYRIGHT.md in Sources */,
 				35E0D79F1B0B78B1007499C0 /* Failable.swift in Sources */,
 				35D2E9C21B18E3F90037EA32 /* PreferencesController.swift in Sources */,
 				35E0D7A61B0CBA42007499C0 /* Equatable.swift in Sources */,
