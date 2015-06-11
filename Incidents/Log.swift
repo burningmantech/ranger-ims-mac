@@ -13,7 +13,7 @@ import Foundation
 func logInfo(format: String? = nil) {
     // FIXME
     if format != nil {
-        NSLog(format!)
+        NSLog("[INFO] " + format!)
     }
 }
 
@@ -22,6 +22,6 @@ func logInfo(format: String? = nil) {
 func logError(format: String? = nil) {
     // FIXME
     if format != nil {
-        NSLog(format!)
+        NSLog("[ERROR] " + format!)
     }
 }
