@@ -92,57 +92,88 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    private func connectionsForLoadingGroup(group: IMSLoadingGroup) throws -> [HTTPConnection] {
-        switch loadingState {
-            case .Loading(let loading):
-                guard let connections = loading[group] else {
-                    return []
-                }
-                return connections
-            default:
-                throw IMSInternalError.IncorrectLoadingState
-        }
-    }
+//    private func connectionsForLoadingGroup(
+//        group: IMSLoadingGroup
+//    ) throws -> [IMSConnectionID: HTTPConnection] {
+//
+//        switch loadingState {
+//            case .Loading(let loading):
+//                guard let connections = loading[group] else {
+//                    return [:]
+//                }
+//                return connections
+//            default:
+//                throw IMSInternalError.IncorrectLoadingState
+//        }
+//    }
 
 
-    // FIXME: This all feels janky
     private func addConnectionForLoadingGroup(
-        group: IMSLoadingGroup,
+        group group: IMSLoadingGroup,
+        id: IMSConnectionID,
         connection: HTTPConnection
-    ) throws -> [HTTPConnection] {
+    ) {
 
         switch loadingState {
             case .Loading(let loading):
-                var connections: [HTTPConnection]
+                var connections: [IMSConnectionID: HTTPConnection]
 
                 if let existing = loading[group] {
                     connections = existing
                 } else {
-                    connections = []
+                    connections = [:]
                 }
 
-                connections.append(connection)
-
-                return connections
+                connections[id] = connection
 
             default:
-                throw IMSInternalError.IncorrectLoadingState
+                logError("Incorrect loading state.")
         }
     }
 
 
-    private func loadIncidentTypes() throws {
+    private func removeConnectionForLoadingGroup(
+        group group: IMSLoadingGroup,
+        id: IMSConnectionID
+    ) {
+
+        switch loadingState {
+            case .Loading(let loading):
+                var connections: [IMSConnectionID: HTTPConnection]
+
+                guard let _connections = loading[group] else {
+                    logError("No such connection.")
+                    return
+                }
+                connections = _connections
+
+                if connections.removeValueForKey(id) == nil {
+                    logError("No such connection.")
+                }
+
+            default:
+                logError("Incorrect loading state.")
+        }
+    }
+
+
+    private func loadIncidentTypes() {
         let typesURL = "\(self.url)incident_types/"
 
         func onResponse(json: AnyObject?) {
             logInfo("Loaded incident types")
 
+            removeConnectionForLoadingGroup(
+                group: IMSLoadingGroup.IncidentTypes,
+                id: IMSConnectionID.IncidentTypes
+            )
+
             guard let json = json else {
                 logError("Incident types request retrieved no JSON data")
-                return  // *************************
+                return
             }
 
-            logInfo("\(json)")
+            logDebug("\(json)")
         }
 
         func onError(message: String) {
@@ -163,12 +194,16 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             return
         }
 
-        try addConnectionForLoadingGroup(IMSLoadingGroup.IncidentTypes, connection: connection)
+        addConnectionForLoadingGroup(
+            group: IMSLoadingGroup.IncidentTypes,
+            id: IMSConnectionID.IncidentTypes,
+            connection: connection
+        )
     }
 
 
     func reload() {
-        logInfo("Re-loading; state = \(loadingState)")
+        logDebug("Re-loading; state = \(loadingState)")
 
         switch loadingState {
             case .Reset:
@@ -179,11 +214,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             case .Idle:
                 loadingState = IMSLoadingState.Loading([:])
-                do {
-                    try loadIncidentTypes()
-                } catch {
-                    logError("Unexpected error while attempting to reload incident types.")
-                }
+                loadIncidentTypes()
         }
     }
 
@@ -206,16 +237,43 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
 
-enum IMSLoadingState {
+enum IMSLoadingState: CustomStringConvertible {
     case Reset
     case Trying(HTTPConnection)
     case Idle
-    case Loading([IMSLoadingGroup: [HTTPConnection]])
+    case Loading([IMSLoadingGroup: [IMSConnectionID: HTTPConnection]])
+
+    var description: String {
+        switch self {
+            case .Reset:
+                return "reset"
+            case .Trying:
+                return "trying"
+            case .Idle:
+                return "idle"
+            case .Loading:
+                return "loading"
+        }
+    }
+
 }
 
 
 
-enum IMSLoadingGroup {
+enum IMSLoadingGroup: CustomStringConvertible {
+    case IncidentTypes
+
+    var description: String {
+        switch self {
+            case .IncidentTypes:
+                return "incident types"
+        }
+    }
+}
+
+
+
+enum IMSConnectionID {
     case IncidentTypes
 }
 
@@ -228,4 +286,5 @@ enum IMSError: ErrorType {
 
 enum IMSInternalError: ErrorType {
     case IncorrectLoadingState
+    case NoSuchConnection
 }
