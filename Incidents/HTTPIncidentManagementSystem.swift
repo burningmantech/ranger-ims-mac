@@ -84,8 +84,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-            if status < 200 || status >= 300 {
-                logError("Non-success response status to ping request: \(status)")
+            if status != 200 {
+                logError("Non-OK response status to ping request: \(status)")
                 return
             }
 
@@ -167,8 +167,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                     return
                 }
 
-                if status < 200 || status >= 300 {
-                    logError("Non-success response status to incident types request: \(status)")
+                if status != 200 {
+                    logError("Non-OK response status to incident types request: \(status)")
                     return
                 }
 
