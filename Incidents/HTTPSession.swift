@@ -120,6 +120,11 @@ class HTTPSession: NSObject {
         return HTTPConnection(nsTask: task)
     }
 
+
+    func invalidate() {
+        nsSession.invalidateAndCancel()
+    }
+
 }
 
 
