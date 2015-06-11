@@ -46,7 +46,7 @@ public enum Failable {
 
     public var failed: Bool {
         switch self {
-        case .Failure(let error):
+        case .Failure:
             return true
 
         default:
@@ -83,7 +83,7 @@ public enum FailableOf<T> {
 
     public var failed: Bool {
         switch self {
-        case .Failure(let error):
+        case .Failure  :
             return true
 
         default:
