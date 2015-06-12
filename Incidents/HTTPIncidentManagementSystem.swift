@@ -193,7 +193,12 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-            logDebug("\(json)")
+            guard let incidentTypes = json as? Array<String> else {
+                logError("Incident Types JSON is non-conforming: \(json)")
+                return
+            }
+
+            _incidentTypes = Set(incidentTypes)
         }
 
         func onError(message: String) {
