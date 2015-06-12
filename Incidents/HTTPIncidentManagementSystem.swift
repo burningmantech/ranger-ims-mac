@@ -53,12 +53,42 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    private func connect() {
+    func reload() {
         switch loadingState {
             case .Reset:
-                break
-            default:
+                connect()
+            case .Trying:
                 return
+            case .Loading:
+                return
+            case .Idle:
+                loadingState = IMSLoadingState.Loading([:])
+                loadIncidentTypes()
+        }
+    }
+
+
+    func createIncident(incident: Incident) -> Failable {
+        return Failable(Error("Unimplemented"))
+    }
+
+
+    func updateIncident(incident: Incident) -> Failable {
+        return Failable(Error("Unimplemented"))
+    }
+
+
+//    func reloadIncidentWithNumber(number: Int) -> Failable {
+//        return Failable(Error("Unimplemented"))
+//    }
+    
+    
+    private func connect() {
+        switch loadingState {
+        case .Reset:
+            break
+        default:
+            return
         }
 
         let pingURL = "\(self.url)ping/"
@@ -82,10 +112,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             json: nil,
             responseHandler: onResponse,
             errorHandler: onError
-        ) else {
-            logError("Unable to create ping connection?")
-            resetConnection()
-            return
+            ) else {
+                logError("Unable to create ping connection?")
+                resetConnection()
+                return
         }
 
         loadingState = IMSLoadingState.Trying(connection)
@@ -100,83 +130,13 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         guard let session = _httpSession else {
             return
         }
-
+        
         _httpSession = nil
-
+        
         session.invalidate()
     }
-
-
-//    private func connectionsForLoadingGroup(
-//        group: IMSLoadingGroup
-//    ) throws -> [IMSConnectionID: HTTPConnection] {
-//
-//        switch loadingState {
-//            case .Loading(let loading):
-//                guard let connections = loading[group] else {
-//                    return [:]
-//                }
-//                return connections
-//            default:
-//                throw IMSInternalError.IncorrectLoadingState
-//        }
-//    }
-
-
-    private func addConnectionForLoadingGroup(
-        group group: IMSLoadingGroup,
-        id: IMSConnectionID,
-        connection: HTTPConnection
-    ) {
-        guard case .Loading(var loading) = loadingState else {
-            logError("Incorrect loading state.")
-            return
-        }
-
-        if loading[group] == nil {
-            loading[group] = [:]
-        }
-
-        loading[group]![id] = connection
-
-        loadingState = IMSLoadingState.Loading(loading)
-    }
-
-
-    private func removeConnectionForLoadingGroup(
-        group group: IMSLoadingGroup,
-        id: IMSConnectionID
-    ) {
-        guard case .Loading(var loading) = loadingState else {
-            logError("Incorrect loading state.")
-            return
-        }
-
-        if loading[group] == nil {
-            logError("No such connection.")
-            return
-        }
-
-        if loading[group]!.removeValueForKey(id) == nil {
-            logError("No such connection.")
-            return
-        }
-
-        if loading[group]!.count == 0 {
-            // Nothing left for this group; remove the group
-            loading.removeValueForKey(group)
-
-            if loading.count == 0 {
-                // No groups loading data; switch to idle state
-                loadingState = IMSLoadingState.Idle
-                return
-            }
-        }
-
-        loadingState = IMSLoadingState.Loading(loading)
-    }
-
-
+    
+    
     private func loadIncidentTypes() {
         let typesURL = "\(self.url)incident_types/"
 
@@ -213,10 +173,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             json: nil,
             responseHandler: onResponse,
             errorHandler: onError
-        ) else {
-            logError("Unable to create incident types connection?")
-            resetConnection()
-            return
+            ) else {
+                logError("Unable to create incident types connection?")
+                resetConnection()
+                return
         }
 
         addConnectionForLoadingGroup(
@@ -225,37 +185,77 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             connection: connection
         )
     }
-
-
-    func reload() {
-        switch loadingState {
-            case .Reset:
-                connect()
-            case .Trying:
-                return
-            case .Loading:
-                return
-            case .Idle:
-                loadingState = IMSLoadingState.Loading([:])
-                loadIncidentTypes()
-        }
-    }
-
-
-    func createIncident(incident: Incident) -> Failable {
-        return Failable(Error("Unimplemented"))
-    }
-
-
-    func updateIncident(incident: Incident) -> Failable {
-        return Failable(Error("Unimplemented"))
-    }
-
-
-//    func reloadIncidentWithNumber(number: Int) -> Failable {
-//        return Failable(Error("Unimplemented"))
+    
+    
+//    private func connectionsForLoadingGroup(
+//        group: IMSLoadingGroup
+//    ) throws -> [IMSConnectionID: HTTPConnection] {
+//
+//        switch loadingState {
+//            case .Loading(let loading):
+//                guard let connections = loading[group] else {
+//                    return [:]
+//                }
+//                return connections
+//            default:
+//                throw IMSInternalError.IncorrectLoadingState
+//        }
 //    }
 
+
+    private func addConnectionForLoadingGroup(
+        group group: IMSLoadingGroup,
+        id: IMSConnectionID,
+        connection: HTTPConnection
+        ) {
+            guard case .Loading(var loading) = loadingState else {
+                logError("Incorrect loading state.")
+                return
+            }
+
+            if loading[group] == nil {
+                loading[group] = [:]
+            }
+
+            loading[group]![id] = connection
+
+            loadingState = IMSLoadingState.Loading(loading)
+    }
+
+
+    private func removeConnectionForLoadingGroup(
+        group group: IMSLoadingGroup,
+        id: IMSConnectionID
+        ) {
+            guard case .Loading(var loading) = loadingState else {
+                logError("Incorrect loading state.")
+                return
+            }
+
+            if loading[group] == nil {
+                logError("No such connection.")
+                return
+            }
+
+            if loading[group]!.removeValueForKey(id) == nil {
+                logError("No such connection.")
+                return
+            }
+
+            if loading[group]!.count == 0 {
+                // Nothing left for this group; remove the group
+                loading.removeValueForKey(group)
+
+                if loading.count == 0 {
+                    // No groups loading data; switch to idle state
+                    loadingState = IMSLoadingState.Idle
+                    return
+                }
+            }
+            
+            loadingState = IMSLoadingState.Loading(loading)
+    }
+    
 }
 
 
