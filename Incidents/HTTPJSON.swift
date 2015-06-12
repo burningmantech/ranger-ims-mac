@@ -6,6 +6,10 @@
 //  See the file COPYRIGHT.md for terms.
 //
 
+import Foundation
+
+
+
 extension HTTPSession {
 
     typealias JSONResponseHandler = (json: AnyObject?) -> Void
@@ -45,32 +49,50 @@ extension HTTPSession {
             body:[UInt8]
         ) {
             if url != url {
-                logError("URL in response does not match URL in JSON request: \(url) != \(url)")
-                return
+                return errorHandler(
+                    message: "URL in response does not match URL in JSON request: \(url) != \(url)"
+                )
             }
 
             if status != 200 {
-                logError("Non-OK response status to JSON request: \(status)")
-                return
+                return errorHandler(
+                    message: "Non-OK response status to JSON request: \(status)"
+                )
             }
 
             guard let contentTypes = headers["Content-Type"] else {
-                logError("No Content-Type header in response to JSON request")
-                return
+                return errorHandler(
+                    message: "No Content-Type header in response to JSON request"
+                )
             }
 
             if contentTypes.count != 1 {
-                logError("Multiple Content-Types in response to JSON request: \(contentTypes)")
-                return
+                return errorHandler(
+                    message: "Multiple Content-Types in response to JSON request: \(contentTypes)"
+                )
             }
             if contentTypes[0] != "application/json" {
-                logError("Non-JSON Content-Type in response to JSON request: \(contentTypes[0])")
-                return
+                return errorHandler(
+                    message: "Non-JSON Content-Type in response to JSON request: \(contentTypes[0])"
+                )
             }
 
-            // FIXME ***********************************
+            let bodyData = NSData.fromBytes(body)
+            let json: AnyObject?
 
-            responseHandler(json: nil)
+            if bodyData.length > 0 {
+                do {
+                    json = try NSJSONSerialization.JSONObjectWithData(bodyData, options: [.AllowFragments])
+                } catch {
+                    return errorHandler(
+                        message: "Unable to deserialize JSON response data from \(url)"
+                    )
+                }
+            } else {
+                json = nil
+            }
+
+            responseHandler(json: json)
         }
 
         logInfo("Sending JSON request to: \(url)")
