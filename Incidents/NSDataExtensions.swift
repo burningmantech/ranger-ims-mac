@@ -13,12 +13,13 @@ import Foundation
 extension NSData {
     func asBytes() -> [UInt8] {
         let p = UnsafePointer<UInt8>(self.bytes)
-        let c = self.length / 4
 
         // Get our buffer pointer and make an array out of it
         let buffer = UnsafeBufferPointer<UInt8>(
-            start:p, count:c
+            start:p,
+            count:self.length
         )
-        return [UInt8](buffer)
+        let bytes = [UInt8](buffer)
+        return bytes
     }
 }
