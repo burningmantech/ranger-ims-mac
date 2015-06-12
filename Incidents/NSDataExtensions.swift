@@ -11,6 +11,11 @@ import Foundation
 
 
 extension NSData {
+    class func fromBytes(bytes: [UInt8]) -> NSData {
+        return self(bytes: bytes, length: bytes.count)
+    }
+
+
     func asBytes() -> [UInt8] {
         let p = UnsafePointer<UInt8>(self.bytes)
 
