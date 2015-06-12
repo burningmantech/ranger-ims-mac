@@ -64,6 +64,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             case .Idle:
                 loadingState = IMSLoadingState.Loading([:])
                 loadIncidentTypes()
+                loadPersonnel()
+                loadLocations()
         }
     }
 
@@ -187,6 +189,136 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
     
     
+    private func loadPersonnel() {
+        let typesURL = "\(self.url)personnel/"
+
+        func onResponse(json: AnyObject?) {
+            logInfo("Loaded personnel")
+
+            removeConnectionForLoadingGroup(
+                group: IMSLoadingGroup.Personnel,
+                id: IMSConnectionID.Personnel
+            )
+
+            guard let json = json else {
+                logError("Personnel request retrieved no JSON data")
+                return
+            }
+
+            guard let personnel = json as? Array<[String: String]> else {
+                logError("Personnel JSON is non-conforming: \(json)")
+                return
+            }
+
+            var rangersByHandle: [String: Ranger] = [:]
+
+            for person in personnel {
+                guard
+                    let handle = person["handle"],
+                    let name   = person["name"  ],
+                    let status = person["status"]
+                else {
+                    logError("Incomplete personnel record: \(person)")
+                    continue
+                }
+                let ranger = Ranger(handle: handle, name: name, status: status)
+                rangersByHandle[handle] = ranger
+            }
+
+            _rangersByHandle = rangersByHandle
+        }
+
+        func onError(message: String) {
+            logError("Error while attempting personnel request: \(message)")
+            resetConnection()
+        }
+
+        logInfo("Sending personnel request to: \(typesURL)")
+
+        guard let connection = self.httpSession.sendJSON(
+            url: typesURL,
+            json: nil,
+            responseHandler: onResponse,
+            errorHandler: onError
+            ) else {
+                logError("Unable to create personnel connection?")
+                resetConnection()
+                return
+        }
+
+        addConnectionForLoadingGroup(
+            group: IMSLoadingGroup.IncidentTypes,
+            id: IMSConnectionID.IncidentTypes,
+            connection: connection
+        )
+    }
+    
+    
+    private func loadLocations() {
+        let typesURL = "\(self.url)locations/"
+
+        func onResponse(json: AnyObject?) {
+            logInfo("Loaded locations")
+
+            removeConnectionForLoadingGroup(
+                group: IMSLoadingGroup.Locations,
+                id: IMSConnectionID.Locations
+            )
+
+            guard let json = json else {
+                logError("Locations request retrieved no JSON data")
+                return
+            }
+
+            guard let locations = json as? Array<[String: String]> else {
+                logError("Locations JSON is non-conforming: \(json)")
+                return
+            }
+
+//            var rangersByHandle: [String: Ranger] = [:]
+//
+//            for location in locations {
+//                guard
+//                    let handle = person["handle"],
+//                    let name   = person["name"  ],
+//                    let status = person["status"]
+//                    else {
+//                        logError("Incomplete location record: \(person)")
+//                        continue
+//                }
+//                let ranger = Ranger(handle: handle, name: name, status: status)
+//                rangersByHandle[handle] = ranger
+//            }
+//
+//            _rangersByHandle = rangersByHandle
+        }
+
+        func onError(message: String) {
+            logError("Error while attempting locations request: \(message)")
+            resetConnection()
+        }
+
+        logInfo("Sending locations request to: \(typesURL)")
+
+        guard let connection = self.httpSession.sendJSON(
+            url: typesURL,
+            json: nil,
+            responseHandler: onResponse,
+            errorHandler: onError
+            ) else {
+                logError("Unable to create locations connection?")
+                resetConnection()
+                return
+        }
+
+        addConnectionForLoadingGroup(
+            group: IMSLoadingGroup.IncidentTypes,
+            id: IMSConnectionID.IncidentTypes,
+            connection: connection
+        )
+    }
+
+
 //    private func connectionsForLoadingGroup(
 //        group: IMSLoadingGroup
 //    ) throws -> [IMSConnectionID: HTTPConnection] {
@@ -297,11 +429,14 @@ enum IMSLoadingState: CustomStringConvertible {
 
 enum IMSLoadingGroup: CustomStringConvertible {
     case IncidentTypes
+    case Personnel
+    case Locations
 
     var description: String {
         switch self {
-            case .IncidentTypes:
-                return "incident types"
+            case .IncidentTypes: return "incident types"
+            case .Personnel    : return "personnel"
+            case .Locations    : return "locations"
         }
     }
 }
@@ -310,6 +445,8 @@ enum IMSLoadingGroup: CustomStringConvertible {
 
 enum IMSConnectionID {
     case IncidentTypes
+    case Personnel
+    case Locations
 }
 
 
