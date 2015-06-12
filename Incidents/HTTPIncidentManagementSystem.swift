@@ -223,8 +223,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
     func reload() {
-        logDebug("Re-loading; state = \(loadingState)")
-
         switch loadingState {
             case .Reset:
                 connect()
