@@ -100,14 +100,7 @@ class HTTPSession: NSObject {
                     status = 0
                 }
                 
-                let p = UnsafePointer<UInt8>(nsData!.bytes)
-                let c = nsData!.length / 4
-
-                // Get our buffer pointer and make an array out of it
-                let buffer = UnsafeBufferPointer<UInt8>(
-                    start:p, count:c
-                )
-                let body = [UInt8](buffer)
+                let body = nsData!.asBytes()
 
                 responseHandler(url: request.url, status: status, headers: headers, body: body)
             }
