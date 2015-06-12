@@ -95,8 +95,6 @@ extension HTTPSession {
             responseHandler(json: json)
         }
 
-        logInfo("Sending JSON request to: \(url)")
-
         return self.send(
             request: request,
             responseHandler: onResponse,
