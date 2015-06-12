@@ -22,11 +22,20 @@ extension HTTPSession {
         var headers = HTTPHeaders()
         headers.add(name: "Accept", value: "application/json")
 
+        let jsonBytes: [UInt8]
+        if json == nil {
+            jsonBytes = []
+        } else {
+            // FIXME *********************************
+            assert(false, "Unimplemented")
+            jsonBytes = []
+        }
+
         let request = HTTPRequest(
             url: url,
             method: HTTPMethod.GET,
             headers: headers,
-            body: []  // FIXME *********************************
+            body: jsonBytes
         )
 
         func onResponse(
