@@ -66,6 +66,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 loadIncidentTypes()
                 loadPersonnel()
                 loadLocations()
+                loadIncidents()
         }
     }
 
@@ -155,7 +156,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-            guard let incidentTypes = json as? Array<String> else {
+            guard let incidentTypes = json as? [String] else {
                 logError("Incident Types JSON is non-conforming: \(json)")
                 return
             }
@@ -205,7 +206,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-            guard let personnel = json as? Array<[String: String]> else {
+            guard let personnel = json as? [[String: String]] else {
                 logError("Personnel JSON is non-conforming: \(json)")
                 return
             }
@@ -270,7 +271,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-            guard let locations = json as? Array<[String: String]> else {
+            guard let locations = json as? [[String: String]] else {
                 logError("Locations JSON is non-conforming: \(json)")
                 return
             }
@@ -319,6 +320,71 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
+    private func loadIncidents() {
+        let typesURL = "\(self.url)incidents/"
+
+        func onResponse(json: AnyObject?) {
+            logInfo("Loaded incidents")
+
+            removeConnectionForLoadingGroup(
+                group: IMSLoadingGroup.Incidents,
+                id: IMSConnectionID.Incidents(-1)
+            )
+
+            guard let json = json else {
+                logError("Incidents request retrieved no JSON data")
+                return
+            }
+
+            guard let incidentETags = json as? [[AnyObject]] else {
+                logError("Incidents JSON is non-conforming: \(json)")
+                return
+            }
+
+            for entry in incidentETags {
+                guard entry.count == 2 else {
+                    logError("Incident entry is non-conforming: \(entry)")
+                    continue
+                }
+                guard let number = entry[0] as? Int else {
+                    logError("Invalid incident number: \(incidentETags[0])")
+                    continue
+                }
+                guard let etag = entry[1] as? String else {
+                    logError("Invalid incident ETag: \(incidentETags[1])")
+                    continue
+                }
+
+                logDebug("Incident #\(number) has ETag \(etag)")
+            }
+        }
+
+        func onError(message: String) {
+            logError("Error while attempting incidents request: \(message)")
+            resetConnection()
+        }
+
+        logInfo("Sending incidents request to: \(typesURL)")
+
+        guard let connection = self.httpSession.sendJSON(
+            url: typesURL,
+            json: nil,
+            responseHandler: onResponse,
+            errorHandler: onError
+            ) else {
+                logError("Unable to create incidents connection?")
+                resetConnection()
+                return
+        }
+
+        addConnectionForLoadingGroup(
+            group: IMSLoadingGroup.Incidents,
+            id: IMSConnectionID.Incidents(-1),
+            connection: connection
+        )
+    }
+    
+    
 //    private func connectionsForLoadingGroup(
 //        group: IMSLoadingGroup
 //    ) throws -> [IMSConnectionID: HTTPConnection] {
@@ -431,22 +497,50 @@ enum IMSLoadingGroup: CustomStringConvertible {
     case IncidentTypes
     case Personnel
     case Locations
+    case Incidents
 
     var description: String {
         switch self {
             case .IncidentTypes: return "incident types"
             case .Personnel    : return "personnel"
             case .Locations    : return "locations"
+            case .Incidents    : return "incidents"
         }
     }
 }
 
 
 
-enum IMSConnectionID {
+enum IMSConnectionID: Hashable {
     case IncidentTypes
     case Personnel
     case Locations
+    case Incidents(Int)
+
+    var hashValue: Int {
+        var hash: Int
+
+        switch self {
+            case .IncidentTypes: hash = -1
+            case .Personnel    : hash = -2
+            case .Locations    : hash = -3
+
+            case .Incidents(let id): hash = id
+        }
+
+        return hash
+    }
+}
+
+func ==(lhs: IMSConnectionID, rhs: IMSConnectionID) -> Bool {
+    switch lhs {
+        case .IncidentTypes: if case .IncidentTypes = rhs { return true } else { return false }
+        case .Personnel    : if case .Personnel     = rhs { return true } else { return false }
+        case .Locations    : if case .Locations     = rhs { return true } else { return false }
+
+        case .Incidents(let l_id):
+            if case .Incidents(let r_id) = rhs { return l_id == r_id } else { return false }
+    }
 }
 
 
