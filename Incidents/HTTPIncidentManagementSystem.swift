@@ -247,8 +247,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         addConnectionForLoadingGroup(
-            group: IMSLoadingGroup.IncidentTypes,
-            id: IMSConnectionID.IncidentTypes,
+            group: IMSLoadingGroup.Personnel,
+            id: IMSConnectionID.Personnel,
             connection: connection
         )
     }
@@ -312,8 +312,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         addConnectionForLoadingGroup(
-            group: IMSLoadingGroup.IncidentTypes,
-            id: IMSConnectionID.IncidentTypes,
+            group: IMSLoadingGroup.Locations,
+            id: IMSConnectionID.Locations,
             connection: connection
         )
     }
