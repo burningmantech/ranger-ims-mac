@@ -24,17 +24,19 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     var rangersByHandle: [String: Ranger] {
         return _rangersByHandle
     }
-    private var _rangersByHandle: [String: Ranger] = Dictionary()
+    private var _rangersByHandle: [String: Ranger] = [:]
 
     var locationsByName: [String: Location] {
         return _locationsByName
     }
-    private var _locationsByName: [String: Location] = Dictionary()
+    private var _locationsByName: [String: Location] = [:]
 
     var incidentsByNumber: [Int: Incident] {
         return _incidentsByNumber
     }
-    private var _incidentsByNumber: [Int: Incident] = Dictionary()
+    private var _incidentsByNumber: [Int: Incident] = [:]
+
+    private var incidentETagsByNumber: [Int: String] = [:]
 
     private var httpSession: HTTPSession {
         if _httpSession == nil {
