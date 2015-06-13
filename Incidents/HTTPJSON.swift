@@ -84,8 +84,15 @@ extension HTTPSession {
                 do {
                     json = try NSJSONSerialization.JSONObjectWithData(bodyData, options: [.AllowFragments])
                 } catch {
+                    let jsonText: String
+                    if let _jsonText = NSString(data: bodyData, encoding: NSUTF8StringEncoding) {
+                        jsonText = _jsonText as String
+                    } else {
+                        jsonText = "<unable to decode UTF-8>"
+                    }
+
                     return errorHandler(
-                        message: "Unable to deserialize JSON response data from \(url)"
+                        message: "Unable to deserialize JSON response data from \(url): \(jsonText)"
                     )
                 }
             } else {
