@@ -67,7 +67,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 loadingState = IMSLoadingState.Loading([:])
                 loadIncidentTypes()
                 loadPersonnel()
-                loadLocations()
+                // loadLocations()
                 loadIncidents()
         }
     }
@@ -193,7 +193,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     
     
     private func loadPersonnel() {
-        let typesURL = "\(self.url)personnel/"
+        let personnelURL = "\(self.url)personnel/"
 
         func onResponse(json: AnyObject?) {
             logInfo("Loaded personnel")
@@ -236,10 +236,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             resetConnection()
         }
 
-        logInfo("Sending personnel request to: \(typesURL)")
+        logInfo("Sending personnel request to: \(personnelURL)")
 
         guard let connection = self.httpSession.sendJSON(
-            url: typesURL,
+            url: personnelURL,
             json: nil,
             responseHandler: onResponse,
             errorHandler: onError
@@ -258,7 +258,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     
     
     private func loadLocations() {
-        let typesURL = "\(self.url)locations/"
+        let locationsURL = "\(self.url)locations/"
 
         func onResponse(json: AnyObject?) {
             logInfo("Loaded locations")
@@ -301,10 +301,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             resetConnection()
         }
 
-        logInfo("Sending locations request to: \(typesURL)")
+        logInfo("Sending locations request to: \(locationsURL)")
 
         guard let connection = self.httpSession.sendJSON(
-            url: typesURL,
+            url: locationsURL,
             json: nil,
             responseHandler: onResponse,
             errorHandler: onError
@@ -323,10 +323,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
     private func loadIncidents() {
-        let typesURL = "\(self.url)incidents/"
+        let incidentsURL = "\(self.url)incidents/"
 
         func onResponse(json: AnyObject?) {
-            logInfo("Loaded incidents")
+            logInfo("Loaded incident list")
 
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Incidents,
@@ -334,12 +334,12 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             )
 
             guard let json = json else {
-                logError("Incidents request retrieved no JSON data")
+                logError("Incident list request retrieved no JSON data")
                 return
             }
 
             guard let incidentETags = json as? [[AnyObject]] else {
-                logError("Incidents JSON is non-conforming: \(json)")
+                logError("Incident list JSON is non-conforming: \(json)")
                 return
             }
 
@@ -357,24 +357,24 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                     continue
                 }
 
-                logDebug("Incident #\(number) has ETag \(etag)")
+                loadIncident(number: number, etag: etag)
             }
         }
 
         func onError(message: String) {
-            logError("Error while attempting incidents request: \(message)")
+            logError("Error while attempting incident list request: \(message)")
             resetConnection()
         }
 
-        logInfo("Sending incidents request to: \(typesURL)")
+        logInfo("Sending incident list request to: \(incidentsURL)")
 
         guard let connection = self.httpSession.sendJSON(
-            url: typesURL,
+            url: incidentsURL,
             json: nil,
             responseHandler: onResponse,
             errorHandler: onError
             ) else {
-                logError("Unable to create incidents connection?")
+                logError("Unable to create incident list connection?")
                 resetConnection()
                 return
         }
@@ -385,7 +385,54 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             connection: connection
         )
     }
-    
+
+
+    func loadIncident(number number: Int, etag: String) {
+        let incidentURL = "\(self.url)incidents/\(number)"
+
+        if let loadedEtag = incidentETagsByNumber[number] {
+            if loadedEtag == etag {
+                logDebug("Already loaded incident #\(number)")
+                return
+            }
+        }
+
+        func onResponse(json: AnyObject?) {
+            logInfo("Loaded incident #\(number)")
+
+            removeConnectionForLoadingGroup(
+                group: IMSLoadingGroup.Incidents,
+                id: IMSConnectionID.Incidents(number)
+            )
+
+            // FIXME: ****************************
+        }
+
+        func onError(message: String) {
+            logError("Error while attempting incident #\(number) request: \(message)")
+            resetConnection()
+        }
+
+        logInfo("Sending incident #\(number) request to: \(incidentURL)")
+
+        guard let connection = self.httpSession.sendJSON(
+            url: incidentURL,
+            json: nil,
+            responseHandler: onResponse,
+            errorHandler: onError
+        ) else {
+            logError("Unable to create incident #\(number) connection?")
+            resetConnection()
+            return
+        }
+
+        addConnectionForLoadingGroup(
+            group: IMSLoadingGroup.Incidents,
+            id: IMSConnectionID.Incidents(number),
+            connection: connection
+        )
+    }
+
     
 //    private func connectionsForLoadingGroup(
 //        group: IMSLoadingGroup
@@ -409,7 +456,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         connection: HTTPConnection
         ) {
             guard case .Loading(var loading) = loadingState else {
-                logError("Incorrect loading state.")
+                logError("Incorrect loading state for adding \(id) connection.")
                 return
             }
 
@@ -428,7 +475,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         id: IMSConnectionID
         ) {
             guard case .Loading(var loading) = loadingState else {
-                logError("Incorrect loading state.")
+                logError("Incorrect loading state for removing \(group)/\(id) connection.")
                 return
             }
 
