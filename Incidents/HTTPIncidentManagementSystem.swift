@@ -117,10 +117,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             json: nil,
             responseHandler: onResponse,
             errorHandler: onError
-            ) else {
-                logError("Unable to create ping connection?")
-                resetConnection()
-                return
+        ) else {
+            logError("Unable to create ping connection?")
+            resetConnection()
+            return
         }
 
         loadingState = IMSLoadingState.Trying(connection)
@@ -178,10 +178,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             json: nil,
             responseHandler: onResponse,
             errorHandler: onError
-            ) else {
-                logError("Unable to create incident types connection?")
-                resetConnection()
-                return
+        ) else {
+            logError("Unable to create incident types connection?")
+            resetConnection()
+            return
         }
 
         addConnectionForLoadingGroup(
@@ -243,10 +243,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             json: nil,
             responseHandler: onResponse,
             errorHandler: onError
-            ) else {
-                logError("Unable to create personnel connection?")
-                resetConnection()
-                return
+        ) else {
+            logError("Unable to create personnel connection?")
+            resetConnection()
+            return
         }
 
         addConnectionForLoadingGroup(
@@ -308,10 +308,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             json: nil,
             responseHandler: onResponse,
             errorHandler: onError
-            ) else {
-                logError("Unable to create locations connection?")
-                resetConnection()
-                return
+        ) else {
+            logError("Unable to create locations connection?")
+            resetConnection()
+            return
         }
 
         addConnectionForLoadingGroup(
@@ -373,10 +373,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             json: nil,
             responseHandler: onResponse,
             errorHandler: onError
-            ) else {
-                logError("Unable to create incident list connection?")
-                resetConnection()
-                return
+        ) else {
+            logError("Unable to create incident list connection?")
+            resetConnection()
+            return
         }
 
         addConnectionForLoadingGroup(
