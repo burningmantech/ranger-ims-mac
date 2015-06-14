@@ -146,6 +146,8 @@ class DispatchQueueController: NSWindowController {
         ims = HTTPIncidentManagementSystem(url: url)
 
         super.init(window: window)
+
+        ims.delegate = self
     }
 
 
@@ -201,6 +203,14 @@ class DispatchQueueController: NSWindowController {
         openIncident(incident)
     }
 
+}
+
+
+
+extension DispatchQueueController: IncidentManagementSystemDelegate {
+    func incidentDidUpdate(ims: IncidentManagementSystem, incident: Incident) {
+        resort(self)
+    }
 }
 
 

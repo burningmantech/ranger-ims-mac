@@ -12,9 +12,17 @@ protocol IncidentManagementSystem {
     var locationsByName  : [String: Location] { get }
     var incidentsByNumber: [Int   : Incident] { get }
 
+    weak var delegate: IncidentManagementSystemDelegate? { get set }
+
     func reload()
 
     func createIncident(Incident) -> Failable
     func updateIncident(Incident) -> Failable
 //    func reloadIncidentWithNumber(Int) -> Failable
+}
+
+
+
+protocol IncidentManagementSystemDelegate: class {
+    func incidentDidUpdate(ims: IncidentManagementSystem, incident: Incident)
 }

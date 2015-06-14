@@ -41,6 +41,8 @@ class InMemoryIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
     private var _incidentsByNumber: [Int: Incident] = [:]
 
+    weak var delegate: IncidentManagementSystemDelegate?
+
 
     func reload() {}
 

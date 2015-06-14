@@ -49,6 +49,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
     private var _httpSession: HTTPSession? = nil
 
+    weak var delegate: IncidentManagementSystemDelegate?
+
 
     init(url: String) {
         self.url = url
@@ -60,8 +62,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             case .Reset:
                 connect()
             case .Trying:
+                logDebug("reload() while still trying to establish first conenction")
                 return
             case .Loading:
+                logDebug("reload() while still loading: \(loadingState)")
                 return
             case .Idle:
                 loadingState = IMSLoadingState.Loading([:])
@@ -431,6 +435,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             }
 
             _incidentsByNumber[number] = incident
+
+            if let delegate = self.delegate {
+                delegate.incidentDidUpdate(self, incident: incident)
+            }
         }
 
         func onError(message: String) {
