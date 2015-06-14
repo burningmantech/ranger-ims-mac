@@ -402,7 +402,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         if let loadedEtag = incidentETagsByNumber[number] {
             if loadedEtag == etag {
-                logDebug("Already loaded incident #\(number)")
                 return
             }
         }
