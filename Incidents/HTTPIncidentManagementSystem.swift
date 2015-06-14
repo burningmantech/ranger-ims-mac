@@ -460,53 +460,53 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         group group: IMSLoadingGroup,
         id: IMSConnectionID,
         connection: HTTPConnection
-        ) {
-            guard case .Loading(var loading) = loadingState else {
-                logError("Incorrect loading state for adding \(id) connection.")
-                return
-            }
+    ) {
+        guard case .Loading(var loading) = loadingState else {
+            logError("Incorrect loading state for adding \(id) connection.")
+            return
+        }
 
-            if loading[group] == nil {
-                loading[group] = [:]
-            }
+        if loading[group] == nil {
+            loading[group] = [:]
+        }
 
-            loading[group]![id] = connection
+        loading[group]![id] = connection
 
-            loadingState = IMSLoadingState.Loading(loading)
+        loadingState = IMSLoadingState.Loading(loading)
     }
 
 
     private func removeConnectionForLoadingGroup(
         group group: IMSLoadingGroup,
         id: IMSConnectionID
-        ) {
-            guard case .Loading(var loading) = loadingState else {
-                logError("Incorrect loading state for removing \(group)/\(id) connection.")
+    ) {
+        guard case .Loading(var loading) = loadingState else {
+            logError("Incorrect loading state for removing \(group)/\(id) connection.")
+            return
+        }
+
+        if loading[group] == nil {
+            logError("No such connection.")
+            return
+        }
+
+        if loading[group]!.removeValueForKey(id) == nil {
+            logError("No such connection.")
+            return
+        }
+
+        if loading[group]!.count == 0 {
+            // Nothing left for this group; remove the group
+            loading.removeValueForKey(group)
+
+            if loading.count == 0 {
+                // No groups loading data; switch to idle state
+                loadingState = IMSLoadingState.Idle
                 return
             }
-
-            if loading[group] == nil {
-                logError("No such connection.")
-                return
-            }
-
-            if loading[group]!.removeValueForKey(id) == nil {
-                logError("No such connection.")
-                return
-            }
-
-            if loading[group]!.count == 0 {
-                // Nothing left for this group; remove the group
-                loading.removeValueForKey(group)
-
-                if loading.count == 0 {
-                    // No groups loading data; switch to idle state
-                    loadingState = IMSLoadingState.Idle
-                    return
-                }
-            }
-            
-            loadingState = IMSLoadingState.Loading(loading)
+        }
+        
+        loadingState = IMSLoadingState.Loading(loading)
     }
     
 }
