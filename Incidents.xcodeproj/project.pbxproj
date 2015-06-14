@@ -167,6 +167,24 @@
 			path = IncidentsTests;
 			sourceTree = SOURCE_ROOT;
 		};
+		35205F1D1B2E310B00A1A371 /* Incident Window */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Incident Window";
+			sourceTree = "<group>";
+		};
+		35205F1F1B2E317000A1A371 /* AppKit */ = {
+			isa = PBXGroup;
+			children = (
+				35D2E9BB1B18E3530037EA32 /* Application */,
+				35D2E9BE1B18E3E00037EA32 /* Preferences Panel */,
+				35D2E9C31B18E4030037EA32 /* Dispatch Queue Window */,
+				35205F1D1B2E310B00A1A371 /* Incident Window */,
+			);
+			name = AppKit;
+			sourceTree = "<group>";
+		};
 		356CDAEE1B066F6B0030FCF3 /* HTTP */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,22 +206,22 @@
 			name = Application;
 			sourceTree = "<group>";
 		};
-		35D2E9BE1B18E3E00037EA32 /* Preferences */ = {
+		35D2E9BE1B18E3E00037EA32 /* Preferences Panel */ = {
 			isa = PBXGroup;
 			children = (
 				35D2E9BF1B18E3F90037EA32 /* Preferences.xib */,
 				35D2E9C01B18E3F90037EA32 /* PreferencesController.swift */,
 			);
-			name = Preferences;
+			name = "Preferences Panel";
 			sourceTree = "<group>";
 		};
-		35D2E9C31B18E4030037EA32 /* Dispatch Queue */ = {
+		35D2E9C31B18E4030037EA32 /* Dispatch Queue Window */ = {
 			isa = PBXGroup;
 			children = (
 				35D2E9C41B18E4140037EA32 /* DispatchQueue.xib */,
 				35D2E9C51B18E4140037EA32 /* DispatchQueueController.swift */,
 			);
-			name = "Dispatch Queue";
+			name = "Dispatch Queue Window";
 			sourceTree = "<group>";
 		};
 		35E0D7A11B0B79EF007499C0 /* Swift++ */ = {
@@ -297,9 +315,7 @@
 		35F674A71AFACA6600042EC9 /* Incidents */ = {
 			isa = PBXGroup;
 			children = (
-				35D2E9BB1B18E3530037EA32 /* Application */,
-				35D2E9BE1B18E3E00037EA32 /* Preferences */,
-				35D2E9C31B18E4030037EA32 /* Dispatch Queue */,
+				35205F1F1B2E317000A1A371 /* AppKit */,
 				350139041B0F219B00E4A161 /* IMS */,
 				356CDAEE1B066F6B0030FCF3 /* HTTP */,
 				35E0D7AD1B0CC8F3007499C0 /* JSON */,
