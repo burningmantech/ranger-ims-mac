@@ -42,7 +42,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         if _httpSession == nil {
             _httpSession = HTTPSession(
                 userAgent: "Ranger IMS (Mac OS)",
-                idleTimeOut: 2, timeOut: 30
+                idleTimeOut: 30, timeOut: 30
             )
         }
         return _httpSession!
