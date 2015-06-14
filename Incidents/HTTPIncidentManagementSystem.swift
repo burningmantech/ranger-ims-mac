@@ -349,7 +349,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
             for entry in incidentETags {
                 guard entry.count == 2 else {
-                    logError("Incident entry is non-conforming: \(entry)")
+                    logError("Incident entry JSON is non-conforming: \(entry)")
                     continue
                 }
                 guard let number = entry[0] as? Int else {
@@ -411,7 +411,26 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 id: IMSConnectionID.Incidents(number)
             )
 
-            // FIXME: ****************************
+            guard let incidentDictionary = json as? IncidentDictionary else {
+                logError("Incident #\(number) JSON is non-conforming: \(json)")
+                return
+            }
+
+            let f = incidentFromJSON(incidentDictionary)
+
+            guard !f.failed else {
+                logError("Incident #\(number) JSON failed to parse: \(incidentDictionary)")
+                return
+            }
+
+            let incident = f.value!
+
+            guard incident.number == number else {
+                logError("Incident #\(number) JSON has incorrect incident number: \(incident.number)")
+                return
+            }
+
+            _incidentsByNumber[number] = incident
         }
 
         func onError(message: String) {
