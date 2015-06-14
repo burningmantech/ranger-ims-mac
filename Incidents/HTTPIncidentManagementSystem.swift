@@ -168,7 +168,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         func onError(message: String) {
             logError("Error while attempting incident types request: \(message)")
-            resetConnection()
+            // resetConnection()
         }
 
         logInfo("Sending incident types request to: \(typesURL)")
@@ -233,7 +233,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         func onError(message: String) {
             logError("Error while attempting personnel request: \(message)")
-            resetConnection()
+            // resetConnection()
         }
 
         logInfo("Sending personnel request to: \(personnelURL)")
@@ -298,7 +298,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         func onError(message: String) {
             logError("Error while attempting locations request: \(message)")
-            resetConnection()
+            // resetConnection()
         }
 
         logInfo("Sending locations request to: \(locationsURL)")
@@ -369,7 +369,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         func onError(message: String) {
             logError("Error while attempting incident list request: \(message)")
-            resetConnection()
+            // resetConnection()
         }
 
         logInfo("Sending incident list request to: \(incidentsURL)")
@@ -416,7 +416,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         func onError(message: String) {
             logError("Error while attempting incident #\(number) request: \(message)")
-            resetConnection()
+            // resetConnection()
         }
 
         logInfo("Sending incident #\(number) request to: \(incidentURL)")
