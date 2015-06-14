@@ -17,11 +17,11 @@
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="800"/>
             <value key="minSize" type="size" width="312" height="125"/>
             <value key="maxSize" type="size" width="312" height="125"/>
-            <view key="contentView" id="EiT-Mj-1SZ">
+            <view key="contentView" id="EiT-Mj-1SZ" userLabel="Window View">
                 <rect key="frame" x="0.0" y="5" width="312" height="125"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WeV-Gf-UtB">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WeV-Gf-UtB" userLabel="Server Name Label">
                         <rect key="frame" x="18" y="86" width="88" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Server Name:" id="Q3a-58-B9S">
                             <font key="font" metaFont="system"/>
@@ -29,15 +29,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7pb-jL-Xgr">
-                        <rect key="frame" x="28" y="54" width="78" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Server Port:" id="7zU-ZT-3d8">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8oj-y9-7Bd">
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8oj-y9-7Bd" userLabel="Server Name Field">
                         <rect key="frame" x="112" y="83" width="180" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="ims.example.com" drawsBackground="YES" id="Pa2-e4-lUC">
                             <font key="font" metaFont="system"/>
@@ -50,7 +42,31 @@
                             <outlet property="nextKeyView" destination="gQr-kF-eg9" id="hGs-uK-4Bv"/>
                         </connections>
                     </textField>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JhV-jK-0qn">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7pb-jL-Xgr" userLabel="Server Port Label">
+                        <rect key="frame" x="28" y="54" width="78" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Server Port:" id="7zU-ZT-3d8">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gQr-kF-eg9" userLabel="Server Port Field">
+                        <rect key="frame" x="112" y="51" width="129" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="8443" drawsBackground="YES" id="Y3f-T3-AXA">
+                            <numberFormatter key="formatter" formatterBehavior="custom10_4" numberStyle="decimal" allowsFloats="NO" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="xkg-lA-nEB">
+                                <real key="minimum" value="0.0"/>
+                            </numberFormatter>
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="serverSettingsDidChange:" target="-2" id="VzO-mi-JWE"/>
+                            <binding destination="cSI-RP-DSq" name="value" keyPath="values.IMSServerPort" id="xTq-cn-gaI"/>
+                            <outlet property="nextKeyView" destination="8oj-y9-7Bd" id="xgv-ua-bef"/>
+                        </connections>
+                    </textField>
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JhV-jK-0qn" userLabel="TLS Checkbox">
                         <rect key="frame" x="247" y="53" width="47" height="18"/>
                         <buttonCell key="cell" type="check" title="TLS" bezelStyle="regularSquare" imagePosition="left" alignment="right" state="on" inset="2" id="PkA-UQ-qRF">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -71,7 +87,7 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XqD-IM-Cr1">
+                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XqD-IM-Cr1" userLabel="Enable Debug Menu Checkbox">
                         <rect key="frame" x="18" y="18" width="147" height="18"/>
                         <buttonCell key="cell" type="check" title="Enable Debug Menu" bezelStyle="regularSquare" imagePosition="left" inset="2" id="mZB-ke-rCd">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -81,22 +97,6 @@
                             <binding destination="cSI-RP-DSq" name="value" keyPath="values.EnableDebugMenu" id="cdD-vT-O9f"/>
                         </connections>
                     </button>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gQr-kF-eg9">
-                        <rect key="frame" x="112" y="51" width="129" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="8443" drawsBackground="YES" id="Y3f-T3-AXA">
-                            <numberFormatter key="formatter" formatterBehavior="custom10_4" numberStyle="decimal" allowsFloats="NO" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="xkg-lA-nEB">
-                                <real key="minimum" value="0.0"/>
-                            </numberFormatter>
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                        <connections>
-                            <action selector="serverSettingsDidChange:" target="-2" id="VzO-mi-JWE"/>
-                            <binding destination="cSI-RP-DSq" name="value" keyPath="values.IMSServerPort" id="xTq-cn-gaI"/>
-                            <outlet property="nextKeyView" destination="8oj-y9-7Bd" id="xgv-ua-bef"/>
-                        </connections>
-                    </textField>
                 </subviews>
             </view>
             <connections>
