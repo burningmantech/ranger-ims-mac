@@ -12,7 +12,10 @@ import Foundation
 
 extension HTTPSession {
 
-    typealias JSONResponseHandler = (json: AnyObject?) -> Void
+    typealias JSONResponseHandler = (
+        headers: HTTPHeaders,
+        json: AnyObject?
+    ) -> Void
     typealias JSONErrorHandler = ErrorHandler
 
 
@@ -99,7 +102,7 @@ extension HTTPSession {
                 json = nil
             }
 
-            responseHandler(json: json)
+            responseHandler(headers: headers, json: json)
         }
 
         return self.send(

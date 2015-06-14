@@ -102,7 +102,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         let pingURL = "\(self.url)ping/"
 
-        func onResponse(json: AnyObject?) {
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
             logInfo("Successfully connected to IMS Server: \(self.url)")
             loadingState = IMSLoadingState.Idle
 
@@ -149,7 +149,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     private func loadIncidentTypes() {
         let typesURL = "\(self.url)incident_types/"
 
-        func onResponse(json: AnyObject?) {
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
             logInfo("Loaded incident types")
 
             removeConnectionForLoadingGroup(
@@ -199,7 +199,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     private func loadPersonnel() {
         let personnelURL = "\(self.url)personnel/"
 
-        func onResponse(json: AnyObject?) {
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
             logInfo("Loaded personnel")
 
             removeConnectionForLoadingGroup(
@@ -264,7 +264,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     private func loadLocations() {
         let locationsURL = "\(self.url)locations/"
 
-        func onResponse(json: AnyObject?) {
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
             logInfo("Loaded locations")
 
             removeConnectionForLoadingGroup(
@@ -329,7 +329,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     private func loadIncidents() {
         let incidentsURL = "\(self.url)incidents/"
 
-        func onResponse(json: AnyObject?) {
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
             logInfo("Loaded incident list")
 
             func removeConnection() {
@@ -407,7 +407,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             }
         }
 
-        func onResponse(json: AnyObject?) {
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
             logInfo("Loaded incident #\(number)")
 
             removeConnectionForLoadingGroup(
@@ -434,7 +434,20 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
+            guard let etags = headers["ETag"] else {
+                logError("Incident #\(number) response did not include an ETag.")
+                return
+            }
+
+            guard etags.count == 1 else {
+                logError("Incident #\(number) response included multiple ETags: \(etags)")
+                return
+            }
+
+            let etag = etags[0]
+
             _incidentsByNumber[number] = incident
+            incidentETagsByNumber[number] = etag
 
             if let delegate = self.delegate {
                 delegate.incidentDidUpdate(self, incident: incident)
