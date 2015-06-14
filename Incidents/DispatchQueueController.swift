@@ -24,6 +24,8 @@ class DispatchQueueController: NSWindowController {
 
     let ims: IncidentManagementSystem
 
+    var incidentControllers: [Int: IncidentController] = [:]
+
     var reloadInterval: NSTimeInterval = 10
     var reloadTimer: NSTimer? = nil
 
@@ -184,7 +186,26 @@ class DispatchQueueController: NSWindowController {
 
 
     func openIncident(incident: Incident) {
-        logError("openIncident() unimplemented.\n\(incident)")
+        guard let number = incident.number else {
+            logError("Can't open an incident without a number")
+            return
+        }
+
+        let incidentController: IncidentController
+
+        if let _incidentController = incidentControllers[number] {
+            // Already have a controller for the incident in question
+            incidentController = _incidentController
+        } else {
+            // Create a controller for the incident in question
+            incidentController = IncidentController(dispatchQueueController: self)
+            incidentControllers[number] = incidentController
+        }
+
+        incidentController.showWindow(self)
+        incidentController.window?.makeKeyAndOrderFront(self)
+
+        // FIXME: Register for window closing notifcation?  (See old code.)
     }
 
 
