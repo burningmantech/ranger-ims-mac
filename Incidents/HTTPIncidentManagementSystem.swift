@@ -328,18 +328,22 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         func onResponse(json: AnyObject?) {
             logInfo("Loaded incident list")
 
-            removeConnectionForLoadingGroup(
-                group: IMSLoadingGroup.Incidents,
-                id: IMSConnectionID.Incidents(-1)
-            )
+            func removeConnection() {
+                removeConnectionForLoadingGroup(
+                    group: IMSLoadingGroup.Incidents,
+                    id: IMSConnectionID.Incidents(-1)
+                )
+            }
 
             guard let json = json else {
                 logError("Incident list request retrieved no JSON data")
+                removeConnection()
                 return
             }
 
             guard let incidentETags = json as? [[AnyObject]] else {
                 logError("Incident list JSON is non-conforming: \(json)")
+                removeConnection()
                 return
             }
 
@@ -359,6 +363,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
                 loadIncident(number: number, etag: etag)
             }
+
+            removeConnection()
         }
 
         func onError(message: String) {
