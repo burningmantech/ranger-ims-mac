@@ -69,13 +69,13 @@
                             <action selector="updateViewedIncidents:" target="-2" id="bki-XV-rmr"/>
                         </connections>
                     </button>
-                    <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pno-px-x3d">
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pno-px-x3d" userLabel="Incidents Scroll View">
                         <rect key="frame" x="20" y="46" width="660" height="204"/>
-                        <clipView key="contentView" id="JKx-99-KN2">
+                        <clipView key="contentView" id="JKx-99-KN2" userLabel="Incidents Clip View">
                             <rect key="frame" x="1" y="17" width="238" height="117"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="uSe-IY-Bn6" id="Ojp-VW-FpW">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="uSe-IY-Bn6" id="Ojp-VW-FpW" userLabel="Incidents Table">
                                     <rect key="frame" x="0.0" y="0.0" width="1563" height="186"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
