@@ -179,7 +179,7 @@ class DispatchQueueController: NSWindowController {
 
     func reloadTimerFired(timer: NSTimer) {
         logInfo("Reloading after timer")
-        reload(false)
+        reload(true)
     }
 
 
