@@ -14,21 +14,23 @@ class IncidentController: NSWindowController {
 
     var dispatchQueueController: DispatchQueueController!
 
-    @IBOutlet weak var numberField         : NSTextField!
-    @IBOutlet weak var statePopUp          : NSPopUpButton!
-    @IBOutlet weak var priorityPopUp       : NSPopUpButton!
-    @IBOutlet weak var summaryField        : NSTextField!
-    @IBOutlet weak var rangersTable        : NSTableView!
-    @IBOutlet weak var rangerToAddField    : NSTextField!
-    @IBOutlet weak var typesTable          : NSTableView!
-    @IBOutlet weak var typeToAddField      : NSTextField!
-    @IBOutlet weak var locationNameField   : NSTextField!
-//  @IBOutlet weak var locationAddressField: NSTextField!
-    @IBOutlet weak var reportEntriesView   : NSTextField!
-    @IBOutlet weak var reportEntryToAddView: NSTextField!
-    @IBOutlet weak var saveButton          : NSButton!
-    @IBOutlet weak var loadingIndicator    : NSProgressIndicator!
-    @IBOutlet weak var reloadButton        : NSButton!
+    @IBOutlet weak var numberField                   : NSTextField!
+    @IBOutlet weak var statePopUp                    : NSPopUpButton!
+    @IBOutlet weak var priorityPopUp                 : NSPopUpButton!
+    @IBOutlet weak var summaryField                  : NSTextField!
+    @IBOutlet weak var rangersTable                  : NSTableView!
+    @IBOutlet weak var rangerToAddField              : NSTextField!
+    @IBOutlet weak var typesTable                    : NSTableView!
+    @IBOutlet weak var typeToAddField                : NSTextField!
+    @IBOutlet weak var locationNameField             : NSTextField!
+    @IBOutlet weak var locationRadialAddressField    : NSTextField!
+    @IBOutlet weak var locationConcentricAddressField: NSTextField!
+    @IBOutlet weak var locationDescriptionField      : NSTextField!
+    @IBOutlet weak var reportEntriesView             : NSTextView!
+    @IBOutlet weak var reportEntryToAddView          : NSTextView!
+    @IBOutlet weak var saveButton                    : NSButton!
+    @IBOutlet weak var loadingIndicator              : NSProgressIndicator!
+    @IBOutlet weak var reloadButton                  : NSButton!
 
 
     convenience init(dispatchQueueController: DispatchQueueController) {
