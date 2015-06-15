@@ -9,8 +9,13 @@
             <connections>
                 <outlet property="numberField" destination="TO1-Qy-MR8" id="CPh-5d-lCT"/>
                 <outlet property="priorityPopUp" destination="1t2-7c-vIM" id="OLe-Ww-Nkz"/>
+                <outlet property="rangerToAddField" destination="csb-Kq-qjl" id="48j-NI-lkV"/>
+                <outlet property="rangersTable" destination="QAy-Ah-jjh" id="xts-Zo-0ik"/>
                 <outlet property="statePopUp" destination="veg-Yc-4si" id="I34-K1-O4S"/>
                 <outlet property="summaryField" destination="6vl-Fr-l8K" id="D8c-Ya-084"/>
+                <outlet property="typeToAddField" destination="a9o-Ff-rSk" id="Y5g-H4-roC"/>
+                <outlet property="typesTable" destination="aYU-5j-NRx" id="Llm-B0-tgw"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="ZeJ-Ya-sy5"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -80,7 +85,7 @@
                     </textField>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6vl-Fr-l8K">
                         <rect key="frame" x="91" y="509" width="359" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="bpj-Ea-crr">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Summary of incident" drawsBackground="YES" id="bpj-Ea-crr">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -99,7 +104,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" id="QAy-Ah-jjh" userLabel="Rangers Table View">
-                                                <rect key="frame" x="0.0" y="0.0" width="189" height="97"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="189" height="19"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -137,7 +142,7 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="z6w-wC-Ybf"/>
                                     </constraints>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Jt8-qL-bbS">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Ranger Handle (? for list)" drawsBackground="YES" id="Jt8-qL-bbS">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -170,7 +175,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" id="aYU-5j-NRx" userLabel="Incident Types Table View">
-                                                <rect key="frame" x="0.0" y="0.0" width="189" height="97"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="189" height="19"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -208,7 +213,7 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="3kV-id-gLz"/>
                                     </constraints>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hE7-4h-i6Q">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Incident Type (? for list)" drawsBackground="YES" id="hE7-4h-i6Q">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
