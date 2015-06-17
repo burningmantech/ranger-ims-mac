@@ -26,14 +26,24 @@ class IncidentController: NSWindowController {
     @IBOutlet weak var locationRadialAddressField    : NSTextField!
     @IBOutlet weak var locationConcentricAddressField: NSTextField!
     @IBOutlet weak var locationDescriptionField      : NSTextField!
-    @IBOutlet weak var reportEntriesView             : NSTextView!
-    @IBOutlet weak var reportEntryToAddView          : NSTextView!
+    @IBOutlet weak var reportEntriesScrollView       : NSScrollView!  // Can't connect NSTextView because weak sauce
+    @IBOutlet weak var reportEntryToAddScrollView    : NSScrollView!  // Can't connect NSTextView because weak sauce
     @IBOutlet weak var saveButton                    : NSButton!
     @IBOutlet weak var loadingIndicator              : NSProgressIndicator!
     @IBOutlet weak var reloadButton                  : NSButton!
 
 
-    convenience init(dispatchQueueController: DispatchQueueController) {
+    var reportEntriesView: NSTextView! {
+        return reportEntriesScrollView?.contentView.documentView as? NSTextView
+    }
+
+
+    var reportEntryToAddView: NSTextView! {
+        return reportEntryToAddScrollView?.contentView.documentView as? NSTextView
+    }
+
+
+    convenience init(dispatchQueueController: DispatchQueueController, incident: Incident) {
         self.init(windowNibName: "Incident")
 
         self.dispatchQueueController = dispatchQueueController
@@ -48,6 +58,79 @@ class IncidentController: NSWindowController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+
+    func enableEditing() {
+        statePopUp.enabled = true
+        priorityPopUp.enabled = true
+        summaryField.enabled = true
+        rangersTable.enabled = true
+        rangerToAddField.enabled = true
+        typesTable.enabled = true
+        typeToAddField.enabled = true
+        locationNameField.enabled = true
+        locationRadialAddressField.enabled = true
+        locationConcentricAddressField.enabled = true
+        locationDescriptionField.enabled = true
+      //reportEntriesView.editable = true
+        reportEntryToAddView.editable = true
+        saveButton.enabled = true
+    }
+
+
+    func disableEditing() {
+        statePopUp.enabled = false
+        priorityPopUp.enabled = false
+        summaryField.enabled = false
+        rangersTable.enabled = false
+        rangerToAddField.enabled = false
+        typesTable.enabled = false
+        typeToAddField.enabled = false
+        locationNameField.enabled = false
+        locationRadialAddressField.enabled = false
+        locationConcentricAddressField.enabled = false
+        locationDescriptionField.enabled = false
+        //reportEntriesView.editable = false
+        reportEntryToAddView.editable = false
+        saveButton.enabled = false
+    }
+
+}
+
+
+
+extension IncidentController: NSWindowDelegate {
+
+    override func windowDidLoad() {
+        super.windowDidLoad()
+
+        func arghEvilDeath(uiElementName: String) {
+            fatalError("Incident controller: no \(uiElementName)?")
+        }
+
+        if window                         == nil { arghEvilDeath("window"                           ) }
+        if numberField                    == nil { arghEvilDeath("number field"                     ) }
+        if statePopUp                     == nil { arghEvilDeath("state pop-up"                     ) }
+        if priorityPopUp                  == nil { arghEvilDeath("priority pop-up"                  ) }
+        if summaryField                   == nil { arghEvilDeath("summary field"                    ) }
+        if rangersTable                   == nil { arghEvilDeath("rangers table"                    ) }
+        if rangerToAddField               == nil { arghEvilDeath("ranger field"                     ) }
+        if typesTable                     == nil { arghEvilDeath("incident types table"             ) }
+        if typeToAddField                 == nil { arghEvilDeath("incident type field"              ) }
+        if locationNameField              == nil { arghEvilDeath("location name field"              ) }
+        if locationRadialAddressField     == nil { arghEvilDeath("location radial address field"    ) }
+        if locationConcentricAddressField == nil { arghEvilDeath("location concentric address field") }
+        if locationDescriptionField       == nil { arghEvilDeath("location description field"       ) }
+        if reportEntriesView              == nil { arghEvilDeath("report entries view"              ) }
+        if reportEntryToAddView           == nil { arghEvilDeath("report entry view"                ) }
+        if saveButton                     == nil { arghEvilDeath("save button"                      ) }
+        if loadingIndicator               == nil { arghEvilDeath("loading indicator"                ) }
+        if reloadButton                   == nil { arghEvilDeath("reload button"                    ) }
+
+        reloadButton.hidden     = false
+        loadingIndicator.hidden = true
+
+        enableEditing()
+    }
 
 }

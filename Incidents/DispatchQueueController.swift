@@ -198,7 +198,10 @@ class DispatchQueueController: NSWindowController {
             incidentController = _incidentController
         } else {
             // Create a controller for the incident in question
-            incidentController = IncidentController(dispatchQueueController: self)
+            incidentController = IncidentController(
+                dispatchQueueController: self,
+                incident: incident.copy()
+            )
             incidentControllers[number] = incidentController
         }
 
@@ -242,7 +245,7 @@ extension DispatchQueueController: NSWindowDelegate {
         super.windowDidLoad()
 
         func arghEvilDeath(uiElementName: String) {
-            fatalError("Dispatch Queue: No \(uiElementName)?")
+            fatalError("Dispatch queue controller: no \(uiElementName)?")
         }
 
         if window           == nil { arghEvilDeath("window"            ) }

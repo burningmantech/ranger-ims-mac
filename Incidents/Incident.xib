@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="IncidentController" customModule="Incidents" customModuleProvider="target">
             <connections>
+                <outlet property="loadingIndicator" destination="6QF-bE-u2A" id="uyx-VA-tSS"/>
                 <outlet property="locationConcentricAddressField" destination="0g1-m3-tte" id="WOc-hx-XTq"/>
                 <outlet property="locationDescriptionField" destination="qZC-eH-Ufl" id="c04-MT-euA"/>
                 <outlet property="locationNameField" destination="9Dj-PY-sBf" id="j7w-87-Cmn"/>
@@ -15,8 +16,9 @@
                 <outlet property="priorityPopUp" destination="1t2-7c-vIM" id="OLe-Ww-Nkz"/>
                 <outlet property="rangerToAddField" destination="csb-Kq-qjl" id="48j-NI-lkV"/>
                 <outlet property="rangersTable" destination="QAy-Ah-jjh" id="xts-Zo-0ik"/>
-                <outlet property="reportEntriesView" destination="VjS-gT-xaP" id="5Jt-xw-1f0"/>
-                <outlet property="reportEntryToAddView" destination="DLo-WD-9pn" id="ftT-ez-6gy"/>
+                <outlet property="reloadButton" destination="eVf-7N-9YK" id="TCL-nJ-Pmo"/>
+                <outlet property="reportEntriesScrollView" destination="b8n-TV-WoX" id="Dwz-As-zRx"/>
+                <outlet property="reportEntryToAddScrollView" destination="NcM-hE-csp" id="6gI-iw-y9e"/>
                 <outlet property="saveButton" destination="1BC-Pk-Kaw" id="ATF-EE-3gZ"/>
                 <outlet property="statePopUp" destination="veg-Yc-4si" id="I34-K1-O4S"/>
                 <outlet property="summaryField" destination="6vl-Fr-l8K" id="D8c-Ya-084"/>
@@ -30,7 +32,7 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="411" y="87" width="470" height="575"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="800"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="470" height="550"/>
             <view key="contentView" id="EiT-Mj-1SZ" userLabel="Window View">
                 <rect key="frame" x="0.0" y="0.0" width="470" height="575"/>
@@ -111,7 +113,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" id="QAy-Ah-jjh" userLabel="Rangers Table View">
-                                                <rect key="frame" x="0.0" y="0.0" width="189" height="96"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="189" height="19"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -188,7 +190,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" id="aYU-5j-NRx" userLabel="Incident Types Table View">
-                                                <rect key="frame" x="0.0" y="0.0" width="189" height="96"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="189" height="19"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -255,7 +257,7 @@
                             <rect key="frame" x="1" y="1" width="434" height="107"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PyH-9f-M2Q" userLabel="Location Name Label">
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PyH-9f-M2Q" userLabel="Location Name Label">
                                     <rect key="frame" x="18" y="75" width="79" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Name:" placeholderString="Name of location" id="dSZ-CD-d3b">
                                         <font key="font" metaFont="system"/>
@@ -263,7 +265,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Dj-PY-sBf" userLabel="Location Name Field">
+                                <textField verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Dj-PY-sBf" userLabel="Location Name Field">
                                     <rect key="frame" x="103" y="72" width="319" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="cwO-Vv-rX0"/>
@@ -274,7 +276,7 @@
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4WU-bG-41k" userLabel="Location Address Label">
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4WU-bG-41k" userLabel="Location Address Label">
                                     <rect key="frame" x="18" y="45" width="79" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Address:" placeholderString="Name of location" id="61O-Of-jle">
                                         <font key="font" metaFont="system"/>
@@ -282,7 +284,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tP3-JI-2VT" userLabel="Location Radial Address Field">
+                                <textField verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tP3-JI-2VT" userLabel="Location Radial Address Field">
                                     <rect key="frame" x="103" y="42" width="45" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="gKa-aC-EBV"/>
@@ -294,7 +296,7 @@
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ibS-Xq-P1S" userLabel="Location @ Label">
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ibS-Xq-P1S" userLabel="Location @ Label">
                                     <rect key="frame" x="150" y="45" width="19" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="@" placeholderString="Name of location" id="OBt-7B-Rax">
                                         <font key="font" metaFont="system"/>
@@ -302,7 +304,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0g1-m3-tte" userLabel="Location Concentric Address Field">
+                                <textField verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0g1-m3-tte" userLabel="Location Concentric Address Field">
                                     <rect key="frame" x="171" y="42" width="251" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="BjX-oc-eIA"/>
@@ -313,7 +315,7 @@
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oCx-pj-kdR" userLabel="Location Description Label">
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oCx-pj-kdR" userLabel="Location Description Label">
                                     <rect key="frame" x="18" y="15" width="79" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Description:" placeholderString="Name of location" id="ydt-Lv-NHP">
                                         <font key="font" metaFont="system"/>
@@ -321,7 +323,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qZC-eH-Ufl" userLabel="Location Description Field">
+                                <textField verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qZC-eH-Ufl" userLabel="Location Description Field">
                                     <rect key="frame" x="103" y="12" width="319" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="7mi-kW-qMF"/>
@@ -455,6 +457,20 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
+                    <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="6QF-bE-u2A" userLabel="Loading Indicator">
+                        <rect key="frame" x="22" y="23" width="16" height="16"/>
+                    </progressIndicator>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="eVf-7N-9YK" userLabel="Reload Button">
+                        <rect key="frame" x="20" y="21" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="FlZ-6I-Nry"/>
+                            <constraint firstAttribute="height" constant="20" id="lLb-Ma-NRO"/>
+                        </constraints>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRefreshFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="zLP-DY-hqh">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="kUe-zk-3qF" firstAttribute="top" secondItem="k6Q-tA-Qbh" secondAttribute="bottom" constant="8" symbolic="YES" id="2F9-IO-OMM"/>
@@ -462,8 +478,10 @@
                     <constraint firstAttribute="trailing" secondItem="6vl-Fr-l8K" secondAttribute="trailing" constant="20" symbolic="YES" id="3Pa-1g-Gzm"/>
                     <constraint firstItem="eiC-C9-pMt" firstAttribute="width" secondItem="kwL-ci-Lyy" secondAttribute="width" id="5MN-aR-0hf"/>
                     <constraint firstItem="1t2-7c-vIM" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" symbolic="YES" id="5eq-Ng-Nnv"/>
+                    <constraint firstItem="6QF-bE-u2A" firstAttribute="centerY" secondItem="eVf-7N-9YK" secondAttribute="centerY" id="5q8-j9-EWG"/>
                     <constraint firstItem="1BC-Pk-Kaw" firstAttribute="top" secondItem="kUe-zk-3qF" secondAttribute="bottom" constant="20" symbolic="YES" id="6e7-8g-LUd"/>
                     <constraint firstItem="TO1-Qy-MR8" firstAttribute="leading" secondItem="htU-ll-Quk" secondAttribute="trailing" constant="8" symbolic="YES" id="7BK-jB-DmN"/>
+                    <constraint firstItem="6QF-bE-u2A" firstAttribute="centerX" secondItem="eVf-7N-9YK" secondAttribute="centerX" id="Dwq-tE-ujG"/>
                     <constraint firstItem="kwL-ci-Lyy" firstAttribute="top" secondItem="6vl-Fr-l8K" secondAttribute="bottom" constant="8" symbolic="YES" id="F1Q-Xm-Ecc"/>
                     <constraint firstItem="eiC-C9-pMt" firstAttribute="leading" secondItem="kwL-ci-Lyy" secondAttribute="trailing" constant="8" symbolic="YES" id="F3t-5r-zcf"/>
                     <constraint firstItem="1t2-7c-vIM" firstAttribute="centerY" secondItem="veg-Yc-4si" secondAttribute="centerY" id="GAT-SJ-Ryc"/>
@@ -475,6 +493,7 @@
                     <constraint firstItem="kwL-ci-Lyy" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="RHw-0T-Wpe"/>
                     <constraint firstItem="htU-ll-Quk" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="SQe-er-BgI"/>
                     <constraint firstItem="eiC-C9-pMt" firstAttribute="top" secondItem="6vl-Fr-l8K" secondAttribute="bottom" constant="8" symbolic="YES" id="Sv3-vX-f9g"/>
+                    <constraint firstItem="1BC-Pk-Kaw" firstAttribute="centerY" secondItem="eVf-7N-9YK" secondAttribute="centerY" id="TUp-lM-y17"/>
                     <constraint firstAttribute="trailing" secondItem="k6Q-tA-Qbh" secondAttribute="trailing" constant="20" symbolic="YES" id="Zqp-IQ-pDQ"/>
                     <constraint firstItem="6vl-Fr-l8K" firstAttribute="centerY" secondItem="Fkz-PJ-Ohr" secondAttribute="centerY" id="bJ7-pI-B1J"/>
                     <constraint firstAttribute="bottom" secondItem="1BC-Pk-Kaw" secondAttribute="bottom" constant="20" symbolic="YES" id="dCP-xR-Q9v"/>
@@ -483,6 +502,7 @@
                     <constraint firstItem="k6Q-tA-Qbh" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="ky9-7z-ic7"/>
                     <constraint firstItem="k6Q-tA-Qbh" firstAttribute="top" secondItem="kwL-ci-Lyy" secondAttribute="bottom" constant="8" symbolic="YES" id="mWX-AP-tv6"/>
                     <constraint firstAttribute="trailing" secondItem="kUe-zk-3qF" secondAttribute="trailing" constant="20" symbolic="YES" id="oz1-bz-xLY"/>
+                    <constraint firstItem="eVf-7N-9YK" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="rgR-al-l2K"/>
                     <constraint firstItem="kUe-zk-3qF" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="uFE-01-lcD"/>
                     <constraint firstItem="Fkz-PJ-Ohr" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="uL2-pp-dkB"/>
                     <constraint firstAttribute="trailing" secondItem="1BC-Pk-Kaw" secondAttribute="trailing" constant="20" symbolic="YES" id="vKk-Xd-r5j"/>
@@ -492,4 +512,7 @@
             <point key="canvasLocation" x="350" y="130.5"/>
         </window>
     </objects>
+    <resources>
+        <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
+    </resources>
 </document>
