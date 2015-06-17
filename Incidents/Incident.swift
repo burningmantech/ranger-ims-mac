@@ -21,9 +21,11 @@ enum IncidentState: Int, CustomStringConvertible, Comparable {
 
 }
 
+
 func ==(lhs: IncidentState, rhs: IncidentState) -> Bool {
     return lhs.rawValue == rhs.rawValue
 }
+
 
 func <(lhs: IncidentState, rhs: IncidentState) -> Bool {
     return lhs.rawValue < rhs.rawValue
@@ -45,9 +47,11 @@ enum IncidentPriority: Int, CustomStringConvertible {
     }
 }
 
+
 func ==(lhs: IncidentPriority, rhs: IncidentPriority) -> Bool {
     return lhs.rawValue == rhs.rawValue
 }
+
 
 func <(lhs: IncidentPriority, rhs: IncidentPriority) -> Bool {
     return lhs.rawValue < rhs.rawValue
@@ -169,6 +173,21 @@ struct Incident: CustomStringConvertible, Hashable {
         self.reportEntries = reportEntries
         self.created       = created
         self.state         = state
+    }
+
+
+    func copy() -> Incident {
+        return Incident(
+            number       : number,
+            priority     : priority,
+            summary      : summary,
+            location     : location,
+            rangers      : rangers,
+            incidentTypes: incidentTypes,
+            reportEntries: reportEntries,
+            created      : created,
+            state        : state
+        )
     }
 
 }
