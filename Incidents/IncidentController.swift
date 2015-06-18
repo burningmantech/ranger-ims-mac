@@ -61,38 +61,38 @@ class IncidentController: NSWindowController {
 
 
     func enableEditing() {
-        statePopUp.enabled = true
-        priorityPopUp.enabled = true
-        summaryField.enabled = true
-        rangersTable.enabled = true
-        rangerToAddField.enabled = true
-        typesTable.enabled = true
-        typeToAddField.enabled = true
-        locationNameField.enabled = true
-        locationRadialAddressField.enabled = true
-        locationConcentricAddressField.enabled = true
-        locationDescriptionField.enabled = true
-      //reportEntriesView.editable = true
-        reportEntryToAddView.editable = true
-        saveButton.enabled = true
+        statePopUp?.enabled = true
+        priorityPopUp?.enabled = true
+        summaryField?.enabled = true
+        rangersTable?.enabled = true
+        rangerToAddField?.enabled = true
+        typesTable?.enabled = true
+        typeToAddField?.enabled = true
+        locationNameField?.enabled = true
+        locationRadialAddressField?.enabled = true
+        locationConcentricAddressField?.enabled = true
+        locationDescriptionField?.enabled = true
+      //reportEntriesView?.editable = true
+        reportEntryToAddView?.editable = true
+        saveButton?.enabled = true
     }
 
 
     func disableEditing() {
-        statePopUp.enabled = false
-        priorityPopUp.enabled = false
-        summaryField.enabled = false
-        rangersTable.enabled = false
-        rangerToAddField.enabled = false
-        typesTable.enabled = false
-        typeToAddField.enabled = false
-        locationNameField.enabled = false
-        locationRadialAddressField.enabled = false
-        locationConcentricAddressField.enabled = false
-        locationDescriptionField.enabled = false
-        //reportEntriesView.editable = false
-        reportEntryToAddView.editable = false
-        saveButton.enabled = false
+        statePopUp?.enabled = false
+        priorityPopUp?.enabled = false
+        summaryField?.enabled = false
+        rangersTable?.enabled = false
+        rangerToAddField?.enabled = false
+        typesTable?.enabled = false
+        typeToAddField?.enabled = false
+        locationNameField?.enabled = false
+        locationRadialAddressField?.enabled = false
+        locationConcentricAddressField?.enabled = false
+        locationDescriptionField?.enabled = false
+      //reportEntriesView?.editable = false
+        reportEntryToAddView?.editable = false
+        saveButton?.enabled = false
     }
 
 }
