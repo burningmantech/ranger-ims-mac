@@ -16,31 +16,31 @@ class IncidentController: NSWindowController {
 
     var incident: Incident?
 
-    @IBOutlet weak var numberField                   : NSTextField!
-    @IBOutlet weak var statePopUp                    : NSPopUpButton!
-    @IBOutlet weak var priorityPopUp                 : NSPopUpButton!
-    @IBOutlet weak var summaryField                  : NSTextField!
-    @IBOutlet weak var rangersTable                  : NSTableView!
-    @IBOutlet weak var rangerToAddField              : NSTextField!
-    @IBOutlet weak var typesTable                    : NSTableView!
-    @IBOutlet weak var typeToAddField                : NSTextField!
-    @IBOutlet weak var locationNameField             : NSTextField!
-    @IBOutlet weak var locationRadialAddressField    : NSTextField!
-    @IBOutlet weak var locationConcentricAddressField: NSTextField!
-    @IBOutlet weak var locationDescriptionField      : NSTextField!
-    @IBOutlet weak var reportEntriesScrollView       : NSScrollView!  // Can't connect NSTextView because weak sauce
-    @IBOutlet weak var reportEntryToAddScrollView    : NSScrollView!  // Can't connect NSTextView because weak sauce
-    @IBOutlet weak var saveButton                    : NSButton!
-    @IBOutlet weak var loadingIndicator              : NSProgressIndicator!
-    @IBOutlet weak var reloadButton                  : NSButton!
+    @IBOutlet weak var numberField                   : NSTextField?
+    @IBOutlet weak var statePopUp                    : NSPopUpButton?
+    @IBOutlet weak var priorityPopUp                 : NSPopUpButton?
+    @IBOutlet weak var summaryField                  : NSTextField?
+    @IBOutlet weak var rangersTable                  : NSTableView?
+    @IBOutlet weak var rangerToAddField              : NSTextField?
+    @IBOutlet weak var typesTable                    : NSTableView?
+    @IBOutlet weak var typeToAddField                : NSTextField?
+    @IBOutlet weak var locationNameField             : NSTextField?
+    @IBOutlet weak var locationRadialAddressField    : NSTextField?
+    @IBOutlet weak var locationConcentricAddressField: NSTextField?
+    @IBOutlet weak var locationDescriptionField      : NSTextField?
+    @IBOutlet weak var reportEntriesScrollView       : NSScrollView?  // Can't connect NSTextView because weak sauce
+    @IBOutlet weak var reportEntryToAddScrollView    : NSScrollView?  // Can't connect NSTextView because weak sauce
+    @IBOutlet weak var saveButton                    : NSButton?
+    @IBOutlet weak var loadingIndicator              : NSProgressIndicator?
+    @IBOutlet weak var reloadButton                  : NSButton?
 
 
-    var reportEntriesView: NSTextView! {
+    var reportEntriesView: NSTextView? {
         return reportEntriesScrollView?.contentView.documentView as? NSTextView
     }
 
 
-    var reportEntryToAddView: NSTextView! {
+    var reportEntryToAddView: NSTextView? {
         return reportEntryToAddScrollView?.contentView.documentView as? NSTextView
     }
 
@@ -68,6 +68,8 @@ class IncidentController: NSWindowController {
             logError("Incident controller has no incident?")
             return
         }
+
+        // ➡︎ numberField
 
         let numberToDisplay: String
 
@@ -168,8 +170,8 @@ extension IncidentController: NSWindowDelegate {
 
         updateView()
 
-        reloadButton.hidden     = false
-        loadingIndicator.hidden = true
+        reloadButton!.hidden     = false
+        loadingIndicator!.hidden = true
 
         enableEditing()
     }
