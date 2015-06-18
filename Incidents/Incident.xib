@@ -56,16 +56,16 @@
                     </textField>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="veg-Yc-4si" userLabel="State Pop Up">
                         <rect key="frame" x="184" y="531" width="104" height="26"/>
-                        <popUpButtonCell key="cell" type="push" title="New" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="lE8-Ys-qmt" id="OWs-xy-qx4" userLabel="Cell">
+                        <popUpButtonCell key="cell" type="push" title="New" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="lE8-Ys-qmt" id="OWs-xy-qx4" userLabel="Cell">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" id="cfU-WI-NNM">
                                 <items>
-                                    <menuItem title="New" state="on" keyEquivalent="N" id="lE8-Ys-qmt"/>
-                                    <menuItem title="On Hold" keyEquivalent="H" id="Zvg-cM-S40"/>
-                                    <menuItem title="Dispatched" keyEquivalent="D" id="xgF-Hq-ue3"/>
-                                    <menuItem title="On Scene" keyEquivalent="O" id="0Ce-WF-rUB"/>
-                                    <menuItem title="Closed" keyEquivalent="C" id="6HB-xK-9vx"/>
+                                    <menuItem title="New" state="on" tag="1" keyEquivalent="N" id="lE8-Ys-qmt"/>
+                                    <menuItem title="On Hold" tag="2" keyEquivalent="H" id="Zvg-cM-S40"/>
+                                    <menuItem title="Dispatched" tag="3" keyEquivalent="D" id="xgF-Hq-ue3"/>
+                                    <menuItem title="On Scene" tag="4" keyEquivalent="O" id="0Ce-WF-rUB"/>
+                                    <menuItem title="Closed" tag="5" keyEquivalent="C" id="6HB-xK-9vx"/>
                                 </items>
                             </menu>
                         </popUpButtonCell>
