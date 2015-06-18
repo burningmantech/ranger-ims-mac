@@ -14,6 +14,8 @@ class IncidentController: NSWindowController {
 
     var dispatchQueueController: DispatchQueueController!
 
+    var incident: Incident?
+
     @IBOutlet weak var numberField                   : NSTextField!
     @IBOutlet weak var statePopUp                    : NSPopUpButton!
     @IBOutlet weak var priorityPopUp                 : NSPopUpButton!
@@ -47,6 +49,7 @@ class IncidentController: NSWindowController {
         self.init(windowNibName: "Incident")
 
         self.dispatchQueueController = dispatchQueueController
+        self.incident = incident
     }
 
 
@@ -57,6 +60,42 @@ class IncidentController: NSWindowController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+
+    func updateView() {
+        guard let incident = self.incident else {
+            logError("Incident controller has no incident?")
+            return
+        }
+
+        let numberToDisplay: String
+
+        if let number = incident.number {
+            numberToDisplay = "\(number)"
+        } else {
+            numberToDisplay = "(new)"
+        }
+
+        numberField?.stringValue = "\(numberToDisplay)"
+
+        window?.title = "\(numberToDisplay): \(incident.summaryAsText)"
+
+        let stateTag: IncidentStateTag
+
+        if let state = incident.state {
+            switch state {
+            case .New       : stateTag = .New
+            case .OnHold    : stateTag = .OnHold
+            case .Dispatched: stateTag = .Dispatched
+            case .OnScene   : stateTag = .OnScene
+            case .Closed    : stateTag = .Closed
+            }
+        } else {
+            stateTag = .New
+        }
+
+        statePopUp.selectItemWithTag(stateTag.rawValue)
     }
 
 
@@ -127,10 +166,22 @@ extension IncidentController: NSWindowDelegate {
         if loadingIndicator               == nil { arghEvilDeath("loading indicator"                ) }
         if reloadButton                   == nil { arghEvilDeath("reload button"                    ) }
 
+        updateView()
+
         reloadButton.hidden     = false
         loadingIndicator.hidden = true
 
         enableEditing()
     }
 
+}
+
+
+
+enum IncidentStateTag: Int {
+    case New        = 1
+    case OnHold     = 2
+    case Dispatched = 3
+    case OnScene    = 4
+    case Closed     = 5
 }
