@@ -32,7 +32,7 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="411" y="87" width="470" height="575"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
             <value key="minSize" type="size" width="470" height="550"/>
             <view key="contentView" id="EiT-Mj-1SZ" userLabel="Window View">
                 <rect key="frame" x="0.0" y="0.0" width="470" height="575"/>
@@ -78,7 +78,7 @@
                             <menu key="menu" id="ncP-wf-h5B">
                                 <items>
                                     <menuItem title="High" state="on" tag="1" id="8py-5K-Vj3" userLabel="High"/>
-                                    <menuItem title="Normal" state="on" tag="3" id="Sgy-fL-bni" userLabel="Normal"/>
+                                    <menuItem title="Normal" tag="3" id="Sgy-fL-bni" userLabel="Normal"/>
                                     <menuItem title="Low" tag="5" id="GFZ-uL-NIe" userLabel="Low"/>
                                 </items>
                             </menu>
