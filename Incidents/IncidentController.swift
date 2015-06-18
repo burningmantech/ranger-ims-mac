@@ -81,23 +81,53 @@ class IncidentController: NSWindowController {
 
         numberField?.stringValue = "\(numberToDisplay)"
 
+        // ➡︎ window.title
+        
         window?.title = "\(numberToDisplay): \(incident.summaryAsText)"
 
+        // ➡︎ statePopUp
+        
         let stateTag: IncidentStateTag
 
         if let state = incident.state {
             switch state {
-            case .New       : stateTag = .New
-            case .OnHold    : stateTag = .OnHold
-            case .Dispatched: stateTag = .Dispatched
-            case .OnScene   : stateTag = .OnScene
-            case .Closed    : stateTag = .Closed
+                case .New       : stateTag = .New
+                case .OnHold    : stateTag = .OnHold
+                case .Dispatched: stateTag = .Dispatched
+                case .OnScene   : stateTag = .OnScene
+                case .Closed    : stateTag = .Closed
             }
         } else {
             stateTag = .New
         }
 
-        statePopUp.selectItemWithTag(stateTag.rawValue)
+        statePopUp?.selectItemWithTag(stateTag.rawValue)
+
+        // ➡︎ priorityPopUp
+
+        let priorityTag: PriorityTag
+        
+        if let priority = incident.priority {
+            switch priority {
+                case .High  : priorityTag = .High
+                case .Normal: priorityTag = .Normal
+                case .Low   : priorityTag = .Low
+            }
+        } else {
+            priorityTag = .Normal
+        }
+
+        priorityPopUp?.selectItemWithTag(priorityTag.rawValue)
+        
+        // ➡︎ summaryField
+        // ➡︎ rangersTable
+        // ➡︎ typesTable
+        // ➡︎ locationNameField
+        // ➡︎ locationRadialAddressField
+        // ➡︎ locationConcentricAddressField
+        // ➡︎ locationDescriptionField
+        // ➡︎ reportEntryToAddView
+        // ➡︎ saveButton
     }
 
 
@@ -186,4 +216,12 @@ enum IncidentStateTag: Int {
     case Dispatched = 3
     case OnScene    = 4
     case Closed     = 5
+}
+
+
+
+enum PriorityTag: Int {
+    case High   = 1
+    case Normal = 3
+    case Low    = 5
 }
