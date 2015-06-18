@@ -28,7 +28,7 @@ class IncidentPriorityDescriptionTests: XCTestCase {
     
     func test_description() {
         XCTAssertEqual(IncidentPriority.High.description  , "⬆︎")
-        XCTAssertEqual(IncidentPriority.Medium.description, "●")
+        XCTAssertEqual(IncidentPriority.Normal.description, "●")
         XCTAssertEqual(IncidentPriority.Low.description   , "⬇︎")
     }
     
@@ -72,7 +72,7 @@ class IncidentDescriptionTests: XCTestCase {
     func test_description_full() {
         let incident = Incident(
             number: 1,
-            priority: IncidentPriority.Medium,
+            priority: IncidentPriority.Normal,
             summary: "MOOP on ground",
             location: location1,
             rangers: [ranger1, ranger2],

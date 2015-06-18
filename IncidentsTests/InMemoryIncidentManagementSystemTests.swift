@@ -67,7 +67,7 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
         cannedIncidents = [
             Incident(
                 number: 1,
-                priority: IncidentPriority.Medium,
+                priority: IncidentPriority.Normal,
                 summary: "Participant fell from structure at Camp Fishes",
                 location: cannedLocations["Camp Fishes"]!,
                 rangers: [cannedRangers["Splinter"]!],
@@ -129,7 +129,7 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
             ),
             Incident(
                 number: 5,
-                priority: IncidentPriority.Medium,
+                priority: IncidentPriority.Normal,
                 created: date4,
                 state: IncidentState.New
             ),

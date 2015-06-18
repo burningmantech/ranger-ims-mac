@@ -521,7 +521,7 @@ func _populateWithFakeData(ims: InMemoryIncidentManagementSystem) {
     let cannedIncidents = [
         Incident(
             number: 1,
-            priority: IncidentPriority.Medium,
+            priority: IncidentPriority.Normal,
             summary: "Participant fell from structure at Camp Fishes",
             location: cannedLocations["Camp Fishes"]!,
             rangers: [cannedRangers["Splinter"]!],
@@ -583,7 +583,7 @@ func _populateWithFakeData(ims: InMemoryIncidentManagementSystem) {
         ),
         Incident(
             number: 5,
-            priority: IncidentPriority.Medium,
+            priority: IncidentPriority.Normal,
             created: date4,
             state: IncidentState.New
         ),

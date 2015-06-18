@@ -59,7 +59,7 @@ func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
     if let jsonPriority = json["priority"].int {
         switch jsonPriority {
             case 1, 2: priority = IncidentPriority.High
-            case 3   : priority = IncidentPriority.Medium
+            case 3   : priority = IncidentPriority.Normal
             case 4, 5: priority = IncidentPriority.Low
 
             default:

@@ -35,13 +35,13 @@ func <(lhs: IncidentState, rhs: IncidentState) -> Bool {
 
 enum IncidentPriority: Int, CustomStringConvertible {
     case High   = 1
-    case Medium = 3
+    case Normal = 3
     case Low    = 5
 
     var description: String {
         switch self {
             case .High  : return "⬆︎"
-            case .Medium: return "●"
+            case .Normal: return "●"
             case .Low   : return "⬇︎"
         }
     }

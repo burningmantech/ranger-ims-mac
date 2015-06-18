@@ -50,7 +50,7 @@ class JSONDeserializationTests: XCTestCase {
         for (jsonPriority, expectedPriority) in [
             1: IncidentPriority.High,
             2: IncidentPriority.High,
-            3: IncidentPriority.Medium,
+            3: IncidentPriority.Normal,
             4: IncidentPriority.Low,
             5: IncidentPriority.Low,
         ] {
