@@ -83,16 +83,16 @@ class IncidentController: NSWindowController {
             window?.title = "New incident: \(incident.summaryAsText)"
         }
 
-        updateNumber   (incident.number       )
-        updateState    (incident.state        )
-        updatePriority (incident.priority     )
-        updateSummary  (incident.summaryAsText)
+        updateNumber(incident.number)
+        updateState(incident.state)
+        updatePriority(incident.priority)
+        updateSummary(incident.summary, alternate: incident.summaryAsText)
 
         rangersTable?.reloadData()
         typesTable?.reloadData()
 
-        updateLocation      (incident.location     )
-        updateReportEntries (incident.reportEntries)
+        updateLocation(incident.location)
+        updateReportEntries(incident.reportEntries)
     }
 
     
@@ -145,10 +145,19 @@ class IncidentController: NSWindowController {
     }
     
     
-    func updateSummary(summary: String?) {
-        guard let summary = summary else { return }
-
-        summaryField?.stringValue = summary
+    func updateSummary(summary: String?, alternate: String? = nil) {
+        if let summary = summary {
+            if summary.characters.count != 0 {
+                summaryField?.stringValue = summary
+                return
+            }
+        }
+        
+        summaryField?.stringValue = ""
+        
+        if let alternate = alternate {
+            summaryField?.placeholderString = alternate
+        }
     }
     
     
