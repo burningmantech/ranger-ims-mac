@@ -396,6 +396,47 @@ class IncidentController: NSWindowController {
         markEdited()
     }
 
+
+    @IBAction func editState(sender: AnyObject?) {
+        let oldState: IncidentState
+        if let state = incident!.state { oldState = state } else { oldState = .New }
+
+        guard let selectedTag = statePopUp!.selectedItem?.tag else {
+            logError("Unable to get selected state tag")
+            return
+        }
+        
+        guard let selectedState = IncidentStateTag(rawValue: selectedTag) else {
+            logError("Unknown state tag: \(selectedTag)")
+            return
+        }
+
+        let newState: IncidentState
+        switch selectedState {
+            case .New       : newState = .New
+            case .OnHold    : newState = .OnHold
+            case .Dispatched: newState = .Dispatched
+            case .OnScene   : newState = .OnScene
+            case .Closed    : newState = .Closed
+        }
+        
+        if newState == oldState { return }
+    
+        logDebug("State changed to: \(newState)")
+
+        incident!.state = newState
+        stateDidChange = true
+        markEdited()
+    }
+
+
+    @IBAction func editPriority(sender: AnyObject?) {
+    }
+
+
+    @IBAction func editLocation(sender: AnyObject?) {
+    }
+
 }
 
 

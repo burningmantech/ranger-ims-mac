@@ -69,6 +69,9 @@
                                 </items>
                             </menu>
                         </popUpButtonCell>
+                        <connections>
+                            <action selector="editState:" target="-2" id="rSZ-BN-hYA"/>
+                        </connections>
                     </popUpButton>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1t2-7c-vIM" userLabel="Priority Pop Up">
                         <rect key="frame" x="374" y="531" width="79" height="26"/>
