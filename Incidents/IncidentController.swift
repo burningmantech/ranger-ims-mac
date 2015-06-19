@@ -12,7 +12,7 @@ import Cocoa
 
 class IncidentController: NSWindowController {
 
-    var dispatchQueueController: DispatchQueueController!
+    var dispatchQueueController: DispatchQueueController?
 
     var incident: Incident?
 
