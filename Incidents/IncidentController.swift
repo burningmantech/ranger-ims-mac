@@ -205,6 +205,104 @@ class IncidentController: NSWindowController {
     }
     
 
+    func formattedReport(reportEntries: [ReportEntry]?) -> NSAttributedString? {
+        let result = NSMutableAttributedString(string: "")
+        
+        guard let reportEntries = reportEntries else {
+            return result
+        }
+        
+        for reportEntry in reportEntries {
+            let text = formattedReportEntry(reportEntry)
+            result.appendAttributedString(text)
+        }
+        
+        return result
+    }
+    
+    
+    func formattedReportEntry(entry: ReportEntry) -> NSAttributedString {
+        let newline   = NSAttributedString(string: "\n")
+        let dateStamp = dateStampForReportEntry(entry)
+        let text      = textForReportEntry(entry)
+        let result    = NSMutableAttributedString(string: "")
+        
+        // Start with a date stamp
+        result.appendAttributedString(dateStamp)
+        result.appendAttributedString(newline)
+        
+        // Add the entry text
+        result.appendAttributedString(text)
+        result.appendAttributedString(newline)
+        
+        // Make sure we end with a newline
+        if let last = text.string.characters.last {
+            if last != "\n" {
+                result.appendAttributedString(newline)
+            }
+        } else {
+            result.appendAttributedString(newline)
+        }
+        
+        return result
+    }
+    
+    
+    func dateStampForReportEntry(entry: ReportEntry) -> NSAttributedString {
+        let dateStamp = "\(entry.created.asString()), \(entry.author):"
+        
+        let fontName = "Verdana-Bold"
+        let fontSize = 10.0
+        var textColor = NSColor.textColor()
+        let paragraphStyle = NSMutableParagraphStyle()
+        
+        if entry.systemEntry {
+            textColor = textColor.colorWithAlphaComponent(0.5)
+            paragraphStyle.alignment = NSCenterTextAlignment
+        }
+        
+        var attributes: [String: AnyObject] = [
+            NSForegroundColorAttributeName: textColor,
+            NSParagraphStyleAttributeName: paragraphStyle
+        ]
+        
+        if let font = NSFont(name: fontName, size: CGFloat(fontSize)) {
+            attributes[NSFontAttributeName] = font
+        } else {
+            logError("Unable to create font \(fontName) with size \(fontSize)")
+        }
+        
+        return NSAttributedString(string: dateStamp, attributes: attributes)
+    }
+    
+    
+    func textForReportEntry(entry: ReportEntry) -> NSAttributedString {
+        let fontName = "Verdana"
+        var fontSize = 12.0
+        var textColor = NSColor.textColor()
+        let paragraphStyle = NSMutableParagraphStyle()
+        
+        if entry.systemEntry {
+            fontSize -= 2.0
+            textColor = textColor.colorWithAlphaComponent(0.5)
+            paragraphStyle.alignment = NSCenterTextAlignment
+        }
+        
+        var attributes: [String: AnyObject] = [
+            NSForegroundColorAttributeName: textColor,
+            NSParagraphStyleAttributeName: paragraphStyle
+        ]
+        
+        if let font = NSFont(name: fontName, size: CGFloat(fontSize)) {
+            attributes[NSFontAttributeName] = font
+        } else {
+            logError("Unable to create font \(fontName) with size \(fontSize)")
+        }
+        
+        return NSAttributedString(string: entry.text, attributes: attributes)
+    }
+    
+
     func resetChangeTracking() {
         stateDidChange    = false
         priorityDidChange = false
@@ -247,104 +345,6 @@ class IncidentController: NSWindowController {
         locationDescriptionField?.enabled = false
         reportEntryToAddView?.editable = false
         saveButton?.enabled = false
-    }
-
-    
-    func formattedReport(reportEntries: [ReportEntry]?) -> NSAttributedString? {
-        let result = NSMutableAttributedString(string: "")
-        
-        guard let reportEntries = reportEntries else {
-            return result
-        }
-        
-        for reportEntry in reportEntries {
-            let text = formattedReportEntry(reportEntry)
-            result.appendAttributedString(text)
-        }
-
-        return result
-    }
-    
-
-    func formattedReportEntry(entry: ReportEntry) -> NSAttributedString {
-        let newline   = NSAttributedString(string: "\n")
-        let dateStamp = dateStampForReportEntry(entry)
-        let text      = textForReportEntry(entry)
-        let result    = NSMutableAttributedString(string: "")
-
-        // Start with a date stamp
-        result.appendAttributedString(dateStamp)
-        result.appendAttributedString(newline)
-
-        // Add the entry text
-        result.appendAttributedString(text)
-        result.appendAttributedString(newline)
-        
-        // Make sure we end with a newline
-        if let last = text.string.characters.last {
-            if last != "\n" {
-                result.appendAttributedString(newline)
-            }
-        } else {
-            result.appendAttributedString(newline)
-        }
-        
-        return result
-    }
-
-
-    func dateStampForReportEntry(entry: ReportEntry) -> NSAttributedString {
-        let dateStamp = "\(entry.created.asString()), \(entry.author):"
-        
-        let fontName = "Verdana-Bold"
-        let fontSize = 10.0
-        var textColor = NSColor.textColor()
-        let paragraphStyle = NSMutableParagraphStyle()
-
-        if entry.systemEntry {
-            textColor = textColor.colorWithAlphaComponent(0.5)
-            paragraphStyle.alignment = NSCenterTextAlignment
-        }
-        
-        var attributes: [String: AnyObject] = [
-            NSForegroundColorAttributeName: textColor,
-            NSParagraphStyleAttributeName: paragraphStyle
-        ]
-
-        if let font = NSFont(name: fontName, size: CGFloat(fontSize)) {
-            attributes[NSFontAttributeName] = font
-        } else {
-            logError("Unable to create font \(fontName) with size \(fontSize)")
-        }
-        
-        return NSAttributedString(string: dateStamp, attributes: attributes)
-    }
-
-    
-    func textForReportEntry(entry: ReportEntry) -> NSAttributedString {
-        let fontName = "Verdana"
-        var fontSize = 12.0
-        var textColor = NSColor.textColor()
-        let paragraphStyle = NSMutableParagraphStyle()
-
-        if entry.systemEntry {
-            fontSize -= 2.0
-            textColor = textColor.colorWithAlphaComponent(0.5)
-            paragraphStyle.alignment = NSCenterTextAlignment
-        }
-
-        var attributes: [String: AnyObject] = [
-            NSForegroundColorAttributeName: textColor,
-            NSParagraphStyleAttributeName: paragraphStyle
-        ]
-        
-        if let font = NSFont(name: fontName, size: CGFloat(fontSize)) {
-            attributes[NSFontAttributeName] = font
-        } else {
-            logError("Unable to create font \(fontName) with size \(fontSize)")
-        }
-        
-        return NSAttributedString(string: entry.text, attributes: attributes)
     }
 
 }
