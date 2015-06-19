@@ -310,9 +310,28 @@ class IncidentController: NSWindowController {
         
         return NSAttributedString(string: entry.text, attributes: attributes)
     }
-    
 
-    func resetChangeTracking() {
+    
+    func markEdited() {
+        guard (
+            stateDidChange    ||
+            priorityDidChange ||
+            summaryDidChange  ||
+            rangersDidChange  ||
+            typesDidChange    ||
+            locationDidChange ||
+            reportDidChange
+        ) else {
+            logError("Pants on fire!  Nothing endited here.")
+            return
+        }
+        
+        window?.documentEdited = true
+        saveButton?.enabled = true
+    }
+    
+    
+    func markUnedited() {
         stateDidChange    = false
         priorityDidChange = false
         summaryDidChange  = false
@@ -320,9 +339,12 @@ class IncidentController: NSWindowController {
         typesDidChange    = false
         locationDidChange = false
         reportDidChange   = false
+        
+        window?.documentEdited = false
+        saveButton?.enabled = false
     }
-
     
+
     func enableEditing() {
         statePopUp?.enabled = true
         priorityPopUp?.enabled = true
@@ -336,7 +358,10 @@ class IncidentController: NSWindowController {
         locationConcentricAddressField?.enabled = true
         locationDescriptionField?.enabled = true
         reportEntryToAddView?.editable = true
-        saveButton?.enabled = true
+
+        if window?.documentEdited == true {
+            saveButton?.enabled = true
+        }
     }
 
 
@@ -354,6 +379,21 @@ class IncidentController: NSWindowController {
         locationDescriptionField?.enabled = false
         reportEntryToAddView?.editable = false
         saveButton?.enabled = false
+    }
+
+
+    @IBAction func editSummary(sender: AnyObject?) {
+        let oldSummary: String
+        if let summary = incident!.summary { oldSummary = summary } else { oldSummary = "" }
+        let newSummary = summaryField?.stringValue
+        
+        if newSummary == oldSummary { return }
+
+        logDebug("Summary changed to: \(newSummary)")
+
+        incident!.summary = newSummary
+        summaryDidChange = true
+        markEdited()
     }
 
 }
@@ -390,7 +430,7 @@ extension IncidentController: NSWindowDelegate {
         if loadingIndicator               == nil { arghEvilDeath("loading indicator"                ) }
         if reloadButton                   == nil { arghEvilDeath("reload button"                    ) }
 
-        resetChangeTracking()
+        markUnedited()
         updateView()
 
         reloadButton!.hidden     = false

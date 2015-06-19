@@ -99,6 +99,9 @@
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <action selector="editSummary:" target="-2" id="P7D-Y1-zDs"/>
+                        </connections>
                     </textField>
                     <box autoresizesSubviews="NO" title="Rangers" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="kwL-ci-Lyy" userLabel="Rangers Box">
                         <rect key="frame" x="17" y="330" width="217" height="166"/>
