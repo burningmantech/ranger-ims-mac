@@ -129,7 +129,7 @@ class IncidentController: NSWindowController {
     
     
     func updatePriority(priority: IncidentPriority?) {
-        let priorityTag: PriorityTag
+        let priorityTag: IncidentPriorityTag
         
         if let priority = priority {
             switch priority {
@@ -431,10 +431,33 @@ class IncidentController: NSWindowController {
 
 
     @IBAction func editPriority(sender: AnyObject?) {
-    }
+        let oldPriority: IncidentPriority
+        if let priority = incident!.priority { oldPriority = priority } else { oldPriority = .Normal }
+        
+        guard let selectedTag = priorityPopUp!.selectedItem?.tag else {
+            logError("Unable to get selected priority tag")
+            return
+        }
 
+        guard let selectedPriority = IncidentPriorityTag(rawValue: selectedTag) else {
+            logError("Unknown state tag: \(selectedTag)")
+            return
+        }
 
-    @IBAction func editLocation(sender: AnyObject?) {
+        let newPriority: IncidentPriority
+        switch selectedPriority {
+            case .High  : newPriority = .High
+            case .Normal: newPriority = .Normal
+            case .Low   : newPriority = .Low
+        }
+
+        if newPriority == oldPriority { return }
+        
+        logDebug("Priority changed to: \(newPriority)")
+
+        incident!.priority = newPriority
+        stateDidChange = true
+        markEdited()
     }
 
 }
@@ -508,7 +531,7 @@ enum IncidentStateTag: Int {
 
 
 
-enum PriorityTag: Int {
+enum IncidentPriorityTag: Int {
     case High   = 1
     case Normal = 3
     case Low    = 5

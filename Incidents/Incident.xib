@@ -85,6 +85,9 @@
                                     <menuItem title="Low" tag="5" id="GFZ-uL-NIe" userLabel="Low"/>
                                 </items>
                             </menu>
+                            <connections>
+                                <action selector="editPriority:" target="-2" id="1ba-YM-10d"/>
+                            </connections>
                         </popUpButtonCell>
                     </popUpButton>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fkz-PJ-Ohr">
