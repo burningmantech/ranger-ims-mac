@@ -179,12 +179,19 @@ class IncidentController: NSWindowController {
             locationDescriptionField?.stringValue = ""
         }
         
-        // ➡︎ reportEntryToAddView
+        updateReportEntries(incident.reportEntries)
+    }
 
-        if let text = formattedReport() {
-            reportEntriesView?.textStorage?.setAttributedString(text)
+    
+    func updateReportEntries(reportEntries: [ReportEntry]?) {
+        guard let reportEntries = reportEntries else {
+            return
         }
 
+        if let text = formattedReport(reportEntries) {
+            reportEntriesView?.textStorage?.setAttributedString(text)
+        }
+        
         if let length = reportEntriesView?.string?.characters.count {
             let end = NSMakeRange(length, 0)
             reportEntriesView?.scrollRangeToVisible(end)
@@ -237,18 +244,12 @@ class IncidentController: NSWindowController {
     }
 
     
-    func formattedReport() -> NSAttributedString? {
-        guard let incident = self.incident else {
-            logError("Incident controller has no incident?")
-            return nil
-        }
-
-        guard let reportEntries = incident.reportEntries else {
-            logError("Incident has no report entries: \(incident)")
-            return nil
-        }
-        
+    func formattedReport(reportEntries: [ReportEntry]?) -> NSAttributedString? {
         let result = NSMutableAttributedString(string: "")
+        
+        guard let reportEntries = reportEntries else {
+            return result
+        }
         
         for reportEntry in reportEntries {
             let text = formattedReportEntry(reportEntry)
