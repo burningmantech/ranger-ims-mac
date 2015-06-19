@@ -111,11 +111,21 @@ class IncidentController: NSWindowController {
 
         statePopUp?.selectItemWithTag(stateTag.rawValue)
 
-        // ➡︎ priorityPopUp
+        updatePriority(incident.priority)
+        updateSummary(incident.summaryAsText)
 
+        rangersTable?.reloadData()
+        typesTable?.reloadData()
+
+        updateLocation(incident.location)
+        updateReportEntries(incident.reportEntries)
+    }
+
+    
+    func updatePriority(priority: IncidentPriority?) {
         let priorityTag: PriorityTag
         
-        if let priority = incident.priority {
+        if let priority = priority {
             switch priority {
                 case .High  : priorityTag = .High
                 case .Normal: priorityTag = .Normal
@@ -124,30 +134,17 @@ class IncidentController: NSWindowController {
         } else {
             priorityTag = .Normal
         }
-
+        
         priorityPopUp?.selectItemWithTag(priorityTag.rawValue)
-        
-        // ➡︎ summaryField
-
-        summaryField?.stringValue = incident.summaryAsText
-        
-        // ➡︎ rangersTable
-
-        rangersTable?.reloadData()
-        
-        // ➡︎ typesTable
-
-        typesTable?.reloadData()
-
-        // ➡︎ locationNameField
-        // ➡︎ locationRadialAddressField
-        // ➡︎ locationConcentricAddressField
-        // ➡︎ locationDescriptionField
-
-        updateLocation(incident.location)
-        updateReportEntries(incident.reportEntries)
     }
+    
+    
+    func updateSummary(summary: String?) {
+        guard let summary = summary else { return }
 
+        summaryField?.stringValue = summary
+    }
+    
     
     func updateLocation(location: Location?) {
         guard let location = location else {
@@ -189,9 +186,7 @@ class IncidentController: NSWindowController {
     
     
     func updateReportEntries(reportEntries: [ReportEntry]?) {
-        guard let reportEntries = reportEntries else {
-            return
-        }
+        guard let reportEntries = reportEntries else { return }
 
         if let text = formattedReport(reportEntries) {
             reportEntriesView?.textStorage?.setAttributedString(text)
