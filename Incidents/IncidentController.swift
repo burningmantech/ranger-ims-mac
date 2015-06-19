@@ -16,6 +16,14 @@ class IncidentController: NSWindowController {
 
     var incident: Incident?
 
+    var stateDidChange    = false
+    var priorityDidChange = false
+    var summaryDidChange  = false
+    var rangersDidChange  = false
+    var typesDidChange    = false
+    var locationDidChange = false
+    var reportDidChange   = false
+    
     @IBOutlet weak var numberField                   : NSTextField?
     @IBOutlet weak var statePopUp                    : NSPopUpButton?
     @IBOutlet weak var priorityPopUp                 : NSPopUpButton?
@@ -182,8 +190,19 @@ class IncidentController: NSWindowController {
             reportEntriesView?.scrollRangeToVisible(end)
         }
     }
+    
 
+    func resetChangeTracking() {
+        stateDidChange    = false
+        priorityDidChange = false
+        summaryDidChange  = false
+        rangersDidChange  = false
+        typesDidChange    = false
+        locationDidChange = false
+        reportDidChange   = false
+    }
 
+    
     func enableEditing() {
         statePopUp?.enabled = true
         priorityPopUp?.enabled = true
@@ -355,6 +374,7 @@ extension IncidentController: NSWindowDelegate {
         if loadingIndicator               == nil { arghEvilDeath("loading indicator"                ) }
         if reloadButton                   == nil { arghEvilDeath("reload button"                    ) }
 
+        resetChangeTracking()
         updateView()
 
         reloadButton!.hidden     = false
