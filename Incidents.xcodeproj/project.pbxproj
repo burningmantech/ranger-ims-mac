@@ -24,6 +24,7 @@
 		3521AD521B05367000B06A02 /* Incident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350265D81B0425A200F0544B /* Incident.swift */; };
 		3521AD561B05665000B06A02 /* samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521AD551B05665000B06A02 /* samples.swift */; };
 		356CDAF01B066F990030FCF3 /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356CDAEF1B066F990030FCF3 /* HTTPRequest.swift */; };
+		3571484C1B34A745001B3B7B /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571484B1B34A745001B3B7B /* TableView.swift */; };
 		358AAAA51B2A014600D5A4AE /* HTTPJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358AAAA41B2A014600D5A4AE /* HTTPJSON.swift */; };
 		35943B831B015B3F002E3053 /* AddressTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35943B821B015B3F002E3053 /* AddressTests.swift */; };
 		35943B841B015DB8002E3053 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F674CA1AFAE73900042EC9 /* Address.swift */; };
@@ -91,6 +92,7 @@
 		35205F221B2E398000A1A371 /* IncidentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentController.swift; sourceTree = "<group>"; };
 		3521AD551B05665000B06A02 /* samples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = samples.swift; sourceTree = "<group>"; };
 		356CDAEF1B066F990030FCF3 /* HTTPRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
+		3571484B1B34A745001B3B7B /* TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		358AAAA41B2A014600D5A4AE /* HTTPJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPJSON.swift; sourceTree = "<group>"; };
 		35943B821B015B3F002E3053 /* AddressTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressTests.swift; sourceTree = "<group>"; };
 		35943B851B016808002E3053 /* LocationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationTests.swift; sourceTree = "<group>"; };
@@ -201,6 +203,14 @@
 				35E7F0591B06AE7B00354B35 /* tests */,
 			);
 			name = HTTP;
+			sourceTree = "<group>";
+		};
+		3571484A1B34A733001B3B7B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3571484B1B34A745001B3B7B /* TableView.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		35D2E9BB1B18E3530037EA32 /* Application */ = {
@@ -322,6 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				35205F1F1B2E317000A1A371 /* AppKit */,
+				3571484A1B34A733001B3B7B /* Extensions */,
 				350139041B0F219B00E4A161 /* IMS */,
 				356CDAEE1B066F6B0030FCF3 /* HTTP */,
 				35E0D7AD1B0CC8F3007499C0 /* JSON */,
@@ -487,6 +498,7 @@
 				35D2E9C71B18E4140037EA32 /* DispatchQueueController.swift in Sources */,
 				35F674CB1AFAE73900042EC9 /* Address.swift in Sources */,
 				35205F231B2E398000A1A371 /* IncidentController.swift in Sources */,
+				3571484C1B34A745001B3B7B /* TableView.swift in Sources */,
 				3501390B1B0F279700E4A161 /* InMemoryIncidentManagementSystem.swift in Sources */,
 				35A5FEF31B0B5D9A0056DF5C /* JSON.swift in Sources */,
 				350139091B0F276C00E4A161 /* HTTPIncidentManagementSystem.swift in Sources */,
