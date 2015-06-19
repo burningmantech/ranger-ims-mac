@@ -77,27 +77,42 @@ class IncidentController: NSWindowController {
             return
         }
 
-        // ➡︎ numberField
-
-        let numberToDisplay: String
-
         if let number = incident.number {
+            window?.title = "\(number): \(incident.summaryAsText)"
+        } else {
+            window?.title = "New incident: \(incident.summaryAsText)"
+        }
+
+        updateNumber   (incident.number       )
+        updateState    (incident.state        )
+        updatePriority (incident.priority     )
+        updateSummary  (incident.summaryAsText)
+
+        rangersTable?.reloadData()
+        typesTable?.reloadData()
+
+        updateLocation      (incident.location     )
+        updateReportEntries (incident.reportEntries)
+    }
+
+    
+    func updateNumber(number: Int?) {
+        let numberToDisplay: String
+        
+        if let number = number {
             numberToDisplay = "\(number)"
         } else {
             numberToDisplay = "(new)"
         }
-
+        
         numberField?.stringValue = "\(numberToDisplay)"
-
-        // ➡︎ window.title
-        
-        window?.title = "\(numberToDisplay): \(incident.summaryAsText)"
-
-        // ➡︎ statePopUp
-        
+    }
+    
+    
+    func updateState(state: IncidentState?) {
         let stateTag: IncidentStateTag
-
-        if let state = incident.state {
+        
+        if let state = state {
             switch state {
                 case .New       : stateTag = .New
                 case .OnHold    : stateTag = .OnHold
@@ -108,19 +123,10 @@ class IncidentController: NSWindowController {
         } else {
             stateTag = .New
         }
-
+        
         statePopUp?.selectItemWithTag(stateTag.rawValue)
-
-        updatePriority(incident.priority)
-        updateSummary(incident.summaryAsText)
-
-        rangersTable?.reloadData()
-        typesTable?.reloadData()
-
-        updateLocation(incident.location)
-        updateReportEntries(incident.reportEntries)
     }
-
+    
     
     func updatePriority(priority: IncidentPriority?) {
         let priorityTag: PriorityTag
