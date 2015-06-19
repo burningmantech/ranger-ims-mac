@@ -385,7 +385,7 @@ class IncidentController: NSWindowController {
     @IBAction func editSummary(sender: AnyObject?) {
         let oldSummary: String
         if let summary = incident!.summary { oldSummary = summary } else { oldSummary = "" }
-        let newSummary = summaryField?.stringValue
+        let newSummary = summaryField!.stringValue
         
         if newSummary == oldSummary { return }
 
@@ -456,8 +456,33 @@ class IncidentController: NSWindowController {
         logDebug("Priority changed to: \(newPriority)")
 
         incident!.priority = newPriority
-        stateDidChange = true
+        priorityDidChange = true
         markEdited()
+    }
+
+
+    @IBAction func editLocationName(sender: AnyObject?) {
+        let oldName: String
+        if let name = incident!.location?.name { oldName = name } else { oldName = "" }
+        let newName = locationNameField!.stringValue
+
+        if newName != oldName {
+            logDebug("Location name changed to: \(newName)")
+
+            var location: Location
+            if incident!.location == nil {
+                location = Location(name: newName)
+            } else {
+                location = Location(
+                    name: newName,
+                    address: incident!.location!.address
+                )
+            }
+            
+            incident!.location = location
+            locationDidChange = true
+            markEdited()
+        }
     }
 
 }
