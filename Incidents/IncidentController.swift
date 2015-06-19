@@ -144,44 +144,49 @@ class IncidentController: NSWindowController {
         // ➡︎ locationConcentricAddressField
         // ➡︎ locationDescriptionField
 
-        if let location = incident.location {
-            if let name = location.name {
-                locationNameField?.stringValue = name
-            } else {
-                locationNameField?.stringValue = ""
-            }
+        updateLocation(incident.location)
+        updateReportEntries(incident.reportEntries)
+    }
 
-            if let address = location.address as? RodGarettAddress {
-                if let radialHour = address.radialHour, radialMinute = address.radialMinute {
-                    locationRadialAddressField?.stringValue = "\(radialHour):\(radialMinute)"
-                } else {
-                    locationRadialAddressField?.stringValue = ""
-                }
-
-                if let concentricStreet = address.concentric {
-                    locationConcentricAddressField?.stringValue = concentricStreet.description
-                } else {
-                    locationConcentricAddressField?.stringValue = ""
-                }
-            }
-
-            if let address = location.address {
-                if let description = address.textDescription {
-                    locationDescriptionField?.stringValue = description
-                } else {
-                    locationDescriptionField?.stringValue = ""
-                }
-            }
-        } else {
+    
+    func updateLocation(location: Location?) {
+        guard let location = location else {
             locationNameField?.stringValue = ""
             locationRadialAddressField?.stringValue = ""
             locationConcentricAddressField?.stringValue = ""
             locationDescriptionField?.stringValue = ""
+            return
+        }
+
+        if let name = location.name {
+            locationNameField?.stringValue = name
+        } else {
+            locationNameField?.stringValue = ""
         }
         
-        updateReportEntries(incident.reportEntries)
+        if let address = location.address as? RodGarettAddress {
+            if let radialHour = address.radialHour, radialMinute = address.radialMinute {
+                locationRadialAddressField?.stringValue = "\(radialHour):\(radialMinute)"
+            } else {
+                locationRadialAddressField?.stringValue = ""
+            }
+            
+            if let concentricStreet = address.concentric {
+                locationConcentricAddressField?.stringValue = concentricStreet.description
+            } else {
+                locationConcentricAddressField?.stringValue = ""
+            }
+        }
+        
+        if let address = location.address {
+            if let description = address.textDescription {
+                locationDescriptionField?.stringValue = description
+            } else {
+                locationDescriptionField?.stringValue = ""
+            }
+        }
     }
-
+    
     
     func updateReportEntries(reportEntries: [ReportEntry]?) {
         guard let reportEntries = reportEntries else {
