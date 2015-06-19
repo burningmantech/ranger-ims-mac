@@ -29,12 +29,12 @@ class DispatchQueueController: NSWindowController {
     var reloadInterval: NSTimeInterval = 10
     var reloadTimer: NSTimer? = nil
 
-    @IBOutlet weak var searchField     : NSSearchField!
-    @IBOutlet weak var dispatchTable   : NSTableView!
-    @IBOutlet weak var loadingIndicator: NSProgressIndicator!
-    @IBOutlet weak var reloadButton    : NSButton!
-    @IBOutlet weak var showClosedButton: NSButton!
-    @IBOutlet weak var updatedLabel    : NSTextField!
+    @IBOutlet weak var searchField     : NSSearchField?
+    @IBOutlet weak var dispatchTable   : NSTableView?
+    @IBOutlet weak var loadingIndicator: NSProgressIndicator?
+    @IBOutlet weak var reloadButton    : NSButton?
+    @IBOutlet weak var showClosedButton: NSButton?
+    @IBOutlet weak var updatedLabel    : NSTextField?
 
 
     var searchText: String {
@@ -256,11 +256,11 @@ extension DispatchQueueController: NSWindowDelegate {
         if showClosedButton == nil { arghEvilDeath("show closed button") }
         if updatedLabel     == nil { arghEvilDeath("updated label"     ) }
 
-        reloadButton.hidden     = false
-        loadingIndicator.hidden = true
+        reloadButton!.hidden     = false
+        loadingIndicator!.hidden = true
 
         if self.respondsToSelector(Selector("openClickedIncident")) {
-            dispatchTable.doubleAction = Selector("openClickedIncident")
+            dispatchTable!.doubleAction = Selector("openClickedIncident")
         } else {
             arghEvilDeath("DDispatchQueueController doesn't respond to openClickedIncident()")
         }
