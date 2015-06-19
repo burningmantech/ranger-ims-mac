@@ -20,7 +20,7 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="196" y="240" width="700" height="300"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="800"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
             <value key="minSize" type="size" width="700" height="300"/>
             <view key="contentView" id="EiT-Mj-1SZ" userLabel="Window View">
                 <rect key="frame" x="0.0" y="0.0" width="700" height="300"/>
@@ -61,71 +61,72 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="uSe-IY-Bn6" id="Ojp-VW-FpW" userLabel="Incidents Table">
-                                    <rect key="frame" x="0.0" y="0.0" width="1563" height="186"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="1563" height="19"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="number" editable="NO" width="45" minWidth="45" maxWidth="45" headerToolTip="Incident number" id="0KV-sG-w47">
+                                        <tableColumn identifier="number" editable="NO" width="45" minWidth="45" maxWidth="45" headerToolTip="Incident number" id="0KV-sG-w47" userLabel="Incident Number Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="#">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="MOQ-13-Zko">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="MOQ-13-Zko" userLabel="Incident Number Cell">
+                                                <numberFormatter key="formatter" formatterBehavior="custom10_4" localizesFormat="NO" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="Mcn-Pr-2ZV" userLabel="Incident Number Formatter"/>
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="number"/>
                                         </tableColumn>
-                                        <tableColumn identifier="priority" editable="NO" width="25" minWidth="25" maxWidth="25" headerToolTip="Incident priority" id="5Bc-LG-Glh">
+                                        <tableColumn identifier="priority" editable="NO" width="25" minWidth="25" maxWidth="25" headerToolTip="Incident priority" id="5Bc-LG-Glh" userLabel="Incident Priority Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Pri">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="b9u-4A-Vt7">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="b9u-4A-Vt7" userLabel="Incident Priority Cell">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="priority"/>
                                         </tableColumn>
-                                        <tableColumn identifier="created" editable="NO" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Incident created timestamp" id="7qe-dE-Cbd">
+                                        <tableColumn identifier="created" editable="NO" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Incident created timestamp" id="7qe-dE-Cbd" userLabel="Incident Created Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Created">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="J1n-at-IMS">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="J1n-at-IMS" userLabel="Incident Created Cell">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="created"/>
                                         </tableColumn>
-                                        <tableColumn identifier="state" editable="NO" width="80" minWidth="80" maxWidth="80" headerToolTip="Incident state" id="GUF-AT-jOt">
+                                        <tableColumn identifier="state" editable="NO" width="80" minWidth="80" maxWidth="80" headerToolTip="Incident state" id="GUF-AT-jOt" userLabel="Incident State Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="State">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="kkG-UM-sSA">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="kkG-UM-sSA" userLabel="Incident State Cell">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="state"/>
                                         </tableColumn>
-                                        <tableColumn identifier="rangers" editable="NO" width="100" minWidth="60" maxWidth="600" headerToolTip="Incident personnel" id="Eou-PB-kbd">
+                                        <tableColumn identifier="rangers" editable="NO" width="100" minWidth="60" maxWidth="600" headerToolTip="Incident personnel" id="Eou-PB-kbd" userLabel="Incident Rangers Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Rangers">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="JrU-sO-EgP">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="JrU-sO-EgP" userLabel="Incident Rangers Cell">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -133,13 +134,13 @@
                                             <sortDescriptor key="sortDescriptorPrototype" selector="caseInsensitiveCompare:" sortKey="rangers"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="location" editable="NO" width="125" minWidth="60" maxWidth="600" headerToolTip="Incident location" id="NOq-yS-GvQ">
+                                        <tableColumn identifier="location" editable="NO" width="125" minWidth="60" maxWidth="600" headerToolTip="Incident location" id="NOq-yS-GvQ" userLabel="Incident Location Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Location">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="1Ei-Qh-R7x">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="1Ei-Qh-R7x" userLabel="Incident Location Cell">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -147,13 +148,13 @@
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="location"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="incidentTypes" editable="NO" width="100" minWidth="60" maxWidth="600" headerToolTip="Incident type" id="phE-bC-Unv">
+                                        <tableColumn identifier="incidentTypes" editable="NO" width="100" minWidth="60" maxWidth="600" headerToolTip="Incident type" id="phE-bC-Unv" userLabel="Incident Types Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Types">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="75w-wh-NC0">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="75w-wh-NC0" userLabel="Incident Types Cell">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -161,13 +162,13 @@
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="incidentTypes"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="summary" editable="NO" width="1000" minWidth="10" maxWidth="100000" headerToolTip="Incident summary" id="vw4-pd-12g">
+                                        <tableColumn identifier="summary" editable="NO" width="1000" minWidth="10" maxWidth="100000" headerToolTip="Incident summary" id="vw4-pd-12g" userLabel="Incident Summary Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Summary">
                                                 <font key="font" metaFont="smallSystemBold"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="yUM-vI-ARf">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="yUM-vI-ARf" userLabel="Incident Summary Cell">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
