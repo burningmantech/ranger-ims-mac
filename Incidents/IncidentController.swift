@@ -387,6 +387,20 @@ extension IncidentController: NSWindowDelegate {
 
 
 
+extension IncidentController: TableViewDelegate {
+
+    func deleteFromTableView(tableView: TableView) {
+        let rowIndex = tableView.selectedRow
+        
+    }
+
+    
+    func openFromTableView(tableView: TableView) {}
+
+}
+
+
+
 enum IncidentStateTag: Int {
     case New        = 1
     case OnHold     = 2
