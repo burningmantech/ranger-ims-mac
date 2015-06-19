@@ -13,6 +13,7 @@ import Foundation
 struct DateTime: CustomStringConvertible, Comparable, Hashable {
     private static let rfc3339Formatter = makeRFC3339Formatter()
     private static let shortFormatter   = makeFormatter("dd/HH:mm")
+    private static let formatter        = makeFormatter("yyyy-MM-dd HH:mm")
     private static let longFormatter    = makeFormatter("EEEE, MMMM d, yyyy HH:mm:ss zzz")
 
     
@@ -48,6 +49,10 @@ struct DateTime: CustomStringConvertible, Comparable, Hashable {
         return DateTime.shortFormatter.stringFromDate(nsDate)
     }
 
+    
+    func asString() -> String {
+        return DateTime.formatter.stringFromDate(nsDate)
+    }
     
     func asLongString() -> String {
         return DateTime.longFormatter.stringFromDate(nsDate)
