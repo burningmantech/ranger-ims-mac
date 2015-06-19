@@ -200,7 +200,7 @@ class DispatchQueueController: NSWindowController {
             // Create a controller for the incident in question
             incidentController = IncidentController(
                 dispatchQueueController: self,
-                incident: incident.copy()
+                incident: incident
             )
             incidentControllers[number] = incidentController
         }

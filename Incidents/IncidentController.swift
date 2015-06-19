@@ -49,7 +49,7 @@ class IncidentController: NSWindowController {
         self.init(windowNibName: "Incident")
 
         self.dispatchQueueController = dispatchQueueController
-        self.incident = incident
+        self.incident = incident.copy()
     }
 
 
@@ -181,9 +181,6 @@ class IncidentController: NSWindowController {
             let end = NSMakeRange(length, 0)
             reportEntriesView?.scrollRangeToVisible(end)
         }
-        
-        // ➡︎ saveButton
-        // FIXME: ?
     }
 
 
