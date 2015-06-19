@@ -360,6 +360,8 @@ extension IncidentController: NSWindowDelegate {
             fatalError("Incident controller: no \(uiElementName)?")
         }
 
+        if incident                       == nil { arghEvilDeath("incident"                         ) }
+        if dispatchQueueController        == nil { arghEvilDeath("dispatch queue controller"        ) }
         if window                         == nil { arghEvilDeath("window"                           ) }
         if numberField                    == nil { arghEvilDeath("number field"                     ) }
         if statePopUp                     == nil { arghEvilDeath("state pop-up"                     ) }
