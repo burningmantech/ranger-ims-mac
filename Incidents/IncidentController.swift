@@ -215,7 +215,6 @@ class IncidentController: NSWindowController {
         locationRadialAddressField?.enabled = true
         locationConcentricAddressField?.enabled = true
         locationDescriptionField?.enabled = true
-      //reportEntriesView?.editable = true
         reportEntryToAddView?.editable = true
         saveButton?.enabled = true
     }
@@ -233,7 +232,6 @@ class IncidentController: NSWindowController {
         locationRadialAddressField?.enabled = false
         locationConcentricAddressField?.enabled = false
         locationDescriptionField?.enabled = false
-      //reportEntriesView?.editable = false
         reportEntryToAddView?.editable = false
         saveButton?.enabled = false
     }
