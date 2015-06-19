@@ -467,19 +467,71 @@ class IncidentController: NSWindowController {
         let newName = locationNameField!.stringValue
 
         if newName != oldName {
-            logDebug("Location name changed to: \(newName)")
-
-            var location: Location
+            var newLocation: Location
             if incident!.location == nil {
-                location = Location(name: newName)
+                newLocation = Location(name: newName)
             } else {
-                location = Location(
+                newLocation = Location(
                     name: newName,
                     address: incident!.location!.address
                 )
             }
             
-            incident!.location = location
+            logDebug("Location changed to: \(newLocation)")
+
+            incident!.location = newLocation
+            locationDidChange = true
+            markEdited()
+        }
+    }
+
+    
+    @IBAction func editAddressDescription(sender: AnyObject?) {
+        let oldDescription: String
+        if let description = incident!.location?.description { oldDescription = description } else { oldDescription = "" }
+        let newDescription = locationDescriptionField!.stringValue
+        
+        if newDescription != oldDescription {
+            logDebug("Location description changed to: \(newDescription)")
+            
+            var newLocation: Location
+            if incident!.location == nil {
+                newLocation = Location(
+                    name: nil,
+                    address: TextOnlyAddress(textDescription: newDescription)
+                )
+            } else {
+                var newAddress: Address
+                if incident!.location!.address == nil {
+                    newAddress = TextOnlyAddress(textDescription: newDescription)
+                } else {
+                    let oldAddress = incident!.location!.address
+                    if let oldAddress = oldAddress as? RodGarettAddress {
+                        newAddress = RodGarettAddress(
+                            concentric: oldAddress.concentric,
+                            radialHour: oldAddress.radialHour,
+                            radialMinute: oldAddress.radialMinute,
+                            textDescription: newDescription
+                        )
+                    }
+                    else if let _ = oldAddress as? TextOnlyAddress {
+                        newAddress = TextOnlyAddress(textDescription: newDescription)
+                    }
+                    else {
+                        logError("Unable to edit unknown address type: \(oldAddress)")
+                        return
+                    }
+                }
+                
+                newLocation = Location(
+                    name: incident!.location!.name,
+                    address: newAddress
+                )
+            }
+            
+            logDebug("Location changed to: \(newLocation)")
+
+            incident!.location = newLocation
             locationDidChange = true
             markEdited()
         }
