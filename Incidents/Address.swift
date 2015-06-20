@@ -183,21 +183,22 @@ enum ConcentricStreet: Int, CustomStringConvertible {
     case M
     case N
 
+    // FIXME: Load names from server instead
     var description: String {
         switch self {
             case Esplanade: return "Esplanade"
-            case A        : return "A"
-            case B        : return "B"
-            case C        : return "C"
-            case D        : return "D"
-            case E        : return "E"
-            case F        : return "F"
-            case G        : return "G"
-            case H        : return "H"
-            case I        : return "I"
-            case J        : return "J"
-            case K        : return "K"
-            case L        : return "L"
+            case A        : return "Arcade"
+            case B        : return "Ballyhoo"
+            case C        : return "Carny"
+            case D        : return "Donniker"
+            case E        : return "Ersatz"
+            case F        : return "Freak Show"
+            case G        : return "Geek"
+            case H        : return "Hanky Panky"
+            case I        : return "Illusion"
+            case J        : return "Jolly"
+            case K        : return "Kook"
+            case L        : return "Laffing Sal"
             case M        : return "M"
             case N        : return "N"
         }
