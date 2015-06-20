@@ -532,9 +532,9 @@ class IncidentController: NSWindowController {
     }
 
     
-    @IBAction func editAddressConcentric(sender: AnyObject?) {
+    private func _incidentRodGarrettAddress() -> RodGarettAddress? {
         let oldAddress: RodGarettAddress
-
+        
         if let address = incident!.location?.address {
             if let address = address as? RodGarettAddress {
                 oldAddress = address
@@ -544,19 +544,26 @@ class IncidentController: NSWindowController {
             }
             else {
                 logError("Unable to edit unknown address type: \(address)")
-                return
+                return nil
             }
         } else {
             oldAddress = RodGarettAddress()
         }
+
+        return oldAddress
+    }
     
+    
+    @IBAction func editAddressConcentric(sender: AnyObject?) {
+        guard let oldAddress = _incidentRodGarrettAddress() else { return }
+        
         let oldConcentricName: String
         if let name = oldAddress.concentric?.description { oldConcentricName = name } else { oldConcentricName = "" }
         let newConcentricName = locationConcentricAddressField!.stringValue
     
         if newConcentricName == oldConcentricName { return }
         
-        let newConcentric: ConcentricStreet
+        let newConcentric: ConcentricStreet?
         if newConcentricName == "Esplanade" { newConcentric = ConcentricStreet.Esplanade }
         else if newConcentricName.hasPrefix("A") { newConcentric = ConcentricStreet.A }
         else if newConcentricName.hasPrefix("B") { newConcentric = ConcentricStreet.B }
@@ -572,6 +579,7 @@ class IncidentController: NSWindowController {
         else if newConcentricName.hasPrefix("L") { newConcentric = ConcentricStreet.L }
         else if newConcentricName.hasPrefix("M") { newConcentric = ConcentricStreet.M }
         else if newConcentricName.hasPrefix("N") { newConcentric = ConcentricStreet.N }
+        else if newConcentricName == "" { newConcentric = nil }
         else {
             logError("Unknown concentric street name: \(newConcentricName)")
             return
