@@ -309,6 +309,7 @@
                                         <constraint firstAttribute="width" constant="45" id="u9t-zH-qnL"/>
                                     </constraints>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" placeholderString="00:00" drawsBackground="YES" id="wRD-4b-ufx" userLabel="Location Radial Address Cell">
+                                        <dateFormatter key="formatter" formatterBehavior="custom10_4" dateStyle="short" dateFormat="hh:mm" id="1Lx-k7-AKa" userLabel="Radial Address Formatter"/>
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -535,6 +536,16 @@
             </view>
             <point key="canvasLocation" x="350" y="130.5"/>
         </window>
+        <textField verticalHuggingPriority="750" id="Txs-32-Lnb">
+            <rect key="frame" x="0.0" y="0.0" width="96" height="22"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="MSc-Zt-mBE">
+                <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="snd-3V-qJE"/>
+                <font key="font" metaFont="system"/>
+                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+            </textFieldCell>
+        </textField>
     </objects>
     <resources>
         <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
