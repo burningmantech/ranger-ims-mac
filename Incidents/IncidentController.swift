@@ -467,7 +467,7 @@ class IncidentController: NSWindowController {
         let newName = locationNameField!.stringValue
 
         if newName != oldName {
-            var newLocation: Location
+            let newLocation: Location
             if incident!.location == nil {
                 newLocation = Location(name: newName)
             } else {
@@ -491,50 +491,44 @@ class IncidentController: NSWindowController {
         if let description = incident!.location?.address?.textDescription { oldDescription = description } else { oldDescription = "" }
         let newDescription = locationDescriptionField!.stringValue
         
-        if newDescription != oldDescription {
-            logDebug("Location description changed to: \(newDescription)")
-            
-            var newLocation: Location
-            if incident!.location == nil {
-                newLocation = Location(
-                    name: nil,
-                    address: TextOnlyAddress(textDescription: newDescription)
-                )
-            } else {
-                var newAddress: Address
-                if incident!.location!.address == nil {
-                    newAddress = TextOnlyAddress(textDescription: newDescription)
-                } else {
-                    let oldAddress = incident!.location!.address
-                    if let oldAddress = oldAddress as? RodGarettAddress {
-                        newAddress = RodGarettAddress(
-                            concentric: oldAddress.concentric,
-                            radialHour: oldAddress.radialHour,
-                            radialMinute: oldAddress.radialMinute,
-                            textDescription: newDescription
-                        )
-                    }
-                    else if let _ = oldAddress as? TextOnlyAddress {
-                        newAddress = TextOnlyAddress(textDescription: newDescription)
-                    }
-                    else {
-                        logError("Unable to edit unknown address type: \(oldAddress)")
-                        return
-                    }
-                }
-                
-                newLocation = Location(
-                    name: incident!.location!.name,
-                    address: newAddress
+        if newDescription == oldDescription { return }
+
+        let newLocation: Location
+        if incident!.location == nil || incident!.location!.address == nil {
+            newLocation = Location(
+                address: TextOnlyAddress(textDescription: newDescription)
+            )
+        }
+        else {
+            let newAddress: Address
+            let oldAddress = incident!.location!.address
+            if let oldAddress = oldAddress as? RodGarettAddress {
+                newAddress = RodGarettAddress(
+                    concentric: oldAddress.concentric,
+                    radialHour: oldAddress.radialHour,
+                    radialMinute: oldAddress.radialMinute,
+                    textDescription: newDescription
                 )
             }
+            else if let _ = oldAddress as? TextOnlyAddress {
+                newAddress = TextOnlyAddress(textDescription: newDescription)
+            }
+            else {
+                logError("Unable to edit unknown address type: \(oldAddress)")
+                return
+            }
             
-            logDebug("Location changed to: \(newLocation)")
-
-            incident!.location = newLocation
-            locationDidChange = true
-            markEdited()
+            newLocation = Location(
+                name: incident!.location!.name,
+                address: newAddress
+            )
         }
+        
+        logDebug("Location changed to: \(newLocation)")
+
+        incident!.location = newLocation
+        locationDidChange = true
+        markEdited()
     }
 
 }
