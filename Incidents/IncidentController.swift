@@ -488,7 +488,7 @@ class IncidentController: NSWindowController {
     
     @IBAction func editAddressDescription(sender: AnyObject?) {
         let oldDescription: String
-        if let description = incident!.location?.description { oldDescription = description } else { oldDescription = "" }
+        if let description = incident!.location?.address?.textDescription { oldDescription = description } else { oldDescription = "" }
         let newDescription = locationDescriptionField!.stringValue
         
         if newDescription != oldDescription {
