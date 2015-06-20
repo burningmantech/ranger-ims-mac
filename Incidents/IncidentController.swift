@@ -592,28 +592,17 @@ class IncidentController: NSWindowController {
     
         if newRadialHour == oldRadialHour && newRadialMinute == oldRadialMinute { return }
     
-        let newLocation: Location
-        if incident!.location == nil || incident!.location!.address == nil {
-            newLocation = Location(
-                address: RodGarettAddress(
-                    radialHour: newRadialHour,
-                    radialMinute: newRadialMinute
-                )
-            )
-        }
-        else {
-            let newAddress = RodGarettAddress(
-                concentric: oldAddress.concentric,
-                radialHour: newRadialHour,
-                radialMinute: newRadialMinute,
-                textDescription: oldAddress.textDescription
-            )
-            
-            newLocation = Location(
-                name: incident!.location!.name,
-                address: newAddress
-            )
-        }
+        let newAddress = RodGarettAddress(
+            concentric: oldAddress.concentric,
+            radialHour: newRadialHour,
+            radialMinute: newRadialMinute,
+            textDescription: oldAddress.textDescription
+        )
+        
+        let newLocation = Location(
+            name: incident!.location!.name,
+            address: newAddress
+        )
         
         logDebug("Location changed to: \(newLocation)")
         
@@ -654,25 +643,17 @@ class IncidentController: NSWindowController {
             return
         }
 
-        let newLocation: Location
-        if incident!.location == nil || incident!.location!.address == nil {
-            newLocation = Location(
-                address: RodGarettAddress(concentric: newConcentric)
-            )
-        }
-        else {
-            let newAddress = RodGarettAddress(
-                concentric: newConcentric,
-                radialHour: oldAddress.radialHour,
-                radialMinute: oldAddress.radialMinute,
-                textDescription: oldAddress.textDescription
-            )
-            
-            newLocation = Location(
-                name: incident!.location!.name,
-                address: newAddress
-            )
-        }
+        let newAddress = RodGarettAddress(
+            concentric: newConcentric,
+            radialHour: oldAddress.radialHour,
+            radialMinute: oldAddress.radialMinute,
+            textDescription: oldAddress.textDescription
+        )
+        
+        let newLocation = Location(
+            name: incident!.location!.name,
+            address: newAddress
+        )
         
         logDebug("Location changed to: \(newLocation)")
         
