@@ -531,6 +531,79 @@ class IncidentController: NSWindowController {
         markEdited()
     }
 
+    
+    @IBAction func editAddressConcentric(sender: AnyObject?) {
+        let oldAddress: RodGarettAddress
+
+        if let address = incident!.location?.address {
+            if let address = address as? RodGarettAddress {
+                oldAddress = address
+            }
+            else if let address = address as? TextOnlyAddress {
+                oldAddress = RodGarettAddress(textDescription: address.textDescription)
+            }
+            else {
+                logError("Unable to edit unknown address type: \(address)")
+                return
+            }
+        } else {
+            oldAddress = RodGarettAddress()
+        }
+    
+        let oldConcentricName: String
+        if let name = oldAddress.concentric?.description { oldConcentricName = name } else { oldConcentricName = "" }
+        let newConcentricName = locationConcentricAddressField!.stringValue
+    
+        if newConcentricName == oldConcentricName { return }
+        
+        let newConcentric: ConcentricStreet
+        if newConcentricName == "Esplanade" { newConcentric = ConcentricStreet.Esplanade }
+        else if newConcentricName.hasPrefix("A") { newConcentric = ConcentricStreet.A }
+        else if newConcentricName.hasPrefix("B") { newConcentric = ConcentricStreet.B }
+        else if newConcentricName.hasPrefix("C") { newConcentric = ConcentricStreet.C }
+        else if newConcentricName.hasPrefix("D") { newConcentric = ConcentricStreet.D }
+        else if newConcentricName.hasPrefix("E") { newConcentric = ConcentricStreet.E }
+        else if newConcentricName.hasPrefix("F") { newConcentric = ConcentricStreet.F }
+        else if newConcentricName.hasPrefix("G") { newConcentric = ConcentricStreet.G }
+        else if newConcentricName.hasPrefix("H") { newConcentric = ConcentricStreet.H }
+        else if newConcentricName.hasPrefix("I") { newConcentric = ConcentricStreet.I }
+        else if newConcentricName.hasPrefix("J") { newConcentric = ConcentricStreet.J }
+        else if newConcentricName.hasPrefix("K") { newConcentric = ConcentricStreet.K }
+        else if newConcentricName.hasPrefix("L") { newConcentric = ConcentricStreet.L }
+        else if newConcentricName.hasPrefix("M") { newConcentric = ConcentricStreet.M }
+        else if newConcentricName.hasPrefix("N") { newConcentric = ConcentricStreet.N }
+        else {
+            logError("Unknown concentric street name: \(newConcentricName)")
+            return
+        }
+
+        let newLocation: Location
+        if incident!.location == nil || incident!.location!.address == nil {
+            newLocation = Location(
+                address: RodGarettAddress(concentric: newConcentric)
+            )
+        }
+        else {
+            let newAddress = RodGarettAddress(
+                concentric: newConcentric,
+                radialHour: oldAddress.radialHour,
+                radialMinute: oldAddress.radialMinute,
+                textDescription: oldAddress.textDescription
+            )
+            
+            newLocation = Location(
+                name: incident!.location!.name,
+                address: newAddress
+            )
+        }
+        
+        logDebug("Location changed to: \(newLocation)")
+        
+        incident!.location = newLocation
+        locationDidChange = true
+        markEdited()
+    }
+    
 }
 
 
