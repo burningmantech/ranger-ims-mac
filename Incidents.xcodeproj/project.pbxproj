@@ -189,6 +189,7 @@
 				35D2E9BE1B18E3E00037EA32 /* Preferences Panel */,
 				35D2E9C31B18E4030037EA32 /* Dispatch Queue Window */,
 				35205F1D1B2E310B00A1A371 /* Incident Window */,
+				3571484A1B34A733001B3B7B /* Extensions */,
 			);
 			name = AppKit;
 			sourceTree = "<group>";
@@ -332,7 +333,6 @@
 			isa = PBXGroup;
 			children = (
 				35205F1F1B2E317000A1A371 /* AppKit */,
-				3571484A1B34A733001B3B7B /* Extensions */,
 				350139041B0F219B00E4A161 /* IMS */,
 				356CDAEE1B066F6B0030FCF3 /* HTTP */,
 				35E0D7AD1B0CC8F3007499C0 /* JSON */,
