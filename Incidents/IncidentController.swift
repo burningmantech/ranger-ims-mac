@@ -554,6 +554,75 @@ class IncidentController: NSWindowController {
     }
     
     
+    @IBAction func editAddressRadial(sender: AnyObject?) {
+        guard let oldAddress = _incidentRodGarrettAddress() else { return }
+
+        let oldRadialHour: Int, oldRadialMinute: Int
+        if let hour = oldAddress.radialHour, minute = oldAddress.radialMinute {
+            oldRadialHour   = hour
+            oldRadialMinute = minute
+        } else {
+            oldRadialHour   = -1
+            oldRadialMinute = -1
+        }
+
+        let newRadialName = locationRadialAddressField!.stringValue
+
+        let newRadialHour: Int?, newRadialMinute: Int?
+        if newRadialName == "" {
+            newRadialHour   = nil
+            newRadialMinute = nil
+        } else {
+            let newRadialComponents = split(newRadialName.characters, isSeparator: {$0 == ":"})
+            guard newRadialComponents.count == 2 else {
+                logError("Unable to parse radial address components: \(newRadialName)")
+                return
+            }
+            guard let hour = Int(String(newRadialComponents[0])) else {
+                logError("Unable to parse radial hour: \(newRadialName)")
+                return
+            }
+            guard let minute = Int(String(newRadialComponents[1])) else {
+                logError("Unable to parse radial minute: \(newRadialName)")
+                return
+            }
+            newRadialHour   = hour
+            newRadialMinute = minute
+        }
+    
+        if newRadialHour == oldRadialHour && newRadialMinute == oldRadialMinute { return }
+    
+        let newLocation: Location
+        if incident!.location == nil || incident!.location!.address == nil {
+            newLocation = Location(
+                address: RodGarettAddress(
+                    radialHour: newRadialHour,
+                    radialMinute: newRadialMinute
+                )
+            )
+        }
+        else {
+            let newAddress = RodGarettAddress(
+                concentric: oldAddress.concentric,
+                radialHour: newRadialHour,
+                radialMinute: newRadialMinute,
+                textDescription: oldAddress.textDescription
+            )
+            
+            newLocation = Location(
+                name: incident!.location!.name,
+                address: newAddress
+            )
+        }
+        
+        logDebug("Location changed to: \(newLocation)")
+        
+        incident!.location = newLocation
+        locationDidChange = true
+        markEdited()
+    }
+
+        
     @IBAction func editAddressConcentric(sender: AnyObject?) {
         guard let oldAddress = _incidentRodGarrettAddress() else { return }
         
