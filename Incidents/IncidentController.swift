@@ -14,16 +14,9 @@ class IncidentController: NSWindowController {
 
     var dispatchQueueController: DispatchQueueController?
 
+    var originalIncident: Incident?
     var incident: Incident?
 
-    var stateDidChange    = false
-    var priorityDidChange = false
-    var summaryDidChange  = false
-    var rangersDidChange  = false
-    var typesDidChange    = false
-    var locationDidChange = false
-    var reportDidChange   = false
-    
     @IBOutlet weak var numberField                   : NSTextField?
     @IBOutlet weak var statePopUp                    : NSPopUpButton?
     @IBOutlet weak var priorityPopUp                 : NSPopUpButton?
@@ -57,6 +50,7 @@ class IncidentController: NSWindowController {
         self.init(windowNibName: "Incident")
 
         self.dispatchQueueController = dispatchQueueController
+        self.originalIncident = incident.copy()
         self.incident = incident.copy()
     }
 
@@ -313,16 +307,8 @@ class IncidentController: NSWindowController {
 
     
     func markEdited() {
-        guard (
-            stateDidChange    ||
-            priorityDidChange ||
-            summaryDidChange  ||
-            rangersDidChange  ||
-            typesDidChange    ||
-            locationDidChange ||
-            reportDidChange
-        ) else {
-            logError("Pants on fire!  Nothing endited here.")
+        guard incident != originalIncident else {
+            logError("Pants on fire!  Nothing edited here.")
             return
         }
         
@@ -332,14 +318,6 @@ class IncidentController: NSWindowController {
     
     
     func markUnedited() {
-        stateDidChange    = false
-        priorityDidChange = false
-        summaryDidChange  = false
-        rangersDidChange  = false
-        typesDidChange    = false
-        locationDidChange = false
-        reportDidChange   = false
-        
         window?.documentEdited = false
         saveButton?.enabled = false
     }
@@ -392,7 +370,6 @@ class IncidentController: NSWindowController {
         logDebug("Summary changed to: \(newSummary)")
 
         incident!.summary = newSummary
-        summaryDidChange = true
         markEdited()
     }
 
@@ -425,7 +402,6 @@ class IncidentController: NSWindowController {
         logDebug("State changed to: \(newState)")
 
         incident!.state = newState
-        stateDidChange = true
         markEdited()
     }
 
@@ -456,7 +432,6 @@ class IncidentController: NSWindowController {
         logDebug("Priority changed to: \(newPriority)")
 
         incident!.priority = newPriority
-        priorityDidChange = true
         markEdited()
     }
 
@@ -480,7 +455,6 @@ class IncidentController: NSWindowController {
             logDebug("Location changed to: \(newLocation)")
 
             incident!.location = newLocation
-            locationDidChange = true
             markEdited()
         }
     }
@@ -527,7 +501,6 @@ class IncidentController: NSWindowController {
         logDebug("Location changed to: \(newLocation)")
 
         incident!.location = newLocation
-        locationDidChange = true
         markEdited()
     }
 
@@ -607,7 +580,6 @@ class IncidentController: NSWindowController {
         logDebug("Location changed to: \(newLocation)")
         
         incident!.location = newLocation
-        locationDidChange = true
         markEdited()
     }
 
@@ -658,7 +630,6 @@ class IncidentController: NSWindowController {
         logDebug("Location changed to: \(newLocation)")
         
         incident!.location = newLocation
-        locationDidChange = true
         markEdited()
     }
     
