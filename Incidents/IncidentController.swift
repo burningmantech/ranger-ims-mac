@@ -643,6 +643,33 @@ class IncidentController: NSWindowController {
         markEdited()
     }
     
+    
+    func addReportEntry() {
+        guard let textStorage = reportEntryToAddView?.textStorage else {
+            logError("No text storage for report entry to add view?")
+            return
+        }
+        
+        let reportTextTrimmed = textStorage.string.stringByTrimmingCharactersInSet(
+            NSCharacterSet.whitespaceAndNewlineCharacterSet()
+        )
+        
+        textStorage.setAttributedString(NSAttributedString())
+        
+        guard reportTextTrimmed.characters.count > 0 else { return }
+        
+        let entry = ReportEntry(author: nil, text: reportTextTrimmed)
+
+        if incident!.reportEntries == nil {
+            incident!.reportEntries = []
+        }
+
+        incident!.reportEntries!.append(entry)
+        markEdited()
+
+        updateReportEntries(incident!.reportEntries!)
+    }
+
 }
 
 
