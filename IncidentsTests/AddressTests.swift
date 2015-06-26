@@ -58,7 +58,7 @@ class RodGarettAddressDescriptionTests: XCTestCase {
 
         XCTAssertEqual(
             address.description,
-            "8:45@C, Red and yellow flags, dome"
+            "8:45@\(ConcentricStreet.C), Red and yellow flags, dome"
         )
     }
 
@@ -66,7 +66,7 @@ class RodGarettAddressDescriptionTests: XCTestCase {
     func test_description_concentric() {
         let address = RodGarettAddress(concentric: ConcentricStreet.C)
 
-        XCTAssertEqual(address.description, "-:-@C")
+        XCTAssertEqual(address.description, "-:-@\(ConcentricStreet.C)")
     }
 
 
