@@ -252,7 +252,14 @@ class IncidentController: NSWindowController {
     
     
     func dateStampForReportEntry(entry: ReportEntry) -> NSAttributedString {
-        let dateStamp = "\(entry.created.asString()), \(entry.author):"
+        let author: String
+        if entry.author == nil {
+            author = "<unknown>"
+        } else {
+            author = entry.author!.description
+        }
+        
+        let dateStamp = "\(entry.created.asString()), \(author):"
         
         let fontName = "Verdana-Bold"
         let fontSize = 10.0
