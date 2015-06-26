@@ -195,7 +195,10 @@ class IncidentController: NSWindowController {
     
     
     func updateReportEntries(reportEntries: [ReportEntry]?) {
-        guard let reportEntries = reportEntries else { return }
+        guard let reportEntries = reportEntries else {
+            reportEntriesView?.textStorage?.setAttributedString(NSAttributedString())
+            return
+        }
 
         if let text = formattedReport(reportEntries) {
             reportEntriesView?.textStorage?.setAttributedString(text)
