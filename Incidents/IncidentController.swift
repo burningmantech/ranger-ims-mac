@@ -669,6 +669,11 @@ class IncidentController: NSWindowController {
 
         updateReportEntries(incident!.reportEntries!)
     }
+    
+
+    @IBAction func save(sender: AnyObject?) {
+        addReportEntry()
+    }
 
 }
 

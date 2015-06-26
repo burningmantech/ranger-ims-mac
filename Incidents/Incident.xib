@@ -485,6 +485,9 @@
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="save:" target="-2" id="nt6-as-vlL"/>
+                        </connections>
                     </button>
                     <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="6QF-bE-u2A" userLabel="Loading Indicator">
                         <rect key="frame" x="22" y="23" width="16" height="16"/>
