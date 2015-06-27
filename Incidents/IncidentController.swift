@@ -66,7 +66,11 @@ class IncidentController: NSWindowController {
 
 
     @IBAction func save(sender: AnyObject?) {
+        // Push new report entry into the incident.
         addReportEntry()
+
+//        let diff = incident!.diffFrom(originalIncident)
+//        dispatchQueueController?.ims.updateIncident(diff)
     }
 
 }
