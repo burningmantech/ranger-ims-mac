@@ -309,3 +309,102 @@ class IncidentTextPropertyTests: XCTestCase {
     }
 
 }
+
+
+
+class IncidentDiffTests: XCTestCase {
+
+    func test_diff_simple_nil() {
+        let a = Incident(number: 1)
+        let b: Incident? = nil
+        let diff = a.diffFrom(b)
+
+        XCTAssertEqual(diff, a)
+    }
+
+
+    func test_diff_empty_all() {
+        let a = Incident(number: nil)
+        let b = Incident(
+            number: 1,
+            priority: IncidentPriority.High,
+            summary: "It went that way!",
+            location: Location(name: "Here", address: TextOnlyAddress(textDescription: "Not there")),
+            rangers: [Ranger(handle: "Tool")],
+            incidentTypes: ["Vehicle"],
+            reportEntries: [ReportEntry(author: Ranger(handle: "Tool"), text: "There it goes!")],
+            created: DateTime.now(),
+            state: IncidentState.OnScene
+        )
+        let diff = a.diffFrom(b)
+        
+        XCTAssertEqual(diff, a)
+    }
+    
+    
+    func test_diff_all_empty() {
+        let a = Incident(
+            number: 1,
+            priority: IncidentPriority.High,
+            summary: "It went that way!",
+            location: Location(name: "Here", address: TextOnlyAddress(textDescription: "Not there")),
+            rangers: [Ranger(handle: "Tool")],
+            incidentTypes: ["Vehicle"],
+            reportEntries: [ReportEntry(author: Ranger(handle: "Tool"), text: "There it goes!")],
+            created: DateTime.now(),
+            state: IncidentState.OnScene
+        )
+        let b = Incident(number: nil)
+        let diff = a.diffFrom(b)
+        
+        XCTAssertEqual(diff, a)
+    }
+
+
+    func test_diff_all_same() {
+        let a = Incident(
+            number: 1,
+            priority: IncidentPriority.High,
+            summary: "It went that way!",
+            location: Location(name: "Here", address: TextOnlyAddress(textDescription: "Not there")),
+            rangers: [Ranger(handle: "Tool")],
+            incidentTypes: ["Vehicle"],
+            reportEntries: [ReportEntry(author: Ranger(handle: "Tool"), text: "There it goes!")],
+            created: DateTime.now(),
+            state: IncidentState.OnScene
+        )
+        let diff = a.diffFrom(a)
+        
+        XCTAssertEqual(diff, Incident(number: nil))
+    }
+    
+
+    func test_diff_all_different() {
+        let a = Incident(
+            number: 1,
+            priority: IncidentPriority.High,
+            summary: "It went that way!",
+            location: Location(name: "Here", address: TextOnlyAddress(textDescription: "Not there")),
+            rangers: [Ranger(handle: "Tool")],
+            incidentTypes: ["Vehicle"],
+            reportEntries: [ReportEntry(author: Ranger(handle: "Tool"), text: "There it goes!")],
+            created: DateTime.now(),
+            state: IncidentState.OnScene
+        )
+        let b = Incident(
+            number: 2,
+            priority: IncidentPriority.Low,
+            summary: "It went this way!",
+            location: Location(name: "There", address: TextOnlyAddress(textDescription: "Not here")),
+            rangers: [Ranger(handle: "Splinter")],
+            incidentTypes: ["Medical"],
+            reportEntries: [ReportEntry(author: Ranger(handle: "Tool"), text: "Here it comes!")],
+            created: DateTime.now(),
+            state: IncidentState.Dispatched
+        )
+        let diff = a.diffFrom(b)
+        
+        XCTAssertEqual(diff, a)
+    }
+
+}
