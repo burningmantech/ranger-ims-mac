@@ -42,7 +42,9 @@ class TableView: NSTableView {
 
 
 
-protocol TableViewDelegate: class {
+protocol TableViewDelegate: NSTableViewDelegate {
+
     func deleteFromTableView(tableView: TableView)
     func openFromTableView(tableView: TableView)
+
 }
