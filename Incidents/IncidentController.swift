@@ -16,7 +16,9 @@ class IncidentController: NSWindowController {
 
     var originalIncident: Incident?
     var incident: Incident?
-
+    var rangersTableManager: RangersTableManager?
+    var typesTableManager: IncidentTypesTableManager?
+    
     @IBOutlet weak var numberField                   : NSTextField?
     @IBOutlet weak var statePopUp                    : NSPopUpButton?
     @IBOutlet weak var priorityPopUp                 : NSPopUpButton?
@@ -667,6 +669,16 @@ extension IncidentController: NSWindowDelegate {
         if loadingIndicator               == nil { arghEvilDeath("loading indicator"                ) }
         if reloadButton                   == nil { arghEvilDeath("reload button"                    ) }
 
+        // NSTableView doesn't retain it's data source, so we need to hold a reference to it
+
+        rangersTableManager = RangersTableManager(incident: incident!)
+        rangersTable!.setDataSource(rangersTableManager)
+        rangersTable!.setDelegate(rangersTableManager)
+
+        typesTableManager = IncidentTypesTableManager(incident: incident!)
+        typesTable!.setDataSource(typesTableManager)
+        typesTable!.setDelegate(typesTableManager)
+        
         markUnedited()
         updateView()
 
@@ -675,20 +687,6 @@ extension IncidentController: NSWindowDelegate {
 
         enableEditing()
     }
-
-}
-
-
-
-extension IncidentController: TableViewDelegate {
-
-    func deleteFromTableView(tableView: TableView) {
-        let rowIndex = tableView.selectedRow
-        
-    }
-
-    
-    func openFromTableView(tableView: TableView) {}
 
 }
 

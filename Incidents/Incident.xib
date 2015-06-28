@@ -142,9 +142,6 @@
                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     </tableColumn>
                                                 </tableColumns>
-                                                <connections>
-                                                    <outlet property="delegate" destination="-2" id="k8x-hD-WON"/>
-                                                </connections>
                                             </tableView>
                                         </subviews>
                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -222,9 +219,6 @@
                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     </tableColumn>
                                                 </tableColumns>
-                                                <connections>
-                                                    <outlet property="delegate" destination="-2" id="bTB-xf-NTE"/>
-                                                </connections>
                                             </tableView>
                                         </subviews>
                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
