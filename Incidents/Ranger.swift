@@ -6,7 +6,7 @@
 //  See the file COPYRIGHT.md for terms.
 //
 
-struct Ranger: CustomStringConvertible, Hashable {
+struct Ranger: CustomStringConvertible, Hashable, Comparable {
     var handle: String
     var name:   String?
     var status: String?
@@ -41,4 +41,13 @@ struct Ranger: CustomStringConvertible, Hashable {
 
 func ==(lhs: Ranger, rhs: Ranger) -> Bool {
     return lhs.handle == rhs.handle
+}
+
+
+func <(lhs: Ranger, rhs: Ranger) -> Bool {
+    if lhs.handle < rhs.handle {
+        return true
+    } else {
+        return false
+    }
 }
