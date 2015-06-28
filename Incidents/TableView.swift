@@ -20,20 +20,21 @@ class TableView: NSTableView {
         
         if selectedRow == -1 { return }
         
+        // FIXME: Seem janky that I have to cast to NSString, etc here
+        
         // We're looking for exactly one character
+        guard let characterString: NSString = theEvent.charactersIgnoringModifiers else { return }
+        guard characterString.length == 1 else { return }
+        let key = characterString.characterAtIndex(0)
         
-        guard let characterString = theEvent.charactersIgnoringModifiers else { return }
-        guard characterString.characters.count == 1 else { return }
-        
-        let key = characterString[characterString.startIndex]
-        
-        logDebug("Key: \(key)")
-        
-        // key == NSDeleteCharacter
-        // delegate.deleteFromTableView(self), return
-        
-        // key == NSCarriageReturnCharacter, NSEnterCharacter, NSNewlineCharacter
-        // delegate.openFromTableView(self), return
+        switch key {
+            case unichar(NSDeleteCharacter):
+                delegate.deleteFromTableView?(self)
+            case unichar(NSCarriageReturnCharacter), unichar(NSEnterCharacter):
+                delegate.openFromTableView?(self)
+            default:
+                break
+        }
         
         super.keyDown(theEvent)
     }
@@ -42,9 +43,10 @@ class TableView: NSTableView {
 
 
 
+@objc
 protocol TableViewDelegate: NSTableViewDelegate {
 
-    func deleteFromTableView(tableView: TableView)
-    func openFromTableView(tableView: TableView)
+    optional func deleteFromTableView(tableView: TableView)
+    optional func openFromTableView(tableView: TableView)
 
 }
