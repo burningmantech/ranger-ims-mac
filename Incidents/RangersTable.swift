@@ -12,11 +12,11 @@ import Cocoa
 
 class RangersTableManager: NSObject {
 
-    var incident: Incident
+    var incidentController: IncidentController
     
 
-    init(incident: Incident) {
-        self.incident = incident
+    init(incidentController: IncidentController) {
+        self.incidentController = incidentController
     }
 
     
@@ -26,7 +26,7 @@ class RangersTableManager: NSObject {
             return nil
         }
         
-        guard let rangers = incident.rangers else { return nil }
+        guard let rangers = incidentController.incident?.rangers else { return nil }
         
         guard index < rangers.count else {
             logError("Rangers table index out of bounds: \(index)")
@@ -46,7 +46,7 @@ class RangersTableManager: NSObject {
 extension RangersTableManager: NSTableViewDataSource {
 
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        guard let rangers = incident.rangers else { return 0 }
+        guard let rangers = incidentController.incident?.rangers else { return 0 }
         return rangers.count
     }
 
@@ -75,7 +75,7 @@ extension RangersTableManager: TableViewDelegate {
             return
         }
         
-        guard let rangers = incident.rangers else {
+        guard let rangers = incidentController.incident?.rangers else {
             logError("Deleting from Rangers table when incident has no Rangers?")
             return
         }
@@ -87,7 +87,7 @@ extension RangersTableManager: TableViewDelegate {
 
         var newRangers = rangers
         newRangers.remove(rangerToRemove)
-        incident.rangers = newRangers
+        incidentController.incident!.rangers = newRangers
 
         tableView.reloadData()
     }

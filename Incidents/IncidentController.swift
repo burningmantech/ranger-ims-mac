@@ -671,11 +671,11 @@ extension IncidentController: NSWindowDelegate {
 
         // NSTableView doesn't retain it's data source, so we need to hold a reference to it
 
-        rangersTableManager = RangersTableManager(incident: incident!)
+        rangersTableManager = RangersTableManager(incidentController: self)
         rangersTable!.setDataSource(rangersTableManager)
         rangersTable!.setDelegate(rangersTableManager)
 
-        typesTableManager = IncidentTypesTableManager(incident: incident!)
+        typesTableManager = IncidentTypesTableManager(incidentController: self)
         typesTable!.setDataSource(typesTableManager)
         typesTable!.setDelegate(typesTableManager)
         

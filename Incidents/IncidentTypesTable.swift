@@ -12,11 +12,11 @@ import Cocoa
 
 class IncidentTypesTableManager: NSObject {
     
-    var incident: Incident
-
+    var incidentController: IncidentController
     
-    init(incident: Incident) {
-        self.incident = incident
+    
+    init(incidentController: IncidentController) {
+        self.incidentController = incidentController
     }
     
 
@@ -26,7 +26,7 @@ class IncidentTypesTableManager: NSObject {
             return nil
         }
         
-        guard let incidentTypes = incident.incidentTypes else { return nil }
+        guard let incidentTypes = incidentController.incident?.incidentTypes else { return nil }
         
         guard index < incidentTypes.count else {
             logError("Incident types table index out of bounds: \(index)")
@@ -46,7 +46,7 @@ class IncidentTypesTableManager: NSObject {
 extension IncidentTypesTableManager: NSTableViewDataSource {
 
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        guard let incidentTypes = incident.incidentTypes else { return 0 }
+        guard let incidentTypes = incidentController.incident?.incidentTypes else { return 0 }
         return incidentTypes.count
     }
     
@@ -71,7 +71,7 @@ extension IncidentTypesTableManager: TableViewDelegate {
             return
         }
         
-        guard let incidentTypes = incident.incidentTypes else {
+        guard let incidentTypes = incidentController.incident?.incidentTypes else {
             logError("Deleting from incident types table when incident has no incident types?")
             return
         }
@@ -83,7 +83,7 @@ extension IncidentTypesTableManager: TableViewDelegate {
         
         var newTypes = incidentTypes
         newTypes.remove(incidentTypeToRemove)
-        incident.incidentTypes = newTypes
+        incidentController.incident!.incidentTypes = newTypes
 
         tableView.reloadData()
     }
