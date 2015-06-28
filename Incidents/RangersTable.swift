@@ -12,13 +12,33 @@ import Cocoa
 
 class RangersTableManager: NSObject {
 
-    let incident: Incident
+    var incident: Incident
     
 
     init(incident: Incident) {
         self.incident = incident
     }
 
+    
+    func rangerAtIndex(index: Int) -> Ranger? {
+        guard index >= 0 else {
+            logError("Negative table index: \(index)")
+            return nil
+        }
+        
+        guard let rangers = incident.rangers else { return nil }
+        
+        guard index < rangers.count else {
+            logError("Rangers table index out of bounds: \(index)")
+            return nil
+        }
+        
+        let sortedRangers = rangers.sort()
+        let ranger = sortedRangers[index]
+        
+        return ranger
+    }
+    
 }
 
 
@@ -36,22 +56,11 @@ extension RangersTableManager: NSTableViewDataSource {
         objectValueForTableColumn tableColumn: NSTableColumn?,
         row: Int
     ) -> AnyObject? {
-        guard row >= 0 else {
-            logError("Negative table row: \(row)")
+        if let ranger = rangerAtIndex(row) {
+            return ObjCObjectContainer(ranger)
+        } else {
             return nil
         }
-
-        guard let rangers = incident.rangers else { return nil }
-
-        guard row < rangers.count else {
-            logError("Rangers table row out of bounds: \(row)")
-            return nil
-        }
-
-        let sortedRangers = rangers.sort()
-        let ranger = sortedRangers[row]
-
-        return ObjCObjectContainer(ranger)
     }
 
 }
@@ -61,8 +70,26 @@ extension RangersTableManager: NSTableViewDataSource {
 extension RangersTableManager: TableViewDelegate {
     
     func deleteFromTableView(tableView: TableView) {
-        // let rowIndex = tableView.selectedRow
+        guard tableView.selectedRow != -1 else {
+            logError("Deleting from Rangers table with no selected row?")
+            return
+        }
         
+        guard let rangers = incident.rangers else {
+            logError("Deleting from Rangers table when incident has no Rangers?")
+            return
+        }
+        
+        guard let rangerToRemove = rangerAtIndex(tableView.selectedRow) else {
+            logError("No incident type in Rangers table at selected row \(tableView.selectedRow)?")
+            return
+        }
+
+        var newRangers = rangers
+        newRangers.remove(rangerToRemove)
+        incident.rangers = newRangers
+
+        tableView.reloadData()
     }
     
     

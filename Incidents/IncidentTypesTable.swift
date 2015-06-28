@@ -12,13 +12,33 @@ import Cocoa
 
 class IncidentTypesTableManager: NSObject {
     
-    let incident: Incident
-    
+    var incident: Incident
+
     
     init(incident: Incident) {
         self.incident = incident
     }
     
+
+    func incidentTypeAtIndex(index: Int) -> String? {
+        guard index >= 0 else {
+            logError("Negative incident types table index: \(index)")
+            return nil
+        }
+        
+        guard let incidentTypes = incident.incidentTypes else { return nil }
+        
+        guard index < incidentTypes.count else {
+            logError("Incident types table index out of bounds: \(index)")
+            return nil
+        }
+        
+        let sortedIncidentTypes = incidentTypes.sort()
+        let incidentType = sortedIncidentTypes[index]
+        
+        return incidentType
+    }
+
 }
 
 
@@ -36,22 +56,7 @@ extension IncidentTypesTableManager: NSTableViewDataSource {
         objectValueForTableColumn tableColumn: NSTableColumn?,
         row: Int
     ) -> AnyObject? {
-        guard row >= 0 else {
-            logError("Negative table row: \(row)")
-            return nil
-        }
-        
-        guard let incidentTypes = incident.incidentTypes else { return nil }
-        
-        guard row < incidentTypes.count else {
-            logError("Incident types table row out of bounds: \(row)")
-            return nil
-        }
-        
-        let sortedIncidentTypes = incidentTypes.sort()
-        let incidentType = sortedIncidentTypes[row]
-        
-        return incidentType
+        return self.incidentTypeAtIndex(row)
     }
     
 }
@@ -61,8 +66,26 @@ extension IncidentTypesTableManager: NSTableViewDataSource {
 extension IncidentTypesTableManager: TableViewDelegate {
 
     func deleteFromTableView(tableView: TableView) {
-        // let rowIndex = tableView.selectedRow
+        guard tableView.selectedRow != -1 else {
+            logError("Deleting from incident types table with no selected row?")
+            return
+        }
         
+        guard let incidentTypes = incident.incidentTypes else {
+            logError("Deleting from incident types table when incident has no incident types?")
+            return
+        }
+
+        guard let incidentTypeToRemove = incidentTypeAtIndex(tableView.selectedRow) else {
+            logError("No incident type in incident types table at selected row \(tableView.selectedRow)?")
+            return
+        }
+        
+        var newTypes = incidentTypes
+        newTypes.remove(incidentTypeToRemove)
+        incident.incidentTypes = newTypes
+
+        tableView.reloadData()
     }
     
     
