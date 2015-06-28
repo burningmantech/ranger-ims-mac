@@ -12,6 +12,7 @@ struct Ranger: CustomStringConvertible, Hashable, Comparable {
     var status: String?
 
     var hashValue: Int {
+        // Only handle matters for equality
         return handle.hashValue
     }
 
@@ -40,6 +41,7 @@ struct Ranger: CustomStringConvertible, Hashable, Comparable {
 
 
 func ==(lhs: Ranger, rhs: Ranger) -> Bool {
+    // Only handle matters for equality
     return lhs.handle == rhs.handle
 }
 
