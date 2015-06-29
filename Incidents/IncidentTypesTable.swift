@@ -85,7 +85,8 @@ extension IncidentTypesTableManager: TableViewDelegate {
         newTypes.remove(incidentTypeToRemove)
         incidentController.incident!.incidentTypes = newTypes
 
-        tableView.reloadData()
+        incidentController.markEdited()
+        incidentController.updateView()
     }
     
     

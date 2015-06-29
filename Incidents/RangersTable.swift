@@ -89,7 +89,8 @@ extension RangersTableManager: TableViewDelegate {
         newRangers.remove(rangerToRemove)
         incidentController.incident!.rangers = newRangers
 
-        tableView.reloadData()
+        incidentController.markEdited()
+        incidentController.updateView()
     }
     
     
