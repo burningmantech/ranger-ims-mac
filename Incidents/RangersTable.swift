@@ -81,7 +81,7 @@ extension RangersTableManager: TableViewDelegate {
         }
         
         guard let rangerToRemove = rangerAtIndex(tableView.selectedRow) else {
-            logError("No incident type in Rangers table at selected row \(tableView.selectedRow)?")
+            logError("No Ranger in Rangers table at selected row \(tableView.selectedRow)?")
             return
         }
 
