@@ -100,6 +100,60 @@ extension RangersTableManager: TableViewDelegate {
 
 
 
+extension RangersTableManager: NSControlTextEditingDelegate, NSTextFieldDelegate {
+    
+    func control(
+        control: NSControl,
+        textView: NSTextView,
+        doCommandBySelector commandSelector: Selector
+        ) -> Bool {
+            guard control === incidentController.rangerToAddField else {
+                logError("doCommandBySelector sent via unknown Ranger to add control: \(control)")
+                return false
+            }
+            
+            switch commandSelector {
+            case Selector("insertNewline:"):
+                let handle = control.stringValue
+                
+                if handle.characters.count > 0 {
+                    guard incidentController.incident != nil else {
+                        logError("doCommandBySelector via Ranger to add control with no incident?")
+                        return true
+                    }
+                    
+                    guard let ranger = incidentController.dispatchQueueController?.ims.rangersByHandle[handle] else {
+                        logDebug("Unknown Ranger handle: \(handle)")
+                        return true
+                    }
+                    
+                    var rangers: Set<Ranger>
+                    if incidentController.incident!.rangers == nil {
+                        rangers = []
+                    } else {
+                        rangers = incidentController.incident!.rangers!
+                    }
+                    rangers.insert(ranger)
+                    
+                    incidentController.incident!.rangers = rangers
+                    
+                    incidentController.markEdited()
+                    incidentController.updateView()
+                    
+                    control.stringValue = ""
+                }
+                
+                return true
+                
+            default:
+                return false
+            }
+    }
+    
+}
+
+
+
 class ObjCObjectContainer: NSObject, NSCopying {
 
     var object: CustomStringConvertible

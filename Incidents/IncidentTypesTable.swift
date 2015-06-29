@@ -93,3 +93,54 @@ extension IncidentTypesTableManager: TableViewDelegate {
     func openFromTableView(tableView: TableView) {}
     
 }
+
+
+
+extension IncidentTypesTableManager: NSControlTextEditingDelegate, NSTextFieldDelegate {
+
+    func control(
+        control: NSControl,
+        textView: NSTextView,
+        doCommandBySelector commandSelector: Selector
+    ) -> Bool {
+        guard control === incidentController.typeToAddField else {
+            logError("doCommandBySelector sent via unknown incident type to add control: \(control)")
+            return false
+        }
+        
+        switch commandSelector {
+            case Selector("insertNewline:"):
+                let incidentType = control.stringValue
+
+                if incidentType.characters.count > 0 {
+                    guard incidentController.incident != nil else {
+                        logError("doCommandBySelector via incident type to add control with no incident?")
+                        return true
+                    }
+                    
+                    // FIXME: Make sure incidentType is a known value
+                    
+                    var incidentTypes: Set<String>
+                    if incidentController.incident!.incidentTypes == nil {
+                        incidentTypes = []
+                    } else {
+                        incidentTypes = incidentController.incident!.incidentTypes!
+                    }
+                    incidentTypes.insert(incidentType)
+
+                    incidentController.incident!.incidentTypes = incidentTypes
+                    
+                    incidentController.markEdited()
+                    incidentController.updateView()
+
+                    control.stringValue = ""
+                }
+
+                return true
+
+            default:
+                return false
+        }
+    }
+
+}

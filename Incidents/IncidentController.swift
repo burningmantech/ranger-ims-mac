@@ -674,11 +674,13 @@ extension IncidentController: NSWindowDelegate {
         rangersTableManager = RangersTableManager(incidentController: self)
         rangersTable!.setDataSource(rangersTableManager)
         rangersTable!.setDelegate(rangersTableManager)
+        rangerToAddField!.delegate = rangersTableManager
 
         typesTableManager = IncidentTypesTableManager(incidentController: self)
         typesTable!.setDataSource(typesTableManager)
         typesTable!.setDelegate(typesTableManager)
-        
+        typeToAddField!.delegate = typesTableManager
+
         markUnedited()
         updateView()
 
