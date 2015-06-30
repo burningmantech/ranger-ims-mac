@@ -113,43 +113,96 @@ extension RangersTableManager: NSControlTextEditingDelegate, NSTextFieldDelegate
             }
             
             switch commandSelector {
-            case Selector("insertNewline:"):
-                let handle = control.stringValue
-                
-                if handle.characters.count > 0 {
-                    guard incidentController.incident != nil else {
-                        logError("doCommandBySelector via Ranger to add control with no incident?")
-                        return true
+                case Selector("insertNewline:"):
+                    let handle = control.stringValue
+                    
+                    if handle.characters.count > 0 {
+                        guard incidentController.incident != nil else {
+                            logError("doCommandBySelector via Ranger to add control with no incident?")
+                            return true
+                        }
+                        
+                        guard let ranger = incidentController.dispatchQueueController?.ims.rangersByHandle[handle] else {
+                            logDebug("Unknown Ranger handle: \(handle)")
+                            return true
+                        }
+                        
+                        var rangers: Set<Ranger>
+                        if incidentController.incident!.rangers == nil {
+                            rangers = []
+                        } else {
+                            rangers = incidentController.incident!.rangers!
+                        }
+                        rangers.insert(ranger)
+                        
+                        incidentController.incident!.rangers = rangers
+                        
+                        incidentController.markEdited()
+                        incidentController.updateView()
+                        
+                        control.stringValue = ""
                     }
                     
-                    guard let ranger = incidentController.dispatchQueueController?.ims.rangersByHandle[handle] else {
-                        logDebug("Unknown Ranger handle: \(handle)")
-                        return true
-                    }
+                    return true
                     
-                    var rangers: Set<Ranger>
-                    if incidentController.incident!.rangers == nil {
-                        rangers = []
-                    } else {
-                        rangers = incidentController.incident!.rangers!
-                    }
-                    rangers.insert(ranger)
-                    
-                    incidentController.incident!.rangers = rangers
-                    
-                    incidentController.markEdited()
-                    incidentController.updateView()
-                    
-                    control.stringValue = ""
-                }
-                
-                return true
-                
-            default:
-                return false
+                default:
+                    return false
             }
     }
     
+
+    override func controlTextDidChange(notification: NSNotification) {
+        if amBackspacing { amBackspacing = false }
+        
+        if !amCompleting {
+            guard let fieldEditor = notification.userInfo?["NSFieldEditor"] else {
+                logError("No field editor?")
+                return
+            }
+
+            fieldEditor.complete(self)
+            amCompleting = true
+
+            super.controlTextDidChange(notification)
+        }
+    }
+
+    
+    func control(
+        control: NSControl,
+        textView: NSTextView,
+        completions words: [String],
+        forPartialWordRange charRange: NSRange,
+        indexOfSelectedItem index: UnsafeMutablePointer<Int>
+    ) -> [String] {
+        guard let currentWord = textView.string else {
+            logError("Can't complete; no word to complete?")
+            return []
+        }
+        
+        guard let allHandles = incidentController.dispatchQueueController?.ims.rangersByHandle.keys else {
+            logError("Can't complete; no Ranger handles?")
+            return []
+        }
+        
+        var result: [String] = []
+        
+        if currentWord == "?" {
+            for handle in allHandles {
+                result.append(handle)
+            }
+        }
+        else {
+            for handle in allHandles {
+                if handle.hasPrefix(currentWord) {
+                    result.append(handle)
+                }
+            }
+        }
+        
+        return result
+    }
+
 }
 
 
