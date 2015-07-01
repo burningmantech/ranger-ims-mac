@@ -179,8 +179,6 @@ extension RangersTableManager: NSControlTextEditingDelegate, NSTextFieldDelegate
             amCompleting = true
             fieldEditor.complete(self)
             amCompleting = false
-            
-            super.controlTextDidChange(notification)
         }
     }
 
