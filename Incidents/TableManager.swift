@@ -17,8 +17,8 @@ class TableManager: NSObject {
     var amCompleting  = false
     var amBackspacing = false
 
-    var tableRowValues: [AnyObject] { return [] }
-    var stringValues: [String] { return [] }
+    var tableRowValues: [AnyObject] { return [] }  // sorted
+    var stringValues: [String] { return [] }  // unsorted
     
     
     init(incidentController: IncidentController) {
@@ -85,7 +85,7 @@ extension TableManager: TableViewDelegate {
 extension TableManager: NSTableViewDataSource {
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return tableRowValues.count
+        return stringValues.count
     }
     
     

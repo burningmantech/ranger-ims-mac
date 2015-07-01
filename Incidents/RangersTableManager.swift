@@ -59,11 +59,18 @@ class RangersTableManager: TableManager {
 
     
     override func removeValue(value: AnyObject) {
-        let container = value as! ObjCObjectContainer
-        let rangerToRemove = container.object as! Ranger
-
         guard let rangers = incidentController.incident?.rangers else {
             logError("Deleting from Rangers table when incident has no Rangers?")
+            return
+        }
+
+        guard let container = value as? ObjCObjectContainer else {
+            logError("Deleting from Rangers expects an ObjCObjectContainer, not \(value)?")
+            return
+        }
+
+        guard let rangerToRemove = container.object as? Ranger else {
+            logError("Deleting from Rangers expects an ObjCObjectContainer with a Ranger, not \(container.object)?")
             return
         }
 
