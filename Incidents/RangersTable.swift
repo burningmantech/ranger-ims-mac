@@ -13,6 +13,9 @@ import Cocoa
 class RangersTableManager: NSObject {
 
     var incidentController: IncidentController
+
+    var amCompleting  = false
+    var amBackspacing = false
     
 
     init(incidentController: IncidentController) {
@@ -113,6 +116,12 @@ extension RangersTableManager: NSControlTextEditingDelegate, NSTextFieldDelegate
             }
             
             switch commandSelector {
+                case Selector("deleteBackward:"):
+                    if control.stringValue.characters.count > 0 {
+                        amBackspacing = true
+                    }
+                    return false
+                
                 case Selector("insertNewline:"):
                     let handle = control.stringValue
                     
@@ -175,10 +184,7 @@ extension RangersTableManager: NSControlTextEditingDelegate, NSTextFieldDelegate
         forPartialWordRange charRange: NSRange,
         indexOfSelectedItem index: UnsafeMutablePointer<Int>
     ) -> [String] {
-        guard let currentWord = textView.string else {
-            logError("Can't complete; no word to complete?")
-            return []
-        }
+        let currentWord = control.stringValue.lowercaseString
         
         guard let allHandles = incidentController.dispatchQueueController?.ims.rangersByHandle.keys else {
             logError("Can't complete; no Ranger handles?")
@@ -194,7 +200,7 @@ extension RangersTableManager: NSControlTextEditingDelegate, NSTextFieldDelegate
         }
         else {
             for handle in allHandles {
-                if handle.hasPrefix(currentWord) {
+                if handle.lowercaseString.hasPrefix(currentWord) {
                     result.append(handle)
                 }
             }
