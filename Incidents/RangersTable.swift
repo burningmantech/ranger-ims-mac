@@ -172,9 +172,14 @@ extension RangersTableManager: NSControlTextEditingDelegate, NSTextFieldDelegate
                 return
             }
 
-            fieldEditor.complete(self)
-            amCompleting = true
+            // fieldEditor.complete() will trigger another call to
+            // controlTextDidChange(), so we avoid infinite recursion with
+            // the amCompleting variable.
 
+            amCompleting = true
+            fieldEditor.complete(self)
+            amCompleting = false
+            
             super.controlTextDidChange(notification)
         }
     }
