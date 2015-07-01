@@ -161,7 +161,10 @@ extension RangersTableManager: NSControlTextEditingDelegate, NSTextFieldDelegate
     
 
     override func controlTextDidChange(notification: NSNotification) {
-        if amBackspacing { amBackspacing = false }
+        if amBackspacing {
+            amBackspacing = false
+            return
+        }
         
         if !amCompleting {
             guard let fieldEditor = notification.userInfo?["NSFieldEditor"] else {
