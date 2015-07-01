@@ -10,209 +10,66 @@ import Cocoa
 
 
 
-class RangersTableManager: NSObject {
+class RangersTableManager: TableManager {
 
-    var incidentController: IncidentController
+    override var tableRowValues: [AnyObject] {
+        guard let rangers = incidentController.incident?.rangers else { return [] }
 
-    var amCompleting  = false
-    var amBackspacing = false
-    
-
-    init(incidentController: IncidentController) {
-        self.incidentController = incidentController
+        var result: [AnyObject] = []
+        for ranger in rangers.sort() { result.append(ObjCObjectContainer(ranger)) }
+        return result
     }
 
-    
-    func rangerAtIndex(index: Int) -> Ranger? {
-        guard index >= 0 else {
-            logError("Negative table index: \(index)")
-            return nil
+
+    override var stringValues: [String] {
+        guard let allHandles = incidentController.dispatchQueueController?.ims.rangersByHandle.keys else {
+            logError("Can't complete; no Ranger handles?")
+            return []
+        }
+
+        var result: [String] = []
+        for handle in allHandles { result.append(handle) }
+        return result
+    }
+
+
+    override func addStringValue(value: String) -> Bool {
+        guard incidentController.incident != nil else {
+            logError("Can't add Ranger with no incident?")
+            return false
         }
         
-        guard let rangers = incidentController.incident?.rangers else { return nil }
-        
-        guard index < rangers.count else {
-            logError("Rangers table index out of bounds: \(index)")
-            return nil
+        guard let ranger = incidentController.dispatchQueueController?.ims.rangersByHandle[value] else {
+            logDebug("Unknown Ranger handle: \(value)")
+            return false
         }
         
-        let sortedRangers = rangers.sort()
-        let ranger = sortedRangers[index]
-        
-        return ranger
-    }
-    
-}
-
-
-
-extension RangersTableManager: NSTableViewDataSource {
-
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        guard let rangers = incidentController.incident?.rangers else { return 0 }
-        return rangers.count
-    }
-
-
-    func tableView(
-        tableView: NSTableView,
-        objectValueForTableColumn tableColumn: NSTableColumn?,
-        row: Int
-    ) -> AnyObject? {
-        if let ranger = rangerAtIndex(row) {
-            return ObjCObjectContainer(ranger)
+        var rangers: Set<Ranger>
+        if incidentController.incident!.rangers == nil {
+            rangers = []
         } else {
-            return nil
+            rangers = incidentController.incident!.rangers!
         }
+        rangers.insert(ranger)
+        
+        incidentController.incident!.rangers = rangers
+
+        return true
     }
 
-}
-
-
-
-extension RangersTableManager: TableViewDelegate {
     
-    func deleteFromTableView(tableView: TableView) {
-        guard tableView.selectedRow != -1 else {
-            logError("Deleting from Rangers table with no selected row?")
-            return
-        }
-        
+    override func removeValue(value: AnyObject) {
+        let container = value as! ObjCObjectContainer
+        let rangerToRemove = container.object as! Ranger
+
         guard let rangers = incidentController.incident?.rangers else {
             logError("Deleting from Rangers table when incident has no Rangers?")
-            return
-        }
-        
-        guard let rangerToRemove = rangerAtIndex(tableView.selectedRow) else {
-            logError("No Ranger in Rangers table at selected row \(tableView.selectedRow)?")
             return
         }
 
         var newRangers = rangers
         newRangers.remove(rangerToRemove)
         incidentController.incident!.rangers = newRangers
-
-        incidentController.markEdited()
-        incidentController.updateView()
-    }
-    
-    
-    func openFromTableView(tableView: TableView) {}
-    
-}
-
-
-
-extension RangersTableManager: NSControlTextEditingDelegate, NSTextFieldDelegate {
-    
-    func control(
-        control: NSControl,
-        textView: NSTextView,
-        doCommandBySelector commandSelector: Selector
-        ) -> Bool {
-            guard control === incidentController.rangerToAddField else {
-                logError("doCommandBySelector sent via unknown Ranger to add control: \(control)")
-                return false
-            }
-            
-            switch commandSelector {
-                case Selector("deleteBackward:"):
-                    if control.stringValue.characters.count > 0 {
-                        amBackspacing = true
-                    }
-                    return false
-                
-                case Selector("insertNewline:"):
-                    let handle = control.stringValue
-                    
-                    if handle.characters.count > 0 {
-                        guard incidentController.incident != nil else {
-                            logError("doCommandBySelector via Ranger to add control with no incident?")
-                            return true
-                        }
-                        
-                        guard let ranger = incidentController.dispatchQueueController?.ims.rangersByHandle[handle] else {
-                            logDebug("Unknown Ranger handle: \(handle)")
-                            return true
-                        }
-                        
-                        var rangers: Set<Ranger>
-                        if incidentController.incident!.rangers == nil {
-                            rangers = []
-                        } else {
-                            rangers = incidentController.incident!.rangers!
-                        }
-                        rangers.insert(ranger)
-                        
-                        incidentController.incident!.rangers = rangers
-                        
-                        incidentController.markEdited()
-                        incidentController.updateView()
-                        
-                        control.stringValue = ""
-                    }
-                    
-                    return true
-                    
-                default:
-                    return false
-            }
-    }
-    
-
-    override func controlTextDidChange(notification: NSNotification) {
-        if amBackspacing {
-            amBackspacing = false
-            return
-        }
-        
-        if !amCompleting {
-            guard let fieldEditor = notification.userInfo?["NSFieldEditor"] else {
-                logError("No field editor?")
-                return
-            }
-
-            // fieldEditor.complete() will trigger another call to
-            // controlTextDidChange(), so we avoid infinite recursion with
-            // the amCompleting variable.
-
-            amCompleting = true
-            fieldEditor.complete(self)
-            amCompleting = false
-        }
-    }
-
-    
-    func control(
-        control: NSControl,
-        textView: NSTextView,
-        completions words: [String],
-        forPartialWordRange charRange: NSRange,
-        indexOfSelectedItem index: UnsafeMutablePointer<Int>
-    ) -> [String] {
-        let currentWord = control.stringValue.lowercaseString
-        
-        guard let allHandles = incidentController.dispatchQueueController?.ims.rangersByHandle.keys else {
-            logError("Can't complete; no Ranger handles?")
-            return []
-        }
-        
-        var result: [String] = []
-        
-        if currentWord == "?" {
-            for handle in allHandles {
-                result.append(handle)
-            }
-        }
-        else {
-            for handle in allHandles {
-                if handle.lowercaseString.hasPrefix(currentWord) {
-                    result.append(handle)
-                }
-            }
-        }
-        
-        return result
     }
 
 }
