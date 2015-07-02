@@ -32,8 +32,16 @@ class IncidentTypesTableManager: TableManager {
             return false
         }
         
-        // FIXME: Make sure incidentType is a known value
+        guard let knownIncidentTypes = incidentController.dispatchQueueController?.ims.incidentTypes else {
+            logError("No incident types?")
+            return false
+        }
 
+        guard knownIncidentTypes.contains(value) else {
+            logDebug("Unknown incident type: \(value)")
+            return false
+        }
+        
         var incidentTypes: Set<String>
         if incidentController.incident!.incidentTypes == nil {
             incidentTypes = []
