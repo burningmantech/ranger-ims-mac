@@ -18,6 +18,7 @@ class IncidentController: NSWindowController {
     var incident: Incident?
     var rangersTableManager: RangersTableManager?
     var typesTableManager: IncidentTypesTableManager?
+    var concentricAddressDelegate: ConcentricStreetFieldDelegate?
     
     @IBOutlet weak var numberField                   : NSTextField?
     @IBOutlet weak var statePopUp                    : NSPopUpButton?
@@ -681,6 +682,11 @@ extension IncidentController: NSWindowDelegate {
         typesTable!.setDelegate(typesTableManager)
         typeToAddField!.delegate = typesTableManager
 
+        concentricAddressDelegate = ConcentricStreetFieldDelegate()
+        locationConcentricAddressField!.delegate = concentricAddressDelegate
+
+        
+        
         markUnedited()
         updateView()
 

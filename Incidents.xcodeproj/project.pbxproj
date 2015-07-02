@@ -39,6 +39,7 @@
 		359761311B02B3BD0032988B /* ReportEntryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359761301B02B3BD0032988B /* ReportEntryTests.swift */; };
 		35A3E3251B440B3600F65BFD /* TableManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A3E3241B440B3500F65BFD /* TableManager.swift */; };
 		35A3E3271B4585D400F65BFD /* CompletingControlDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A3E3261B4585D400F65BFD /* CompletingControlDelegate.swift */; };
+		35A3E3291B45BEBB00F65BFD /* ConcentricStreetFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A3E3281B45BEBB00F65BFD /* ConcentricStreetFieldDelegate.swift */; };
 		35A5FEE71B09D7930056DF5C /* HTTPHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5FEE61B09D7930056DF5C /* HTTPHeaders.swift */; };
 		35A5FEE81B09D7D60056DF5C /* HTTPHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5FEE61B09D7930056DF5C /* HTTPHeaders.swift */; };
 		35A5FEEA1B09D8250056DF5C /* HTTPHeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5FEE91B09D8250056DF5C /* HTTPHeadersTests.swift */; };
@@ -106,6 +107,7 @@
 		359761301B02B3BD0032988B /* ReportEntryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportEntryTests.swift; sourceTree = "<group>"; };
 		35A3E3241B440B3500F65BFD /* TableManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableManager.swift; sourceTree = "<group>"; };
 		35A3E3261B4585D400F65BFD /* CompletingControlDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletingControlDelegate.swift; sourceTree = "<group>"; };
+		35A3E3281B45BEBB00F65BFD /* ConcentricStreetFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcentricStreetFieldDelegate.swift; sourceTree = "<group>"; };
 		35A5FEE61B09D7930056DF5C /* HTTPHeaders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeaders.swift; sourceTree = "<group>"; };
 		35A5FEE91B09D8250056DF5C /* HTTPHeadersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeadersTests.swift; sourceTree = "<group>"; };
 		35A5FEEB1B09D97B0056DF5C /* HTTPSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPSession.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				35205F221B2E398000A1A371 /* IncidentController.swift */,
 				35F0765A1B3885E100192A64 /* RangersTableManager.swift */,
 				352144231B3F1D59000C1AAE /* IncidentTypesTableManager.swift */,
+				35A3E3281B45BEBB00F65BFD /* ConcentricStreetFieldDelegate.swift */,
 			);
 			name = "Incident Window";
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				35D6155C1AFC142C005CB5AB /* Ranger.swift in Sources */,
 				35205F191B2A5ECE00A1A371 /* NSDataExtensions.swift in Sources */,
 				35C49DBA1B0D2BEF00CB93BD /* Log.swift in Sources */,
+				35A3E3291B45BEBB00F65BFD /* ConcentricStreetFieldDelegate.swift in Sources */,
 				350139061B0F21FA00E4A161 /* IMSProtocol.swift in Sources */,
 				35E0D79F1B0B78B1007499C0 /* Failable.swift in Sources */,
 				35F0765B1B3885E100192A64 /* RangersTableManager.swift in Sources */,
