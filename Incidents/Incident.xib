@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14D2134" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
         <capability name="box content view" minToolsVersion="7.0"/>
@@ -32,7 +32,7 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="411" y="87" width="470" height="575"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
             <value key="minSize" type="size" width="470" height="550"/>
             <view key="contentView" id="EiT-Mj-1SZ" userLabel="Window View">
                 <rect key="frame" x="0.0" y="0.0" width="470" height="575"/>
@@ -116,7 +116,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U1C-qj-Vcw" userLabel="Rangers Scroll View">
-                                    <rect key="frame" x="12" y="42" width="191" height="98"/>
+                                    <rect key="frame" x="12" y="40" width="191" height="98"/>
                                     <clipView key="contentView" id="qG2-Ig-zZe" userLabel="Rangers Clip View">
                                         <rect key="frame" x="1" y="1" width="189" height="96"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -159,7 +159,7 @@
                                     </scroller>
                                 </scrollView>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="csb-Kq-qjl" userLabel="Add Ranger Field">
-                                    <rect key="frame" x="12" y="12" width="191" height="22"/>
+                                    <rect key="frame" x="12" y="10" width="191" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="z6w-wC-Ybf"/>
                                     </constraints>
@@ -175,8 +175,7 @@
                                 <constraint firstItem="U1C-qj-Vcw" firstAttribute="leading" secondItem="6Wa-BT-fSj" secondAttribute="leading" constant="12" id="LGF-R7-Gr1"/>
                                 <constraint firstItem="csb-Kq-qjl" firstAttribute="top" secondItem="U1C-qj-Vcw" secondAttribute="bottom" constant="8" id="QDK-iL-hRV"/>
                                 <constraint firstAttribute="trailing" secondItem="U1C-qj-Vcw" secondAttribute="trailing" constant="12" id="QT6-IG-Xvl"/>
-                                <constraint firstAttribute="bottom" secondItem="csb-Kq-qjl" secondAttribute="bottom" constant="12" id="ll8-lB-i8T"/>
-                                <constraint firstAttribute="trailing" secondItem="csb-Kq-qjl" secondAttribute="trailing" constant="12" id="lti-2X-Kl2"/>
+                                <constraint firstAttribute="trailing" secondItem="csb-Kq-qjl" secondAttribute="trailing" constant="12" id="V0Q-xk-ZEW"/>
                                 <constraint firstItem="csb-Kq-qjl" firstAttribute="leading" secondItem="6Wa-BT-fSj" secondAttribute="leading" constant="12" id="vAq-T8-vGN"/>
                             </constraints>
                         </view>
@@ -188,12 +187,12 @@
                     </box>
                     <box autoresizesSubviews="NO" title="Incident Types" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="eiC-C9-pMt" userLabel="Incident Types Box">
                         <rect key="frame" x="236" y="330" width="217" height="166"/>
-                        <view key="contentView" ambiguous="YES" id="fPk-c7-taw" userLabel="Incident Types View">
+                        <view key="contentView" id="fPk-c7-taw" userLabel="Incident Types View">
                             <rect key="frame" x="1" y="1" width="215" height="150"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <scrollView ambiguous="YES" misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXW-T4-3Ff" userLabel="Incident Types Scroll View">
-                                    <rect key="frame" x="12" y="42" width="191" height="98"/>
+                                <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXW-T4-3Ff" userLabel="Incident Types Scroll View">
+                                    <rect key="frame" x="12" y="40" width="191" height="98"/>
                                     <clipView key="contentView" id="NeF-Jl-rEN" userLabel="Incident Types Clip View">
                                         <rect key="frame" x="1" y="1" width="189" height="96"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -235,8 +234,8 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                 </scrollView>
-                                <textField verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a9o-Ff-rSk" userLabel="Add Incident Type Field">
-                                    <rect key="frame" x="12" y="12" width="191" height="22"/>
+                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a9o-Ff-rSk" userLabel="Add Incident Type Field">
+                                    <rect key="frame" x="12" y="10" width="191" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="3kV-id-gLz"/>
                                     </constraints>
@@ -248,7 +247,6 @@
                                 </textField>
                             </subviews>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="a9o-Ff-rSk" secondAttribute="bottom" constant="12" id="3ne-Dc-9vd"/>
                                 <constraint firstAttribute="trailing" secondItem="sXW-T4-3Ff" secondAttribute="trailing" constant="12" id="JzB-7D-CI5"/>
                                 <constraint firstItem="a9o-Ff-rSk" firstAttribute="leading" secondItem="fPk-c7-taw" secondAttribute="leading" constant="12" id="Svz-um-383"/>
                                 <constraint firstAttribute="trailing" secondItem="a9o-Ff-rSk" secondAttribute="trailing" constant="12" id="cBI-aJ-FZG"/>
@@ -267,7 +265,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PyH-9f-M2Q" userLabel="Location Name Label">
-                                    <rect key="frame" x="10" y="75" width="79" height="17"/>
+                                    <rect key="frame" x="10" y="77" width="79" height="17"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="75" id="WiV-u6-jXT"/>
                                     </constraints>
@@ -278,7 +276,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Dj-PY-sBf" userLabel="Location Name Field">
-                                    <rect key="frame" x="95" y="71" width="327" height="25"/>
+                                    <rect key="frame" x="95" y="74" width="327" height="22"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Name of location" drawsBackground="YES" id="zdc-fq-tMb" userLabel="Location Name Cell">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -289,7 +287,7 @@
                                     </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4WU-bG-41k" userLabel="Location Address Label">
-                                    <rect key="frame" x="10" y="43" width="79" height="17"/>
+                                    <rect key="frame" x="10" y="47" width="79" height="17"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="75" id="dR6-0J-TDm"/>
                                     </constraints>
@@ -300,9 +298,8 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tP3-JI-2VT" userLabel="Location Radial Address Field">
-                                    <rect key="frame" x="95" y="41" width="45" height="22"/>
+                                    <rect key="frame" x="95" y="44" width="45" height="22"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="22" id="gKa-aC-EBV"/>
                                         <constraint firstAttribute="width" constant="45" id="u9t-zH-qnL"/>
                                     </constraints>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" placeholderString="00:00" drawsBackground="YES" id="wRD-4b-ufx" userLabel="Location Radial Address Cell">
@@ -316,7 +313,7 @@
                                     </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ibS-Xq-P1S" userLabel="Location @ Label">
-                                    <rect key="frame" x="142" y="43" width="19" height="17"/>
+                                    <rect key="frame" x="142" y="47" width="19" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="@" placeholderString="Name of location" id="OBt-7B-Rax">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -324,7 +321,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0g1-m3-tte" userLabel="Location Concentric Address Field">
-                                    <rect key="frame" x="163" y="41" width="259" height="22"/>
+                                    <rect key="frame" x="163" y="44" width="259" height="22"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Concentric Street" drawsBackground="YES" id="BcL-5a-iaA" userLabel="Location Concentric Address Cell">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -335,7 +332,7 @@
                                     </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oCx-pj-kdR" userLabel="Location Description Label">
-                                    <rect key="frame" x="10" y="14" width="79" height="17"/>
+                                    <rect key="frame" x="10" y="17" width="79" height="17"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="75" id="NqW-9z-InK"/>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="75" id="wee-yC-8ib"/>
@@ -347,7 +344,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qZC-eH-Ufl" userLabel="Location Description Field">
-                                    <rect key="frame" x="95" y="12" width="327" height="21"/>
+                                    <rect key="frame" x="95" y="14" width="327" height="22"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Other idenfying info" drawsBackground="YES" id="jpz-hY-xcB" userLabel="Location Description Cell">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -367,14 +364,12 @@
                                 <constraint firstAttribute="trailing" secondItem="qZC-eH-Ufl" secondAttribute="trailing" constant="12" id="Ifc-7L-XL7"/>
                                 <constraint firstItem="9Dj-PY-sBf" firstAttribute="top" secondItem="NHe-1x-nZ0" secondAttribute="top" constant="8" id="Ily-MG-1sE"/>
                                 <constraint firstAttribute="trailing" secondItem="9Dj-PY-sBf" secondAttribute="trailing" constant="12" id="M8n-uS-1PN"/>
-                                <constraint firstAttribute="bottom" secondItem="qZC-eH-Ufl" secondAttribute="bottom" constant="12" id="Qg1-Xs-F4y"/>
                                 <constraint firstItem="oCx-pj-kdR" firstAttribute="leading" secondItem="NHe-1x-nZ0" secondAttribute="leading" constant="12" id="SKb-rk-bN7"/>
                                 <constraint firstItem="ibS-Xq-P1S" firstAttribute="centerY" secondItem="4WU-bG-41k" secondAttribute="centerY" id="Y1E-qB-XBg"/>
                                 <constraint firstItem="0g1-m3-tte" firstAttribute="top" secondItem="9Dj-PY-sBf" secondAttribute="bottom" constant="8" id="YN0-cQ-aMD"/>
                                 <constraint firstItem="0g1-m3-tte" firstAttribute="leading" secondItem="ibS-Xq-P1S" secondAttribute="trailing" constant="4" id="e5z-ro-b44"/>
                                 <constraint firstItem="PyH-9f-M2Q" firstAttribute="leading" secondItem="NHe-1x-nZ0" secondAttribute="leading" constant="12" id="eVV-iX-Q4t"/>
                                 <constraint firstItem="9Dj-PY-sBf" firstAttribute="centerY" secondItem="PyH-9f-M2Q" secondAttribute="centerY" id="gaF-OY-5CU"/>
-                                <constraint firstItem="ibS-Xq-P1S" firstAttribute="centerY" secondItem="NHe-1x-nZ0" secondAttribute="centerY" id="la8-xC-1AW"/>
                                 <constraint firstItem="9Dj-PY-sBf" firstAttribute="leading" secondItem="PyH-9f-M2Q" secondAttribute="trailing" constant="8" symbolic="YES" id="muK-GG-U3N"/>
                                 <constraint firstItem="tP3-JI-2VT" firstAttribute="leading" secondItem="4WU-bG-41k" secondAttribute="trailing" constant="8" symbolic="YES" id="rVe-Ag-2o1"/>
                                 <constraint firstItem="qZC-eH-Ufl" firstAttribute="leading" secondItem="oCx-pj-kdR" secondAttribute="trailing" constant="8" symbolic="YES" id="rYT-gn-Yoj"/>
