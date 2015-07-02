@@ -527,6 +527,9 @@
                     <constraint firstItem="TO1-Qy-MR8" firstAttribute="centerY" secondItem="htU-ll-Quk" secondAttribute="centerY" id="yTC-Z3-Dmb"/>
                 </constraints>
             </view>
+            <connections>
+                <outlet property="initialFirstResponder" destination="DLo-WD-9pn" id="HuT-IG-bFZ"/>
+            </connections>
             <point key="canvasLocation" x="350" y="130.5"/>
         </window>
     </objects>
