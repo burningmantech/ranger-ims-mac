@@ -21,15 +21,13 @@ class RangersTableManager: TableManager {
     }
 
 
-    override var stringValues: [String] {
+    override var completionValues: [String] {
         guard let allHandles = incidentController.dispatchQueueController?.ims.rangersByHandle.keys else {
             logError("Can't complete; no Ranger handles?")
             return []
         }
 
-        var result: [String] = []
-        for handle in allHandles { result.append(handle) }
-        return result
+        return allHandles.sort()
     }
 
 

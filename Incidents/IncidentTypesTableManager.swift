@@ -19,10 +19,13 @@ class IncidentTypesTableManager: TableManager {
     }
     
     
-    override var stringValues: [String] {
-        guard let incidentTypes = incidentController.incident?.incidentTypes else { return [] }
+    override var completionValues: [String] {
+        guard let incidentTypes = incidentController.dispatchQueueController?.ims.incidentTypes else {
+            logError("Can't complete; no incident types?")
+            return []
+        }
 
-        return Array(incidentTypes)
+        return incidentTypes.sort()
     }
     
     

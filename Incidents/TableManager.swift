@@ -15,9 +15,8 @@ class TableManager: CompletingControlDelegate {
     var incidentController: IncidentController
     
     var tableRowValues: [AnyObject] { return [] }  // sorted
-    var stringValues: [String] { return [] }  // unsorted
 
-    override var completionValues: [String] { return stringValues }
+    override var completionValues: [String] { return [] }
 
     init(incidentController: IncidentController) {
         self.incidentController = incidentController
@@ -83,7 +82,7 @@ extension TableManager: TableViewDelegate {
 extension TableManager: NSTableViewDataSource {
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return stringValues.count
+        return tableRowValues.count
     }
     
     
