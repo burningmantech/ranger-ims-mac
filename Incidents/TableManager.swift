@@ -10,16 +10,13 @@ import Cocoa
 
 
 
-class TableManager: NSObject {
+class TableManager: CompletingControlDelegate {
     
     var incidentController: IncidentController
     
-    var amCompleting  = false
-    var amBackspacing = false
-
     var tableRowValues: [AnyObject] { return [] }  // sorted
     var stringValues: [String] { return [] }  // unsorted
-    
+
     
     init(incidentController: IncidentController) {
         self.incidentController = incidentController
@@ -57,6 +54,8 @@ class TableManager: NSObject {
 
 
 extension TableManager: TableViewDelegate {
+
+    override var completionValues: [String] { return stringValues }
     
     func deleteFromTableView(tableView: TableView) {
         guard tableView.selectedRow != -1 else {
@@ -105,9 +104,9 @@ extension TableManager: NSTableViewDataSource {
 
 
 
-extension TableManager: NSControlTextEditingDelegate, NSTextFieldDelegate {
+extension TableManager {  // NSTextFieldDelegate
     
-    func control(
+    override func control(
         control: NSControl,
         textView: NSTextView,
         doCommandBySelector commandSelector: Selector
@@ -119,22 +118,12 @@ extension TableManager: NSControlTextEditingDelegate, NSTextFieldDelegate {
                 }
                 return false
                 
-            case Selector("insertNewline:"):
-                let value = control.stringValue
-                
-                if value.characters.count > 0 {
-                    if addStringValue(value) {
-                        incidentController.markEdited()
-                        incidentController.updateView()
-                    
-                        control.stringValue = ""
-                    }
-                }
-                
-                return true
-                
             default:
-                return false
+                return super.control(
+                    control,
+                    textView: textView,
+                    doCommandBySelector: commandSelector
+                )
         }
     }
     
@@ -159,27 +148,6 @@ extension TableManager: NSControlTextEditingDelegate, NSTextFieldDelegate {
             fieldEditor.complete(self)
             amCompleting = false
         }
-    }
-    
-    
-    func control(
-        control: NSControl,
-        textView: NSTextView,
-        completions words: [String],
-        forPartialWordRange charRange: NSRange,
-        indexOfSelectedItem index: UnsafeMutablePointer<Int>
-    ) -> [String] {
-        let currentWord = control.stringValue.lowercaseString
-        
-        if currentWord == "?" { return stringValues }
-
-        var result: [String] = []
-        for handle in stringValues {
-            if handle.lowercaseString.hasPrefix(currentWord) {
-                result.append(handle)
-            }
-        }
-        return result
     }
     
 }
