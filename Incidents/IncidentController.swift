@@ -669,7 +669,7 @@ extension IncidentController: NSWindowDelegate {
         if loadingIndicator               == nil { arghEvilDeath("loading indicator"                ) }
         if reloadButton                   == nil { arghEvilDeath("reload button"                    ) }
 
-        // NSTableView doesn't retain it's data source, so we need to hold a reference to it
+        // Data sources and delegates are not retained, so we need to hold a reference to them
 
         rangersTableManager = RangersTableManager(incidentController: self)
         rangersTable!.setDataSource(rangersTableManager)
