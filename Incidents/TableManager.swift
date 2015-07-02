@@ -17,7 +17,8 @@ class TableManager: CompletingControlDelegate {
     var tableRowValues: [AnyObject] { return [] }  // sorted
     var stringValues: [String] { return [] }  // unsorted
 
-    
+    override var completionValues: [String] { return stringValues }
+
     init(incidentController: IncidentController) {
         self.incidentController = incidentController
     }
@@ -54,8 +55,6 @@ class TableManager: CompletingControlDelegate {
 
 
 extension TableManager: TableViewDelegate {
-
-    override var completionValues: [String] { return stringValues }
     
     func deleteFromTableView(tableView: TableView) {
         guard tableView.selectedRow != -1 else {
@@ -112,11 +111,19 @@ extension TableManager {  // NSTextFieldDelegate
         doCommandBySelector commandSelector: Selector
     ) -> Bool {
         switch commandSelector {
-            case Selector("deleteBackward:"):
-                if control.stringValue.characters.count > 0 {
-                    amBackspacing = true
+            case Selector("insertNewline:"):
+                let value = control.stringValue
+                
+                if value.characters.count > 0 {
+                    if addStringValue(value) {
+                        incidentController.markEdited()
+                        incidentController.updateView()
+                        
+                        control.stringValue = ""
+                    }
                 }
-                return false
+                
+                return true
                 
             default:
                 return super.control(
@@ -127,27 +134,4 @@ extension TableManager {  // NSTextFieldDelegate
         }
     }
     
-    
-    override func controlTextDidChange(notification: NSNotification) {
-        if amBackspacing {
-            amBackspacing = false
-            return
-        }
-        
-        if !amCompleting {
-            guard let fieldEditor = notification.userInfo?["NSFieldEditor"] else {
-                logError("No field editor?")
-                return
-            }
-            
-            // fieldEditor.complete() will trigger another call to
-            // controlTextDidChange(), so we avoid infinite recursion with
-            // the amCompleting variable.
-            
-            amCompleting = true
-            fieldEditor.complete(self)
-            amCompleting = false
-        }
     }
-    
-}
