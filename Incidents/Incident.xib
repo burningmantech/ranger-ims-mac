@@ -528,6 +528,7 @@
                 </constraints>
             </view>
             <connections>
+                <outlet property="delegate" destination="-2" id="XPY-Po-iCa"/>
                 <outlet property="initialFirstResponder" destination="DLo-WD-9pn" id="HuT-IG-bFZ"/>
             </connections>
             <point key="canvasLocation" x="350" y="130.5"/>
