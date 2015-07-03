@@ -28,7 +28,7 @@ class LocationDescriptionTests: XCTestCase {
 
         XCTAssertEqual(
             location.description,
-            "Camp Equilibrium (8:45@C, Red and yellow flags, dome)"
+            "Camp Equilibrium (8:45@\(ConcentricStreet.C), Red and yellow flags, dome)"
         )
     }
 
@@ -48,7 +48,7 @@ class LocationDescriptionTests: XCTestCase {
 
         XCTAssertEqual(
             location.description,
-            "(8:45@C, Red and yellow flags, dome)"
+            "(8:45@\(ConcentricStreet.C), Red and yellow flags, dome)"
         )
     }
 

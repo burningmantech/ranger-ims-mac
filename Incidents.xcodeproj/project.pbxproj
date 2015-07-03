@@ -24,6 +24,8 @@
 		352144241B3F1D59000C1AAE /* IncidentTypesTableManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352144231B3F1D59000C1AAE /* IncidentTypesTableManager.swift */; };
 		3521AD521B05367000B06A02 /* Incident.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350265D81B0425A200F0544B /* Incident.swift */; };
 		3521AD561B05665000B06A02 /* samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521AD551B05665000B06A02 /* samples.swift */; };
+		352233FC1B3E183300F6BD02 /* IncidentController_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352233FB1B3E183300F6BD02 /* IncidentController_view.swift */; };
+		352233FE1B3E195200F6BD02 /* IncidentController_edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352233FD1B3E195200F6BD02 /* IncidentController_edit.swift */; };
 		356CDAF01B066F990030FCF3 /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356CDAEF1B066F990030FCF3 /* HTTPRequest.swift */; };
 		3571484C1B34A745001B3B7B /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571484B1B34A745001B3B7B /* TableView.swift */; };
 		358AAAA51B2A014600D5A4AE /* HTTPJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358AAAA41B2A014600D5A4AE /* HTTPJSON.swift */; };
@@ -97,6 +99,8 @@
 		35205F221B2E398000A1A371 /* IncidentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentController.swift; sourceTree = "<group>"; };
 		352144231B3F1D59000C1AAE /* IncidentTypesTableManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentTypesTableManager.swift; sourceTree = "<group>"; };
 		3521AD551B05665000B06A02 /* samples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = samples.swift; sourceTree = "<group>"; };
+		352233FB1B3E183300F6BD02 /* IncidentController_view.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentController_view.swift; sourceTree = "<group>"; };
+		352233FD1B3E195200F6BD02 /* IncidentController_edit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentController_edit.swift; sourceTree = "<group>"; };
 		356CDAEF1B066F990030FCF3 /* HTTPRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
 		3571484B1B34A745001B3B7B /* TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		358AAAA41B2A014600D5A4AE /* HTTPJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPJSON.swift; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 			children = (
 				35205F201B2E32D800A1A371 /* Incident.xib */,
 				35205F221B2E398000A1A371 /* IncidentController.swift */,
+				352233FB1B3E183300F6BD02 /* IncidentController_view.swift */,
+				352233FD1B3E195200F6BD02 /* IncidentController_edit.swift */,
 				35F0765A1B3885E100192A64 /* RangersTableManager.swift */,
 				352144231B3F1D59000C1AAE /* IncidentTypesTableManager.swift */,
 				35A3E3281B45BEBB00F65BFD /* ConcentricStreetFieldDelegate.swift */,
@@ -529,11 +535,13 @@
 				35F0765B1B3885E100192A64 /* RangersTableManager.swift in Sources */,
 				35D2E9C21B18E3F90037EA32 /* PreferencesController.swift in Sources */,
 				35E0D7A61B0CBA42007499C0 /* Equatable.swift in Sources */,
+				352233FE1B3E195200F6BD02 /* IncidentController_edit.swift in Sources */,
 				35A5FEEC1B09D97B0056DF5C /* HTTPSession.swift in Sources */,
 				35F674CD1AFAEA0D00042EC9 /* Location.swift in Sources */,
 				35A3E3271B4585D400F65BFD /* CompletingControlDelegate.swift in Sources */,
 				35D615601AFC1D94005CB5AB /* DateTime.swift in Sources */,
 				356CDAF01B066F990030FCF3 /* HTTPRequest.swift in Sources */,
+				352233FC1B3E183300F6BD02 /* IncidentController_view.swift in Sources */,
 				35E0D7A31B0B7A0F007499C0 /* Error.swift in Sources */,
 				350265D91B0425A200F0544B /* Incident.swift in Sources */,
 				358AAAA51B2A014600D5A4AE /* HTTPJSON.swift in Sources */,

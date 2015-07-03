@@ -190,6 +190,37 @@ struct Incident: CustomStringConvertible, Hashable {
         )
     }
 
+
+    func diffFrom(other: Incident?) -> Incident {
+        guard let other = other else {
+            // other is nill; everything is different
+            return self
+        }
+        
+        let number   = (self.number   == other.number  ) ? nil : self.number
+        let priority = (self.priority == other.priority) ? nil : self.priority
+        let summary  = (self.summary  == other.summary ) ? nil : self.summary
+        let created  = (self.created  == other.created ) ? nil : self.created
+        let state    = (self.state    == other.state   ) ? nil : self.state
+
+        let location      = optionalsEqual     (self.location,      other.location     ) ? nil : self.location
+        let rangers       = optionalSetEquals  (self.rangers,       other.rangers      ) ? nil : self.rangers
+        let incidentTypes = optionalSetEquals  (self.incidentTypes, other.incidentTypes) ? nil : self.incidentTypes
+        let reportEntries = optionalArrayEquals(self.reportEntries, other.reportEntries) ? nil : self.reportEntries
+
+        return Incident(
+            number: number,
+            priority: priority,
+            summary: summary,
+            location: location,
+            rangers: rangers,
+            incidentTypes: incidentTypes,
+            reportEntries: reportEntries,
+            created: created,
+            state: state
+        )
+    }
+
 }
 
 

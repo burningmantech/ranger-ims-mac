@@ -7,31 +7,39 @@
 //
 
 struct ReportEntry: CustomStringConvertible, Hashable {
-    var author     : Ranger
+    var author     : Ranger?
     var text       : String
     var created    : DateTime
     var systemEntry: Bool
 
     var hashValue: Int {
-        return (
-            author.hashValue      ^
+        var hash = (
             text.hashValue        ^
             created.hashValue     ^
             systemEntry.hashValue
         )
+        if let h = author?.hashValue { hash ^= h }
+        return hash
     }
 
     var description: String {
-        if systemEntry {
-            return "\(author.handle) @ \(created): \(text)"
+        let author: String
+        if self.author == nil {
+            author = "<nil>"
         } else {
-            return "\(author.handle) @ \(created):\n\(text)"
+            author = self.author!.handle
+        }
+        
+        if systemEntry {
+            return "\(author) @ \(created): \(text)"
+        } else {
+            return "\(author) @ \(created):\n\(text)"
         }
     }
 
     
     init(
-        author     : Ranger,
+        author     : Ranger?,
         text       : String,
         created    : DateTime = DateTime.now(),
         systemEntry: Bool = false

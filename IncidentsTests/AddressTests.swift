@@ -58,7 +58,7 @@ class RodGarettAddressDescriptionTests: XCTestCase {
 
         XCTAssertEqual(
             address.description,
-            "8:45@C, Red and yellow flags, dome"
+            "8:45@\(ConcentricStreet.C), Red and yellow flags, dome"
         )
     }
 
@@ -66,7 +66,7 @@ class RodGarettAddressDescriptionTests: XCTestCase {
     func test_description_concentric() {
         let address = RodGarettAddress(concentric: ConcentricStreet.C)
 
-        XCTAssertEqual(address.description, "-:-@C")
+        XCTAssertEqual(address.description, "-:-@\(ConcentricStreet.C)")
     }
 
 
@@ -142,20 +142,20 @@ class ConcentricStreetNameTests: XCTestCase {
     func test_name() {
         XCTAssertEqual(ConcentricStreet.Esplanade.description, "Esplanade")
 
-        XCTAssertEqual(ConcentricStreet.A.description, "A")
-        XCTAssertEqual(ConcentricStreet.B.description, "B")
-        XCTAssertEqual(ConcentricStreet.C.description, "C")
-        XCTAssertEqual(ConcentricStreet.D.description, "D")
-        XCTAssertEqual(ConcentricStreet.E.description, "E")
-        XCTAssertEqual(ConcentricStreet.F.description, "F")
-        XCTAssertEqual(ConcentricStreet.G.description, "G")
-        XCTAssertEqual(ConcentricStreet.H.description, "H")
-        XCTAssertEqual(ConcentricStreet.I.description, "I")
-        XCTAssertEqual(ConcentricStreet.J.description, "J")
-        XCTAssertEqual(ConcentricStreet.K.description, "K")
-        XCTAssertEqual(ConcentricStreet.L.description, "L")
-        XCTAssertEqual(ConcentricStreet.M.description, "M")
-        XCTAssertEqual(ConcentricStreet.N.description, "N")
+        XCTAssertTrue(ConcentricStreet.A.description.hasPrefix("A"))
+        XCTAssertTrue(ConcentricStreet.B.description.hasPrefix("B"))
+        XCTAssertTrue(ConcentricStreet.C.description.hasPrefix("C"))
+        XCTAssertTrue(ConcentricStreet.D.description.hasPrefix("D"))
+        XCTAssertTrue(ConcentricStreet.E.description.hasPrefix("E"))
+        XCTAssertTrue(ConcentricStreet.F.description.hasPrefix("F"))
+        XCTAssertTrue(ConcentricStreet.G.description.hasPrefix("G"))
+        XCTAssertTrue(ConcentricStreet.H.description.hasPrefix("H"))
+        XCTAssertTrue(ConcentricStreet.I.description.hasPrefix("I"))
+        XCTAssertTrue(ConcentricStreet.J.description.hasPrefix("J"))
+        XCTAssertTrue(ConcentricStreet.K.description.hasPrefix("K"))
+        XCTAssertTrue(ConcentricStreet.L.description.hasPrefix("L"))
+        XCTAssertTrue(ConcentricStreet.M.description.hasPrefix("M"))
+        XCTAssertTrue(ConcentricStreet.N.description.hasPrefix("N"))
     }
 
 }
