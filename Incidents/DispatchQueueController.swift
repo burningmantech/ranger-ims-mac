@@ -232,9 +232,22 @@ class DispatchQueueController: NSWindowController {
 
 
 extension DispatchQueueController: IncidentManagementSystemDelegate {
+
     func incidentDidUpdate(ims: IncidentManagementSystem, incident: Incident) {
+        guard let number = incident.number else {
+            logError("Updated incident has no number: \(incident)")
+            return
+        }
+        
+        logDebug("Incident updated: \(incident)")
+        
+        if let incidentController = incidentControllers[number] {
+            alert(title: "Implement Me", message: "incidentDidUpdate() with controller \(incidentController)")
+        }
+
         resort(self)
     }
+
 }
 
 
