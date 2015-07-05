@@ -115,7 +115,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
-            logInfo("Sending ping request to: \(pingURL)")
+            logDebug("Sending ping request to: \(pingURL)")
         }
 
         guard let connection = self.httpSession.sendJSON(
@@ -249,7 +249,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
-            logInfo("Sending personnel request to: \(personnelURL)")
+            logDebug("Sending personnel request to: \(personnelURL)")
         }
 
         guard let connection = self.httpSession.sendJSON(
@@ -318,7 +318,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
-            logInfo("Sending locations request to: \(locationsURL)")
+            logDebug("Sending locations request to: \(locationsURL)")
         }
 
         guard let connection = self.httpSession.sendJSON(
