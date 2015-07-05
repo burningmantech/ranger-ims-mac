@@ -114,7 +114,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             resetConnection()
         }
 
-        logInfo("Sending ping request to: \(pingURL)")
+        if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+            logInfo("Sending ping request to: \(pingURL)")
+        }
 
         guard let connection = self.httpSession.sendJSON(
             url: pingURL,
@@ -150,7 +152,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let typesURL = "\(self.url)incident_types/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logDebug("Loaded incident types")
+            if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+                logDebug("Loaded incident types")
+            }
 
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.IncidentTypes,
@@ -175,7 +179,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             // resetConnection()
         }
 
-        logDebug("Sending incident types request to: \(typesURL)")
+        if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+            logDebug("Sending incident types request to: \(typesURL)")
+        }
 
         guard let connection = self.httpSession.sendJSON(
             url: typesURL,
@@ -200,7 +206,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let personnelURL = "\(self.url)personnel/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logDebug("Loaded personnel")
+            if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+                logDebug("Loaded personnel")
+            }
 
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Personnel,
@@ -240,7 +248,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             // resetConnection()
         }
 
-        logInfo("Sending personnel request to: \(personnelURL)")
+        if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+            logInfo("Sending personnel request to: \(personnelURL)")
+        }
 
         guard let connection = self.httpSession.sendJSON(
             url: personnelURL,
@@ -265,7 +275,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let locationsURL = "\(self.url)locations/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logDebug("Loaded locations")
+            if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+                logDebug("Loaded locations")
+            }
 
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Locations,
@@ -305,7 +317,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             // resetConnection()
         }
 
-        logInfo("Sending locations request to: \(locationsURL)")
+        if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+            logInfo("Sending locations request to: \(locationsURL)")
+        }
 
         guard let connection = self.httpSession.sendJSON(
             url: locationsURL,
@@ -330,7 +344,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let incidentsURL = "\(self.url)incidents/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logDebug("Loaded incident list")
+            if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+                logDebug("Loaded incident list")
+            }
 
             func removeConnection() {
                 removeConnectionForLoadingGroup(
@@ -376,7 +392,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             // resetConnection()
         }
 
-        logDebug("Sending incident list request to: \(incidentsURL)")
+        if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+            logDebug("Sending incident list request to: \(incidentsURL)")
+        }
 
         guard let connection = self.httpSession.sendJSON(
             url: incidentsURL,
@@ -407,7 +425,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logDebug("Loaded incident #\(number)")
+            if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+                logDebug("Loaded incident #\(number)")
+            }
 
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Incidents,
@@ -458,7 +478,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             // resetConnection()
         }
 
-        logDebug("Sending incident #\(number) request to: \(incidentURL)")
+        if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+            logDebug("Sending incident #\(number) request to: \(incidentURL)")
+        }
 
         guard let connection = self.httpSession.sendJSON(
             url: incidentURL,

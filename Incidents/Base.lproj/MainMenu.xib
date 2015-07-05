@@ -491,6 +491,9 @@
                             <menuItem isSeparatorItem="YES" id="CJm-XM-b6q"/>
                             <menuItem title="Enable HTTP Logging" id="yg0-VW-etx">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="Q4x-cz-IxJ" name="value" keyPath="values.EnableHTTPLogging" id="yeA-Fo-7t1"/>
+                                </connections>
                             </menuItem>
                         </items>
                     </menu>
@@ -509,5 +512,6 @@
                 </menuItem>
             </items>
         </menu>
+        <userDefaultsController representsSharedInstance="YES" id="Q4x-cz-IxJ"/>
     </objects>
 </document>
