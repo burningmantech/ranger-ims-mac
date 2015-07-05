@@ -24,20 +24,20 @@ extension IncidentController {
             window?.title = "New incident: \(incident.summaryAsText)"
         }
         
-        updateNumber(incident.number)
-        updateState(incident.state)
-        updatePriority(incident.priority)
-        updateSummary(incident.summary, alternate: incident.summaryAsText)
+        updateNumberView(incident.number)
+        updateStateView(incident.state)
+        updatePriorityView(incident.priority)
+        updateSummaryView(incident.summary, alternate: incident.summaryAsText)
         
         rangersTable?.reloadData()
         typesTable?.reloadData()
         
-        updateLocation(incident.location)
-        updateReportEntries(incident.reportEntries)
+        updateLocationView(incident.location)
+        updateReportEntriesView(incident.reportEntries)
     }
     
     
-    func updateNumber(number: Int?) {
+    func updateNumberView(number: Int?) {
         let numberToDisplay: String
         
         if let number = number {
@@ -50,7 +50,7 @@ extension IncidentController {
     }
     
     
-    func updateState(state: IncidentState?) {
+    func updateStateView(state: IncidentState?) {
         let stateTag: IncidentStateTag
         
         if let state = state {
@@ -69,7 +69,7 @@ extension IncidentController {
     }
     
     
-    func updatePriority(priority: IncidentPriority?) {
+    func updatePriorityView(priority: IncidentPriority?) {
         let priorityTag: IncidentPriorityTag
         
         if let priority = priority {
@@ -86,7 +86,7 @@ extension IncidentController {
     }
     
     
-    func updateSummary(summary: String?, alternate: String? = nil) {
+    func updateSummaryView(summary: String?, alternate: String? = nil) {
         if let summary = summary {
             if summary.characters.count != 0 {
                 summaryField?.stringValue = summary
@@ -102,7 +102,7 @@ extension IncidentController {
     }
     
     
-    func updateLocation(location: Location?) {
+    func updateLocationView(location: Location?) {
         guard let location = location else {
             locationNameField?.stringValue = ""
             locationRadialAddressField?.stringValue = ""
@@ -141,7 +141,7 @@ extension IncidentController {
     }
     
     
-    func updateReportEntries(reportEntries: [ReportEntry]?) {
+    func updateReportEntriesView(reportEntries: [ReportEntry]?) {
         guard let reportEntries = reportEntries else {
             reportEntriesView?.textStorage?.setAttributedString(NSAttributedString())
             return

@@ -363,7 +363,7 @@ extension IncidentController {
         incident!.reportEntries!.append(entry)
         markEdited()
         
-        updateReportEntries(incident!.reportEntries!)
+        updateReportEntriesView(incident!.reportEntries!)
     }
 
 }
