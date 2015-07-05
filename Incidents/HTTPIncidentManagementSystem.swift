@@ -150,7 +150,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let typesURL = "\(self.url)incident_types/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logInfo("Loaded incident types")
+            logDebug("Loaded incident types")
 
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.IncidentTypes,
@@ -175,7 +175,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             // resetConnection()
         }
 
-        logInfo("Sending incident types request to: \(typesURL)")
+        logDebug("Sending incident types request to: \(typesURL)")
 
         guard let connection = self.httpSession.sendJSON(
             url: typesURL,
@@ -200,7 +200,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let personnelURL = "\(self.url)personnel/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logInfo("Loaded personnel")
+            logDebug("Loaded personnel")
 
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Personnel,
@@ -265,7 +265,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let locationsURL = "\(self.url)locations/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logInfo("Loaded locations")
+            logDebug("Loaded locations")
 
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Locations,
@@ -330,7 +330,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let incidentsURL = "\(self.url)incidents/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logInfo("Loaded incident list")
+            logDebug("Loaded incident list")
 
             func removeConnection() {
                 removeConnectionForLoadingGroup(
@@ -376,7 +376,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             // resetConnection()
         }
 
-        logInfo("Sending incident list request to: \(incidentsURL)")
+        logDebug("Sending incident list request to: \(incidentsURL)")
 
         guard let connection = self.httpSession.sendJSON(
             url: incidentsURL,
@@ -407,7 +407,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logInfo("Loaded incident #\(number)")
+            logDebug("Loaded incident #\(number)")
 
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Incidents,
@@ -458,7 +458,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             // resetConnection()
         }
 
-        logInfo("Sending incident #\(number) request to: \(incidentURL)")
+        logDebug("Sending incident #\(number) request to: \(incidentURL)")
 
         guard let connection = self.httpSession.sendJSON(
             url: incidentURL,
