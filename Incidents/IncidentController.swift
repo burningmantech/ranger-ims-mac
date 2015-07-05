@@ -53,8 +53,8 @@ class IncidentController: NSWindowController {
         self.init(windowNibName: "Incident")
 
         self.dispatchQueueController = dispatchQueueController
-        self.incident = incident.copy()
-        self.originalIncident = incident.copy()
+        self.incident = incident
+        self.originalIncident = incident
     }
 
 

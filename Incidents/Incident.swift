@@ -176,21 +176,6 @@ struct Incident: CustomStringConvertible, Hashable {
     }
 
 
-    func copy() -> Incident {
-        return Incident(
-            number       : number,
-            priority     : priority,
-            summary      : summary,
-            location     : location,
-            rangers      : rangers,
-            incidentTypes: incidentTypes,
-            reportEntries: reportEntries,
-            created      : created,
-            state        : state
-        )
-    }
-
-
     func diffFrom(other: Incident?) -> Incident {
         guard let other = other else {
             // other is nill; everything is different
