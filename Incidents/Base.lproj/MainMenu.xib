@@ -489,6 +489,12 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="CJm-XM-b6q"/>
+                            <menuItem title="Enable Debug Logging" id="Ax0-EN-3fz">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="Q4x-cz-IxJ" name="value" keyPath="values.EnableDebugLogging" id="I9S-jm-Dix"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Enable HTTP Logging" id="yg0-VW-etx">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>

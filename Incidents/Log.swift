@@ -16,7 +16,9 @@ import Foundation
 
 func logDebug(format: String? = nil) {
     if format != nil {
-        NSLog("[DEBUG] " + format!)
+        if NSUserDefaults.standardUserDefaults().boolForKey("EnableDebugLogging") {
+            NSLog("[DEBUG] " + format!)
+        }
     }
 }
 
