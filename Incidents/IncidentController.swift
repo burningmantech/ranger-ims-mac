@@ -72,8 +72,8 @@ class IncidentController: NSWindowController {
         // Push new report entry into the incident.
         addReportEntry()
 
-//        let diff = incident!.diffFrom(originalIncident)
-//        dispatchQueueController?.ims.updateIncident(diff)
+        let diff = incident!.diffFrom(originalIncident)
+        dispatchQueueController?.ims.updateIncident(diff)
     }
 
 }
