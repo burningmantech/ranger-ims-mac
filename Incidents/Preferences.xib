@@ -94,6 +94,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
+                            <action selector="toggleDebugMenu:" target="-2" id="1gm-T1-MjM"/>
                             <binding destination="cSI-RP-DSq" name="value" keyPath="values.EnableDebugMenu" id="cdD-vT-O9f"/>
                         </connections>
                     </button>

@@ -37,6 +37,11 @@ class PreferencesController: NSWindowController {
         }
     }
 
+
+    @IBAction func toggleDebugMenu(sender: AnyObject) {
+        appDelegate.showHideDebugMenu()
+    }
+    
 }
 
 

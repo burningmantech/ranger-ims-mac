@@ -13,7 +13,8 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject {
 
-    @IBOutlet weak var window: NSWindow!
+    @IBOutlet weak var window: NSWindow?
+    @IBOutlet weak var debugMenu: NSMenuItem?
 
 
     var preferencesController: PreferencesController {
@@ -24,6 +25,7 @@ class AppDelegate: NSObject {
     }
     private var _preferencesController: PreferencesController!
 
+    
     var dispatchQueueController: DispatchQueueController {
         if _dispatchQueueController == nil {
             _dispatchQueueController = DispatchQueueController(appDelegate: self)
@@ -49,6 +51,19 @@ class AppDelegate: NSObject {
             _dispatchQueueController = nil
         }
     }
+
+
+    func showHideDebugMenu() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+
+        if defaults.boolForKey("EnableDebugMenu") {
+            debugMenu?.hidden = false
+        } else {
+            debugMenu?.hidden = true
+        }
+
+    }
+
 }
 
 
@@ -56,7 +71,8 @@ class AppDelegate: NSObject {
 extension AppDelegate: NSApplicationDelegate {
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        self.showDispatchQueue(self)
+        showHideDebugMenu()
+        showDispatchQueue(self)
     }
 
 
