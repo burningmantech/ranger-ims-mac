@@ -78,11 +78,13 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
     func createIncident(incident: Incident) -> Failable {
+        alert(title: "Unimplemented: Create Incident", message: "\(incident)")
         return Failable(Error("Unimplemented"))
     }
 
 
     func updateIncident(incident: Incident) -> Failable {
+        alert(title: "Unimplemented: Update Incident", message: "\(incident)")
         return Failable(Error("Unimplemented"))
     }
 

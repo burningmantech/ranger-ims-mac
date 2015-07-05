@@ -34,8 +34,8 @@ extension HTTPSession {
             jsonBytes = []
         } else {
             // FIXME *********************************
-            assert(false, "Unimplemented")
-            jsonBytes = []
+            alert(title: "Unimplemented: Send JSON", message: "\(json)")
+            return nil
         }
 
         let request = HTTPRequest(
