@@ -167,7 +167,7 @@ class DispatchQueueController: NSWindowController {
         if (reloadTimer == nil || !reloadTimer!.valid) {
             ims.reload()
 
-            logInfo("Restarting reload timer")
+            logDebug("Restarting reload timer")
             reloadTimer = NSTimer.scheduledTimerWithTimeInterval(
                 reloadInterval,
                 target: self,
@@ -180,7 +180,7 @@ class DispatchQueueController: NSWindowController {
 
 
     func reloadTimerFired(timer: NSTimer) {
-        logInfo("Reloading after timer")
+        logDebug("Reloading after timer")
         reload(true)
     }
 
