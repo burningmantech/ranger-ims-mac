@@ -68,7 +68,11 @@ class DispatchQueueController: NSWindowController {
                 _sortedIncidents = ims.incidentsByNumber.values.sort(isOrderedBefore)
             }
         }
-        return _sortedIncidents!
+        guard let sortedIncidents = _sortedIncidents else {
+            logError("Sorted incidents is unexpectedly nil")
+            return []
+        }
+        return sortedIncidents
     }
     private var _sortedIncidents: [Incident]? = nil
 
