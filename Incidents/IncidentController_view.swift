@@ -40,7 +40,7 @@ extension IncidentController {
     
     
     func updateEdited() {
-        let edited = incident == originalIncident
+        let edited = incident != originalIncident
         
         window?.documentEdited = edited
         saveButton?.enabled = edited
