@@ -152,8 +152,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let typesURL = "\(self.url)incident_types/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logHTTP("Loaded incident types")
-
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.IncidentTypes,
                 id: IMSConnectionID.IncidentTypes
@@ -170,6 +168,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             }
 
             _incidentTypes = Set(incidentTypes)
+
+            logHTTP("Loaded incident types")
         }
 
         func onError(message: String) {
@@ -202,8 +202,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let personnelURL = "\(self.url)personnel/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logHTTP("Loaded personnel")
-
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Personnel,
                 id: IMSConnectionID.Personnel
@@ -235,6 +233,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             }
 
             _rangersByHandle = rangersByHandle
+
+            logHTTP("Loaded personnel")
         }
 
         func onError(message: String) {
@@ -267,8 +267,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let locationsURL = "\(self.url)locations/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logHTTP("Loaded locations")
-
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Locations,
                 id: IMSConnectionID.Locations
@@ -300,6 +298,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 //            }
 //
 //            _rangersByHandle = rangersByHandle
+
+            logHTTP("Loaded locations")
         }
 
         func onError(message: String) {
@@ -332,8 +332,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let incidentsURL = "\(self.url)incidents/"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logHTTP("Loaded incident list")
-
             func removeConnection() {
                 removeConnectionForLoadingGroup(
                     group: IMSLoadingGroup.Incidents,
@@ -371,6 +369,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             }
 
             removeConnection()
+
+            logHTTP("Loaded incident list")
         }
 
         func onError(message: String) {
@@ -409,8 +409,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            logHTTP("Loaded incident #\(number)")
-
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Incidents,
                 id: IMSConnectionID.Incidents(number)
@@ -449,6 +447,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
             _incidentsByNumber[number] = incident
             incidentETagsByNumber[number] = etag
+
+            logHTTP("Loaded incident #\(number)")
 
             if let delegate = self.delegate {
                 delegate.incidentDidUpdate(self, incident: incident)
