@@ -12,23 +12,6 @@ import Cocoa
 
 extension IncidentController {
 
-    func markEdited() {
-        guard incident != originalIncident else {
-            logDebug("Pants on fire!  Nothing edited here.")
-            return
-        }
-        
-        window?.documentEdited = true
-        saveButton?.enabled = true
-    }
-    
-    
-    func markUnedited() {
-        window?.documentEdited = false
-        saveButton?.enabled = false
-    }
-    
-    
     func enableEditing() {
         statePopUp?.enabled = true
         priorityPopUp?.enabled = true
@@ -67,6 +50,8 @@ extension IncidentController {
     
     
     @IBAction func editSummary(sender: AnyObject?) {
+        defer { updateView() }
+        
         let oldSummary: String
         if let summary = incident!.summary { oldSummary = summary } else { oldSummary = "" }
         let newSummary = summaryField!.stringValue
@@ -76,11 +61,12 @@ extension IncidentController {
         logDebug("Summary changed to: \(newSummary)")
         
         incident!.summary = newSummary
-        markEdited()
     }
     
     
     @IBAction func editState(sender: AnyObject?) {
+        defer { updateView() }
+
         let oldState: IncidentState
         if let state = incident!.state { oldState = state } else { oldState = .New }
         
@@ -108,11 +94,12 @@ extension IncidentController {
         logDebug("State changed to: \(newState)")
         
         incident!.state = newState
-        markEdited()
     }
     
     
     @IBAction func editPriority(sender: AnyObject?) {
+        defer { updateView() }
+
         let oldPriority: IncidentPriority
         if let priority = incident!.priority { oldPriority = priority } else { oldPriority = .Normal }
         
@@ -138,11 +125,12 @@ extension IncidentController {
         logDebug("Priority changed to: \(newPriority)")
         
         incident!.priority = newPriority
-        markEdited()
     }
     
     
     @IBAction func editLocationName(sender: AnyObject?) {
+        defer { updateView() }
+
         let oldName: String
         if let name = incident!.location?.name { oldName = name } else { oldName = "" }
         let newName = locationNameField!.stringValue
@@ -161,12 +149,13 @@ extension IncidentController {
             logDebug("Location changed to: \(newLocation)")
             
             incident!.location = newLocation
-            markEdited()
         }
     }
     
     
     @IBAction func editAddressDescription(sender: AnyObject?) {
+        defer { updateView() }
+
         let oldDescription: String
         if let description = incident!.location?.address?.textDescription { oldDescription = description } else { oldDescription = "" }
         let newDescription = locationDescriptionField!.stringValue
@@ -207,7 +196,6 @@ extension IncidentController {
         logDebug("Location changed to: \(newLocation)")
         
         incident!.location = newLocation
-        markEdited()
     }
     
     
@@ -234,6 +222,8 @@ extension IncidentController {
     
     
     @IBAction func editAddressRadial(sender: AnyObject?) {
+        defer { updateView() }
+
         guard let oldAddress = _incidentRodGarrettAddress() else { return }
         
         let oldRadialHour: Int, oldRadialMinute: Int
@@ -286,11 +276,12 @@ extension IncidentController {
         logDebug("Location changed to: \(newLocation)")
         
         incident!.location = newLocation
-        markEdited()
     }
     
     
     @IBAction func editAddressConcentric(sender: AnyObject?) {
+        defer { updateView() }
+        
         guard let oldAddress = _incidentRodGarrettAddress() else { return }
         
         let oldConcentricName: String
@@ -351,11 +342,12 @@ extension IncidentController {
         logDebug("Location changed to: \(newLocation)")
         
         incident!.location = newLocation
-        markEdited()
     }
     
     
     func addReportEntry() {
+        defer { updateView() }
+
         guard let textStorage = reportEntryToAddView?.textStorage else {
             logError("No text storage for report entry to add view?")
             return
@@ -376,9 +368,6 @@ extension IncidentController {
         }
         
         incident!.reportEntries!.append(entry)
-        markEdited()
-        
-        updateReportEntriesView(incident!.reportEntries!)
     }
 
 }

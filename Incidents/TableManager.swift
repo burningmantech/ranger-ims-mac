@@ -68,7 +68,6 @@ extension TableManager: TableViewDelegate {
         
         removeValue(tableRowValues[tableView.selectedRow])
         
-        incidentController.markEdited()
         incidentController.updateView()
     }
     
@@ -115,7 +114,6 @@ extension TableManager {  // NSTextFieldDelegate
                 
                 if value.characters.count > 0 {
                     if addStringValue(value) {
-                        incidentController.markEdited()
                         incidentController.updateView()
                         
                         control.stringValue = ""

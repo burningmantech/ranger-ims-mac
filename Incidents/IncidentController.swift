@@ -131,7 +131,6 @@ extension IncidentController: NSWindowDelegate {
         concentricAddressDelegate = ConcentricStreetFieldDelegate()
         locationConcentricAddressField!.delegate = concentricAddressDelegate
 
-        markUnedited()
         updateView()
 
         reloadButton!.hidden     = false

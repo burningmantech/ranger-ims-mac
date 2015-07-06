@@ -34,6 +34,16 @@ extension IncidentController {
         
         updateLocationView(incident.location)
         updateReportEntriesView(incident.reportEntries)
+
+        updateEdited()
+    }
+    
+    
+    func updateEdited() {
+        let edited = incident == originalIncident
+        
+        window?.documentEdited = edited
+        saveButton?.enabled = edited
     }
     
     
