@@ -98,17 +98,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6vl-Fr-l8K">
-                        <rect key="frame" x="91" y="504" width="359" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Summary of incident" drawsBackground="YES" id="bpj-Ea-crr">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                        <connections>
-                            <action selector="editSummary:" target="-2" id="P7D-Y1-zDs"/>
-                        </connections>
-                    </textField>
                     <box autoresizesSubviews="NO" title="Rangers" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="kwL-ci-Lyy" userLabel="Rangers Box">
                         <rect key="frame" x="17" y="330" width="217" height="166"/>
                         <view key="contentView" id="6Wa-BT-fSj" userLabel="Rangers Box View">
@@ -168,6 +157,9 @@
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <outlet property="nextKeyView" destination="a9o-Ff-rSk" id="Cph-Us-Sz1"/>
+                                    </connections>
                                 </textField>
                             </subviews>
                             <constraints>
@@ -244,6 +236,9 @@
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
+                                    <connections>
+                                        <outlet property="nextKeyView" destination="9Dj-PY-sBf" id="uN3-VH-AEn"/>
+                                    </connections>
                                 </textField>
                             </subviews>
                             <constraints>
@@ -284,6 +279,7 @@
                                     </textFieldCell>
                                     <connections>
                                         <action selector="editLocationName:" target="-2" id="stR-Y5-1gS"/>
+                                        <outlet property="nextKeyView" destination="tP3-JI-2VT" id="oog-6m-vyU"/>
                                     </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4WU-bG-41k" userLabel="Location Address Label">
@@ -310,6 +306,7 @@
                                     </textFieldCell>
                                     <connections>
                                         <action selector="editAddressRadial:" target="-2" id="UFW-D6-cdR"/>
+                                        <outlet property="nextKeyView" destination="0g1-m3-tte" id="FXS-1G-2Bh"/>
                                     </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ibS-Xq-P1S" userLabel="Location @ Label">
@@ -329,6 +326,7 @@
                                     </textFieldCell>
                                     <connections>
                                         <action selector="editAddressConcentric:" target="-2" id="I2y-6N-7ml"/>
+                                        <outlet property="nextKeyView" destination="qZC-eH-Ufl" id="oQX-kP-uad"/>
                                     </connections>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oCx-pj-kdR" userLabel="Location Description Label">
@@ -352,6 +350,7 @@
                                     </textFieldCell>
                                     <connections>
                                         <action selector="editAddressDescription:" target="-2" id="pSp-f0-hwD"/>
+                                        <outlet property="nextKeyView" destination="DLo-WD-9pn" id="Myx-Lw-TK9"/>
                                     </connections>
                                 </textField>
                             </subviews>
@@ -450,6 +449,9 @@
                                                 <rect key="frame" x="393" y="1" width="16" height="33"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
+                                            <connections>
+                                                <outlet property="nextKeyView" destination="6vl-Fr-l8K" id="CPC-JV-AMH"/>
+                                            </connections>
                                         </scrollView>
                                     </subviews>
                                     <holdingPriorities>
@@ -492,6 +494,18 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                     </button>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6vl-Fr-l8K">
+                        <rect key="frame" x="91" y="504" width="359" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Summary of incident" drawsBackground="YES" id="bpj-Ea-crr">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="editSummary:" target="-2" id="P7D-Y1-zDs"/>
+                            <outlet property="nextKeyView" destination="csb-Kq-qjl" id="IdL-K8-HZd"/>
+                        </connections>
+                    </textField>
                 </subviews>
                 <constraints>
                     <constraint firstItem="kUe-zk-3qF" firstAttribute="top" secondItem="k6Q-tA-Qbh" secondAttribute="bottom" constant="8" symbolic="YES" id="2F9-IO-OMM"/>
