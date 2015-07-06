@@ -71,7 +71,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 loadingState = IMSLoadingState.Loading([:])
                 loadIncidentTypes()
                 loadPersonnel()
-                // loadLocations()
+                loadLocations()
                 loadIncidents()
         }
     }
@@ -282,8 +282,22 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-//            var rangersByHandle: [String: Ranger] = [:]
-//
+            var locationsByName: [String: Location] = [:]
+
+            for location in locations {
+                guard
+                    let type = location["type"],
+                    let name = location["name"]
+                else {
+                    logError("Incomplete location record: \(location)")
+                    continue
+                }
+
+            
+            
+            
+            }
+
 //            for location in locations {
 //                guard
 //                    let handle = person["handle"],
