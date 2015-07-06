@@ -25,10 +25,9 @@ extension IncidentController {
         locationConcentricAddressField?.enabled = true
         locationDescriptionField?.enabled = true
         reportEntryToAddView?.editable = true
-        
-        if window?.documentEdited == true {
-            saveButton?.enabled = true
-        }
+
+        // This updates the save button correctly
+        updateEdited()
     }
     
     
