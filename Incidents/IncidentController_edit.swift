@@ -14,7 +14,7 @@ extension IncidentController {
 
     func markEdited() {
         guard incident != originalIncident else {
-            logError("Pants on fire!  Nothing edited here.")
+            logDebug("Pants on fire!  Nothing edited here.")
             return
         }
         
@@ -332,7 +332,7 @@ extension IncidentController {
         else if newConcentricName.hasPrefix("N") { newConcentric = ConcentricStreet.N }
         else if newConcentricName == "" { newConcentric = nil }
         else {
-            logError("Unknown concentric street name: \(newConcentricName)")
+            logDebug("Unknown concentric street name: \(newConcentricName)")
             return
         }
         
