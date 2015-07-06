@@ -299,8 +299,23 @@ extension IncidentController {
         
         if newConcentricName == oldConcentricName { return }
         
+        func matchesEsplanade() -> Bool {
+            let esplanade = ConcentricStreet.Esplanade.description
+            let e = ConcentricStreet.E.description
+
+            for prefixLength in 1...esplanade.characters.count {
+                let prefix = newConcentricName.substringToIndex(advance(esplanade.startIndex, prefixLength))
+                
+                if e.hasPrefix(prefix) { continue }  // Could be either E or Esplanade
+
+                return esplanade.hasPrefix(prefix)
+            }
+
+            return false
+        }
+        
         let newConcentric: ConcentricStreet?
-        if newConcentricName == "Esplanade" { newConcentric = ConcentricStreet.Esplanade }
+        if matchesEsplanade() { newConcentric = ConcentricStreet.Esplanade }
         else if newConcentricName.hasPrefix("A") { newConcentric = ConcentricStreet.A }
         else if newConcentricName.hasPrefix("B") { newConcentric = ConcentricStreet.B }
         else if newConcentricName.hasPrefix("C") { newConcentric = ConcentricStreet.C }
