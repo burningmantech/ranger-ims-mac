@@ -156,7 +156,11 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
                 state        : incident.state
             )
 
-            ims.createIncident(incidentWithoutNumber)
+            do {
+                try ims.createIncident(incidentWithoutNumber)
+            } catch {
+                XCTFail("Unable to create incident: \(error)")
+            }
         }
         assert(ims.incidentsByNumber.count == cannedIncidents!.count, "No incidents?")
 
@@ -204,11 +208,10 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
     }
 
 
-    func test_createIncident() {
+    func test_createIncident() throws {
         var incident = Incident(number: nil)
-        if ims!.createIncident(incident).failed {
-            XCTFail("Create incident failed.")
-        }
+        try ims!.createIncident(incident)
+
         incident.number = cannedIncidents!.count + 1
 
         var expected = Set(cannedIncidents!)
@@ -220,9 +223,10 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
 
     func test_createIncidentWithNumber() {
         let incident = Incident(number: ims!.incidentsByNumber.count)
-        if !ims!.createIncident(incident).failed {
-            XCTFail("Create incident suceeded when it should have failed.")
-        }
+
+        do { try ims!.createIncident(incident) } catch { return }
+
+        XCTFail("Create incident suceeded when it should have failed.")
     }
 
 
@@ -256,8 +260,11 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
 
             incident.summary = "Blocked road by Roller Disco"
 
-            let f = ims!.updateIncident(incident)
-            XCTAssertFalse(f.failed)
+            do {
+                try ims!.updateIncident(incident)
+            } catch {
+                XCTFail("Failed to update incident: \(error)")
+            }
 
             if let incidentAgain = ims!.incidentsByNumber[5] {
                 XCTAssertNotNil(incidentAgain.summary)

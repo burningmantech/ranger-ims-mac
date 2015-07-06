@@ -47,9 +47,9 @@ class InMemoryIncidentManagementSystem: NSObject, IncidentManagementSystem {
     func reload() {}
 
 
-    func createIncident(incident: Incident) -> Failable {
-        if incident.number != nil {
-            return Failable(Error("Incident number must be nil"))
+    func createIncident(incident: Incident) throws {
+        guard incident.number == nil else {
+            throw IMSError.IncidentNumberNotNil(incident.number!)
         }
 
         let number = incidentsByNumber.count + 1
@@ -67,18 +67,15 @@ class InMemoryIncidentManagementSystem: NSObject, IncidentManagementSystem {
         )
 
         _incidentsByNumber[number] = newIncident
-
-        return Failable.Success
     }
 
 
-    func updateIncident(incident: Incident) -> Failable {
+    func updateIncident(incident: Incident) throws {
         guard let number = incident.number else {
-            return Failable(Error("Incident number may not be nil"))
+            throw IMSError.IncidentNumberNil
         }
 
         _incidentsByNumber[number] = incident
-        return Failable.Success
     }
 
 

@@ -16,13 +16,20 @@ protocol IncidentManagementSystem {
 
     func reload()
 
-    func createIncident(Incident) -> Failable
-    func updateIncident(Incident) -> Failable
-//    func reloadIncidentWithNumber(Int) -> Failable
+    func createIncident(Incident) throws
+    func updateIncident(Incident) throws
+//    func reloadIncidentWithNumber(Int) throws
 }
 
 
 
 protocol IncidentManagementSystemDelegate: class {
     func incidentDidUpdate(ims: IncidentManagementSystem, incident: Incident)
+}
+
+
+
+enum IMSError: ErrorType {
+    case IncidentNumberNil
+    case IncidentNumberNotNil(Int)
 }

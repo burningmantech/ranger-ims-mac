@@ -73,7 +73,13 @@ class IncidentController: NSWindowController {
         addReportEntry()
 
         let diff = incident!.diffFrom(originalIncident)
-        dispatchQueueController?.ims.updateIncident(diff)
+
+        do {
+            try dispatchQueueController?.ims.updateIncident(diff)
+        } catch {
+            logError("Unable to update incident: \(error)")
+            alert(title: "Unable to update incident", message: "\(error)")
+        }
     }
 
 }

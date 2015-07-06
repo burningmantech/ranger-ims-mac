@@ -632,6 +632,11 @@ func _populateWithFakeData(ims: InMemoryIncidentManagementSystem) {
             state        : incident.state
         )
 
-        ims.createIncident(incidentWithoutNumber)
+        do {
+            try ims.createIncident(incidentWithoutNumber)
+        } catch {
+            logError("Unable to create incident: \(error)")
+            alert(title: "Unable to create incident", message: "\(error)")
+        }
     }
 }

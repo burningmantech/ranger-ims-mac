@@ -77,15 +77,15 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    func createIncident(incident: Incident) -> Failable {
+    func createIncident(incident: Incident) throws {
         alert(title: "Unimplemented: Create Incident", message: "\(incident)")
-        return Failable(Error("Unimplemented"))
+        throw NotImplementedError.NotImplementedYet
     }
 
 
-    func updateIncident(incident: Incident) -> Failable {
+    func updateIncident(incident: Incident) throws {
         alert(title: "Unimplemented: Update Incident", message: "\(incident)")
-        return Failable(Error("Unimplemented"))
+        throw NotImplementedError.NotImplementedYet
     }
 
 
@@ -505,7 +505,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 //                }
 //                return connections
 //            default:
-//                throw IMSInternalError.IncorrectLoadingState
+//                throw HTTPIMSInternalError.IncorrectLoadingState
 //        }
 //    }
 
@@ -661,12 +661,7 @@ func ==(lhs: IMSConnectionID, rhs: IMSConnectionID) -> Bool {
 
 
 
-enum IMSError: ErrorType {
-}
-
-
-
-enum IMSInternalError: ErrorType {
+enum HTTPIMSInternalError: ErrorType {
     case IncorrectLoadingState
     case NoSuchConnection
 }
