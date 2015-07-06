@@ -43,15 +43,15 @@ typealias IncidentDictionary = [String: AnyObject]
 
 
 
-func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
+func incidentFromJSON(input: IncidentDictionary) throws -> Incident {
     let json = JSON(input)
 
     guard let jsonNumber = json["number"].int else {
-        return FailableOf(Error("Incident number is required"))
+        throw JSONDeserializationError.NoIncidentNumber
     }
 
     if jsonNumber < 0 {
-        return FailableOf(Error("Incident number may not be negative"))
+        throw JSONDeserializationError.NegativeIncidentNumber
     }
     let number = jsonNumber
 
@@ -63,7 +63,7 @@ func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
             case 4, 5: priority = IncidentPriority.Low
 
             default:
-                return FailableOf(Error("Unknown priority: \(jsonPriority)"))
+                throw JSONDeserializationError.UnknownPriority(jsonPriority)
         }
     } else {
         priority = nil
@@ -99,7 +99,7 @@ func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
                 textDescription: json["location"]["description"  ].string
             )
         default:
-            return FailableOf(Error("Unknown location type: \(locationType)"))
+            throw JSONDeserializationError.UnknownLocationType(locationType)
     }
 
     let location = Location(
@@ -122,12 +122,12 @@ func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
     var reportEntries: [ReportEntry] = []
     for (_, jsonEntry) in json["report_entries"] {
         guard let jsonAuthor = jsonEntry["author"].string else {
-            return FailableOf(Error("Report entry author is required"))
+            throw JSONDeserializationError.NoReportEntryAuthor
         }
         let author = Ranger(handle: jsonAuthor)
 
         guard let jsonEntryCreated = jsonEntry["created"].string else {
-            return FailableOf(Error("Report entry created is required"))
+            throw JSONDeserializationError.NoReportEntryCreated
         }
         let entryCreated = DateTime.fromRFC3339String(jsonEntryCreated)
 
@@ -170,13 +170,13 @@ func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
             case "on_scene"  : state = IncidentState.OnScene
             case "closed"    : state = IncidentState.Closed
             default:
-                return FailableOf(Error("Unknown incident state: \(jsonState)"))
+                throw JSONDeserializationError.UnknownIncidentState(jsonState)
         }
     } else {
         state = nil
     }
 
-    let incident = Incident(
+    return Incident(
         number: number,
         priority: priority,
         summary: summary,
@@ -187,6 +187,16 @@ func incidentFromJSON(input: IncidentDictionary) -> FailableOf<Incident> {
         created: created,
         state: state
     )
+}
 
-    return FailableOf(incident)
+
+
+enum JSONDeserializationError: ErrorType {
+    case NoIncidentNumber
+    case NegativeIncidentNumber
+    case UnknownPriority(Int)
+    case UnknownLocationType(String)
+    case NoReportEntryAuthor
+    case NoReportEntryCreated
+    case UnknownIncidentState(String)
 }

@@ -419,15 +419,14 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-            let f = incidentFromJSON(incidentDictionary)
-
-            guard !f.failed else {
-                logError("Incident #\(number) JSON failed to parse: \(incidentDictionary)")
+            let incident: Incident
+            do {
+                try incident = incidentFromJSON(incidentDictionary)
+            } catch {
+                logError("Incident #\(number) JSON failed to parse: \(error)\n\(incidentDictionary)")
                 return
             }
-
-            let incident = f.value!
-
+            
             guard incident.number == number else {
                 logError("Incident #\(number) JSON has incorrect incident number: \(incident.number)")
                 return

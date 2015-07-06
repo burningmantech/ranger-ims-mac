@@ -15,38 +15,31 @@ class JSONDeserializationTests: XCTestCase {
     func test_deserialize_noNumber() {
         let json = IncidentDictionary()
 
-        let incidentResult = incidentFromJSON(json)
-        if !incidentResult.failed {
-            XCTFail("Parser should have failed")
-        }
+        do { try incidentFromJSON(json) } catch { return }
+
+        XCTFail("Parser should have failed")
     }
 
 
-    func test_deserialize_number() {
+    func test_deserialize_number() throws {
         let json = [ "number": 1 ]
 
-        let incidentResult = incidentFromJSON(json)
-        if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
+        let incident = try incidentFromJSON(json)
 
-        if let incident = incidentResult.value {
-            XCTAssertEqual(incident, Incident(number: 1))
-        } else {
-            XCTFail("No deserialized incident")
-        }
+        XCTAssertEqual(incident, Incident(number: 1))
     }
 
 
     func test_deserialize_negativeNumber() {
         let json = [ "number": -1 ]
 
-        let incidentResult = incidentFromJSON(json)
-        if !incidentResult.failed {
-            XCTFail("Parser should have failed")
-        }
+        do { try incidentFromJSON(json) } catch { return }
+
+        XCTFail("Parser should have failed")
     }
 
 
-    func test_deserialize_priority() {
+    func test_deserialize_priority() throws {
         for (jsonPriority, expectedPriority) in [
             1: IncidentPriority.High,
             2: IncidentPriority.High,
@@ -56,39 +49,29 @@ class JSONDeserializationTests: XCTestCase {
         ] {
             let json = [ "number": 1, "priority": jsonPriority ]
 
-            let incidentResult = incidentFromJSON(json)
-            if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
+            let incident = try incidentFromJSON(json)
 
-            if let incident = incidentResult.value {
-                XCTAssertEqual(
-                    incident,
-                    Incident(number: 1, priority: expectedPriority)
-                )
-            } else {
-                XCTFail("No deserialized incident")
-            }
-        }
-    }
-
-
-    func test_deserialize_summary() {
-        let json = [ "number": 1, "summary": "Cheese and pickles" ]
-
-        let incidentResult = incidentFromJSON(json)
-        if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
-
-        if let incident = incidentResult.value {
             XCTAssertEqual(
                 incident,
-                Incident(number: 1, summary: "Cheese and pickles")
+                Incident(number: 1, priority: expectedPriority)
             )
-        } else {
-            XCTFail("No deserialized incident")
         }
     }
 
 
-    func test_deserialize_address_text() {
+    func test_deserialize_summary() throws {
+        let json = [ "number": 1, "summary": "Cheese and pickles" ]
+
+        let incident = try incidentFromJSON(json)
+
+        XCTAssertEqual(
+            incident,
+            Incident(number: 1, summary: "Cheese and pickles")
+        )
+    }
+
+
+    func test_deserialize_address_text() throws {
         let json: IncidentDictionary = [
             "number": 1,
             "location": [
@@ -98,29 +81,24 @@ class JSONDeserializationTests: XCTestCase {
             ]
         ]
 
-        let incidentResult = incidentFromJSON(json)
-        if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
+        let incident = try incidentFromJSON(json)
 
-        if let incident = incidentResult.value {
-            XCTAssertEqual(
-                incident,
-                Incident(
-                    number: 1,
-                    location: Location(
-                        name: "Camp Fishes",
-                        address: Address(
-                            textDescription: "Large dome, red flags"
-                        )
+        XCTAssertEqual(
+            incident,
+            Incident(
+                number: 1,
+                location: Location(
+                    name: "Camp Fishes",
+                    address: Address(
+                        textDescription: "Large dome, red flags"
                     )
                 )
             )
-        } else {
-            XCTFail("No deserialized incident")
-        }
+        )
     }
 
 
-    func test_deserialize_address_garett() {
+    func test_deserialize_address_garett() throws {
         let json: IncidentDictionary = [
             "number": 1,
             "location": [
@@ -133,85 +111,70 @@ class JSONDeserializationTests: XCTestCase {
             ]
         ]
 
-        let incidentResult = incidentFromJSON(json)
-        if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
+        let incident = try incidentFromJSON(json)
 
-        if let incident = incidentResult.value {
-            if let _ = incident.location {
-                XCTAssertEqual(
-                    incident,
-                    Incident(
-                        number: 1,
-                        location: Location(
-                            name: "Camp Fishes",
-                            address: RodGarettAddress(
-                                concentric: ConcentricStreet.K,
-                                radialHour: 8,
-                                radialMinute: 15,
-                                textDescription: "Large dome, red flags"
-                            )
+        if let _ = incident.location {
+            XCTAssertEqual(
+                incident,
+                Incident(
+                    number: 1,
+                    location: Location(
+                        name: "Camp Fishes",
+                        address: RodGarettAddress(
+                            concentric: ConcentricStreet.K,
+                            radialHour: 8,
+                            radialMinute: 15,
+                            textDescription: "Large dome, red flags"
                         )
                     )
                 )
-            } else {
-                XCTFail("No incident location")
-            }
+            )
         } else {
-            XCTFail("No deserialized incident")
+            XCTFail("No incident location")
         }
     }
 
 
-    func test_deserialize_rangers() {
+    func test_deserialize_rangers() throws {
         let json: IncidentDictionary = [
             "number": 1,
             "ranger_handles": [ "Tool", "Splinter" ]
         ]
 
-        let incidentResult = incidentFromJSON(json)
-        if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
+        let incident = try incidentFromJSON(json)
 
-        if let incident = incidentResult.value {
-            XCTAssertEqual(
-                incident,
-                Incident(
-                    number: 1,
-                    rangers: [
-                        Ranger(handle: "Tool"),
-                        Ranger(handle: "Splinter")
-                    ]
-                )
+        XCTAssertEqual(
+            incident,
+            Incident(
+                number: 1,
+                rangers: [
+                    Ranger(handle: "Tool"),
+                    Ranger(handle: "Splinter")
+                ]
             )
-        } else {
-            XCTFail("No deserialized incident")
-        }
+        )
     }
 
 
-    func test_deserialize_incidentTypes() {
+    func test_deserialize_incidentTypes() throws {
         let json: IncidentDictionary = [
             "number": 1,
             "incident_types": ["Medical", "Fire"]
         ]
 
-        let incidentResult = incidentFromJSON(json)
-        if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
+        let incident = try incidentFromJSON(json)
 
-        if let incident = incidentResult.value {
-            XCTAssertEqual(
-                incident,
-                Incident(
-                    number: 1,
-                    incidentTypes: ["Medical", "Fire"]
-                )
+        XCTAssertEqual(
+            incident,
+            Incident(
+                number: 1,
+                incidentTypes: ["Medical", "Fire"]
             )
-        } else {
-            XCTFail("No deserialized incident")
-        }
+        )
     }
 
 
-    func test_deserialize_reportEntries() {
+    func test_deserialize_reportEntries() throws {
         let json: IncidentDictionary = [
             "number": 1,
             "report_entries": [
@@ -224,64 +187,49 @@ class JSONDeserializationTests: XCTestCase {
             ]
         ]
 
-        let incidentResult = incidentFromJSON(json)
-        if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
+        let incident = try incidentFromJSON(json)
 
-        if let incident = incidentResult.value {
-            XCTAssertEqual(
-                incident,
-                Incident(
-                    number: 1,
-                    reportEntries: [
-                        ReportEntry(
-                            author: Ranger(handle: "Hot Yogi"),
-                            text: "Need diapers\nPronto",
-                            created: DateTime.fromRFC3339String("2014-08-30T21:12:50Z"),
-                            systemEntry: false
-                        )
-                    ]
-                )
+        XCTAssertEqual(
+            incident,
+            Incident(
+                number: 1,
+                reportEntries: [
+                    ReportEntry(
+                        author: Ranger(handle: "Hot Yogi"),
+                        text: "Need diapers\nPronto",
+                        created: DateTime.fromRFC3339String("2014-08-30T21:12:50Z"),
+                        systemEntry: false
+                    )
+                ]
             )
-        } else {
-            XCTFail("No deserialized incident")
-        }
+        )
     }
 
 
-    func test_deserialize_created() {
+    func test_deserialize_created() throws {
         let json = [ "number": 1, "created": "2014-08-30T21:12:50Z" ]
 
-        let incidentResult = incidentFromJSON(json)
-        if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
+        let incident = try incidentFromJSON(json)
 
-        if let incident = incidentResult.value {
-            XCTAssertEqual(
-                incident,
-                Incident(
-                    number: 1,
-                    created: DateTime.fromRFC3339String("2014-08-30T21:12:50Z")
-                )
+        XCTAssertEqual(
+            incident,
+            Incident(
+                number: 1,
+                created: DateTime.fromRFC3339String("2014-08-30T21:12:50Z")
             )
-        } else {
-            XCTFail("No deserialized incident")
-        }
+        )
     }
 
 
-    func test_deserialize_state() {
+    func test_deserialize_state() throws {
         let json = [ "number": 1, "state": "on_scene" ]
 
-        let incidentResult = incidentFromJSON(json)
-        if incidentResult.failed { XCTFail("\(incidentResult.error!)") }
+        let incident = try incidentFromJSON(json)
 
-        if let incident = incidentResult.value {
-            XCTAssertEqual(
-                incident,
-                Incident(number: 1, state: IncidentState.OnScene)
-            )
-        } else {
-            XCTFail("No deserialized incident")
-        }
+        XCTAssertEqual(
+            incident,
+            Incident(number: 1, state: IncidentState.OnScene)
+        )
     }
 
 }
