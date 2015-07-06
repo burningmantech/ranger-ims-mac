@@ -217,12 +217,13 @@ class DispatchQueueController: NSWindowController {
 
         let rowIndex = dispatchTable.clickedRow
 
-        let f = incidentForTableRow(rowIndex)
-        if f.failed {
+        let incident: Incident
+        do {
+            incident = try incidentForTableRow(rowIndex)
+        } catch {
             logError("No incident for clicked row index \(rowIndex)")
             return
         }
-        let incident = f.value!
 
         openIncident(incident)
     }
@@ -297,12 +298,13 @@ extension DispatchQueueController: NSTableViewDataSource {
         objectValueForTableColumn column: NSTableColumn?,
         row rowIndex: Int
     ) -> AnyObject? {
-        let f = incidentForTableRow(rowIndex)
-        if f.failed {
+        let incident: Incident
+        do {
+            incident = try incidentForTableRow(rowIndex)
+        } catch {
             logError("No incident for row index \(rowIndex)")
             return nil
         }
-        let incident = f.value!
 
         guard let label = column?.identifier else {
             logError("Unidentified column: \(column)")
@@ -371,16 +373,16 @@ extension DispatchQueueController: NSTableViewDataSource {
     }
 
 
-    func incidentForTableRow(rowIndex: Int) -> FailableOf<Incident> {
-        if rowIndex < 0 {
-            return FailableOf(Error("rowIndex < 0"))
+    func incidentForTableRow(rowIndex: Int) throws -> Incident {
+        guard rowIndex >= 0 else {
+            throw DispatchQueueTableSourceError.RowIndexOutOfRange(rowIndex)
+        }
+        
+        guard rowIndex <= viewableIncidents.count else {
+            throw DispatchQueueTableSourceError.RowIndexOutOfRange(rowIndex)
         }
 
-        if rowIndex > viewableIncidents.count {
-            return FailableOf(Error("Row index exceeds data size"))
-        }
-
-        return FailableOf(viewableIncidents[rowIndex])
+        return viewableIncidents[rowIndex]
     }
 
 
@@ -389,13 +391,14 @@ extension DispatchQueueController: NSTableViewDataSource {
             return nil
         }
 
-        let f = incidentForTableRow(dispatchTable.selectedRow)
-        if f.failed {
-            logError(f.error?.reason)
+        let incident: Incident
+        do {
+            incident = try incidentForTableRow(dispatchTable.selectedRow)
+        } catch {
+            logError("Unable to look up selected incident: \(error)")
             return nil
-        } else {
-            return f.value
         }
+        return incident
     }
 
 
@@ -403,6 +406,12 @@ extension DispatchQueueController: NSTableViewDataSource {
         reload(true)
     }
 
+}
+
+
+
+enum DispatchQueueTableSourceError: ErrorType {
+    case RowIndexOutOfRange(Int)
 }
 
 
