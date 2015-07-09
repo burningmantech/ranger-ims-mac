@@ -277,41 +277,31 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-            guard let locations = json as? [[String: String]] else {
+            guard let locationsJSON = json as? [LocationDictionary] else {
                 logError("Locations JSON is non-conforming: \(json)")
                 return
             }
 
             var locationsByName: [String: Location] = [:]
 
-            for location in locations {
-                guard
-                    let type = location["type"],
-                    let name = location["name"]
-                else {
-                    logError("Incomplete location record: \(location)")
+            for locationJSON in locationsJSON {
+                let location: Location
+                do {
+                    location = try locationFromJSON(locationJSON)
+                } catch {
+                    logError("Unable to parse location JSON: \(error)\n\(locationJSON)")
                     continue
                 }
-
             
+                guard let name = location.name else {
+                    logDebug("Got location from server with no name: \(locationJSON)")
+                    continue
+                }
             
-            
+                locationsByName[name] = location
             }
 
-//            for location in locations {
-//                guard
-//                    let handle = person["handle"],
-//                    let name   = person["name"  ],
-//                    let status = person["status"]
-//                    else {
-//                        logError("Incomplete location record: \(person)")
-//                        continue
-//                }
-//                let ranger = Ranger(handle: handle, name: name, status: status)
-//                rangersByHandle[handle] = ranger
-//            }
-//
-//            _rangersByHandle = rangersByHandle
+            _locationsByName = locationsByName
 
             logHTTP("Loaded locations")
         }
