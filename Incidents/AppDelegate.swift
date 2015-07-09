@@ -64,6 +64,30 @@ class AppDelegate: NSObject {
 
     }
 
+
+    @IBAction func showOpenIncidents(sender: AnyObject) {
+        let numbers = Array(dispatchQueueController.incidentControllers.keys)
+        alert(title: "Open Incidents", message: "\(numbers)")
+    }
+
+
+    @IBAction func showRangers(sender: AnyObject) {
+        let rangers = Array(dispatchQueueController.ims.rangersByHandle.values)
+        alert(title: "Rangers", message: "\(rangers)")
+    }
+
+
+    @IBAction func showIncidentTypes(sender: AnyObject) {
+        let incidentTypes = Array(dispatchQueueController.ims.incidentTypes)
+        alert(title: "Rangers", message: "\(incidentTypes)")
+    }
+
+
+    @IBAction func showLocations(sender: AnyObject) {
+        let locations = Array(dispatchQueueController.ims.locationsByName.values)
+        alert(title: "Rangers", message: "\(locations)")
+    }
+
 }
 
 
