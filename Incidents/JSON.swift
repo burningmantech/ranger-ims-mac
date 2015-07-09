@@ -40,7 +40,7 @@
 **********************************************************************/
 
 typealias IncidentDictionary = [String: AnyObject]
-
+typealias LocationDictionary = [String: String]
 
 
 func incidentFromJSON(input: IncidentDictionary) throws -> Incident {
@@ -71,41 +71,7 @@ func incidentFromJSON(input: IncidentDictionary) throws -> Incident {
 
     let summary = json["summary"].string
 
-    let locationType: String
-    if let _locationType = json["location"]["type"].string {
-        locationType = _locationType
-    } else {
-        locationType = "text"  // default is text
-    }
-
-    let locationAddress: Address?
-    switch locationType {
-        case "text":
-            locationAddress = TextOnlyAddress(
-                textDescription: json["location"]["description"].string
-            )
-        case "garett":
-            let concentric: ConcentricStreet?
-            if let jsonConcentric = json["location"]["concentric"].int {
-                concentric = ConcentricStreet(rawValue: jsonConcentric)
-            } else {
-                concentric = nil
-            }
-
-            locationAddress = RodGarettAddress(
-                concentric     : concentric,
-                radialHour     : json["location"]["radial_hour"  ].int,
-                radialMinute   : json["location"]["radial_minute"].int,
-                textDescription: json["location"]["description"  ].string
-            )
-        default:
-            throw JSONDeserializationError.UnknownLocationType(locationType)
-    }
-
-    let location = Location(
-        name: json["location"]["name"].string,
-        address: locationAddress
-    )
+    let location = try _locationFromJSON(json["location"])
 
     var rangers: Set<Ranger> = Set()
     for (_, jsonHandle) in json["ranger_handles"] {
@@ -189,6 +155,53 @@ func incidentFromJSON(input: IncidentDictionary) throws -> Incident {
     )
 }
 
+
+
+func locationFromJSON(input: LocationDictionary) throws -> Location {
+    return try _locationFromJSON(JSON(input))
+}
+
+
+
+func _locationFromJSON(json: JSON) throws -> Location {
+
+    let locationType: String
+    if let _locationType = json["type"].string {
+        locationType = _locationType
+    } else {
+        locationType = "text"  // default is text
+    }
+
+    let locationAddress: Address?
+    switch locationType {
+    case "text":
+        locationAddress = TextOnlyAddress(
+            textDescription: json["description"].string
+        )
+    case "garett":
+        let concentric: ConcentricStreet?
+        if let jsonConcentric = json["concentric"].int {
+            concentric = ConcentricStreet(rawValue: jsonConcentric)
+        } else {
+            concentric = nil
+        }
+
+        locationAddress = RodGarettAddress(
+            concentric     : concentric,
+            radialHour     : json["radial_hour"  ].int,
+            radialMinute   : json["radial_minute"].int,
+            textDescription: json["description"  ].string
+        )
+    default:
+        throw JSONDeserializationError.UnknownLocationType(locationType)
+    }
+
+    return Location(
+        name: json["name"].string,
+        address: locationAddress
+    )
+
+}
 
 
 enum JSONDeserializationError: ErrorType {
