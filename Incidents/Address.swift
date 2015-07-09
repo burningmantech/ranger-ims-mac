@@ -50,7 +50,7 @@ class Address: CustomStringConvertible, Hashable, NillishEquatable {
 }
 
 func ==(lhs: Address, rhs: Address) -> Bool {
-    return lhs.textDescription == rhs.textDescription
+    return lhs.hashValue == rhs.hashValue
 }
 
 func <(lhs: Address, rhs: Address) -> Bool {
@@ -126,15 +126,6 @@ class RodGarettAddress: Address {
         )
     }
     
-}
-
-func ==(lhs: RodGarettAddress, rhs: RodGarettAddress) -> Bool {
-    return (
-        lhs.concentric      == rhs.concentric      &&
-        lhs.radialHour      == rhs.radialHour      &&
-        lhs.radialMinute    == rhs.radialMinute    &&
-        lhs.textDescription == rhs.textDescription
-    )
 }
 
 func <(lhs: RodGarettAddress, rhs: RodGarettAddress) -> Bool {
