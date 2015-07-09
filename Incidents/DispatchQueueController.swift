@@ -465,57 +465,70 @@ func incident(
     usingDescriptors descriptors: [NSSortDescriptor]
 ) -> Bool {
     for descriptor in descriptors {
-        guard let keyPath: String = descriptor.key else { continue }
-
-        func isOrderedBefore() -> Bool {
-            switch keyPath {
-                case "number":
-                    return lhs.number < rhs.number
-
-                case "priority":
-                    if lhs.priority == nil { logError("Displayed incident \(lhs) has nil priority"); return true  }
-                    if rhs.priority == nil { logError("Displayed incident \(rhs) has nil priority"); return false }
-                    return lhs.priority! < rhs.priority!
-
-                case "summary":
-                    return lhs.summaryAsText < rhs.summaryAsText
-
-                case "location":
-                    if lhs.location == nil { return true  }
-                    if rhs.location == nil { return false }
-                    return lhs.location! < rhs.location!
-
-                case "rangers":
-                    return lhs.rangersAsText < rhs.rangersAsText
-
-                case "incidentTypes":
-                    return lhs.rangersAsText < rhs.rangersAsText
-
-                case "reportEntries":
-                    return false
-
-                case "created":
-                    if lhs.created == nil { logError("Displayed incident \(lhs) has nil created"); return true  }
-                    if rhs.created == nil { logError("Displayed incident \(rhs) has nil created"); return false }
-                    return lhs.created! < rhs.created!
-
-                case "state":
-                    if lhs.state == nil { logError("Displayed incident \(lhs) has nil state"); return true  }
-                    if rhs.state == nil { logError("Displayed incident \(rhs) has nil state"); return false }
-                    return lhs.state! < rhs.state!
-
-                default:
-                    logError("Unknown sort descriptor key path: \(keyPath)")
-                    return lhs.number < rhs.number
-            }
+        guard let keyPath: String = descriptor.key else {
+            logError("Sort descriptor specified no key.")
+            continue
         }
 
-        if isOrderedBefore() {
-            return descriptor.ascending
+        if descriptor.ascending {
+            if incident(lhs, isOrderedBeforeIncident: rhs, usingKeyPath: keyPath) { return true }
+        } else {
+            if incident(rhs, isOrderedBeforeIncident: lhs, usingKeyPath: keyPath) { return true }
         }
+        return false
     }
     return false
 }
+
+
+
+func incident(
+    lhs: Incident,
+    isOrderedBeforeIncident rhs: Incident,
+    usingKeyPath keyPath: String
+) -> Bool {
+    switch keyPath {
+        case "number":
+            return lhs.number < rhs.number
+            
+        case "priority":
+            if lhs.priority == nil { logError("Displayed incident \(lhs) has nil priority"); return true  }
+            if rhs.priority == nil { logError("Displayed incident \(rhs) has nil priority"); return false }
+            return lhs.priority! < rhs.priority!
+            
+        case "summary":
+            return lhs.summaryAsText < rhs.summaryAsText
+            
+        case "location":
+            if lhs.location == nil { return true  }
+            if rhs.location == nil { return false }
+            return lhs.location! < rhs.location!
+            
+        case "rangers":
+            return lhs.rangersAsText < rhs.rangersAsText
+            
+        case "incidentTypes":
+            return lhs.rangersAsText < rhs.rangersAsText
+            
+        case "reportEntries":
+            return false
+            
+        case "created":
+            if lhs.created == nil { logError("Displayed incident \(lhs) has nil created"); return true  }
+            if rhs.created == nil { logError("Displayed incident \(rhs) has nil created"); return false }
+            return lhs.created! < rhs.created!
+            
+        case "state":
+            if lhs.state == nil { logError("Displayed incident \(lhs) has nil state"); return true  }
+            if rhs.state == nil { logError("Displayed incident \(rhs) has nil state"); return false }
+            return lhs.state! < rhs.state!
+            
+        default:
+            logError("Unknown sort descriptor key path: \(keyPath)")
+            return lhs.number < rhs.number
+    }
+}
+
 
 
 // ===================================================================== //
