@@ -525,7 +525,7 @@ func incident(
             
         default:
             logError("Unknown sort descriptor key path: \(keyPath)")
-            return lhs.number < rhs.number
+            return false
     }
 }
 
