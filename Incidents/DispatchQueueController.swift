@@ -470,12 +470,12 @@ func incident(
             continue
         }
 
-        if descriptor.ascending {
-            if incident(lhs, isOrderedBeforeIncident: rhs, usingKeyPath: keyPath) { return true }
-        } else {
-            if incident(rhs, isOrderedBeforeIncident: lhs, usingKeyPath: keyPath) { return true }
+        if incident(lhs, isOrderedBeforeIncident: rhs, usingKeyPath: keyPath) {
+            return descriptor.ascending
         }
-        return false
+        else if incident(rhs, isOrderedBeforeIncident: lhs, usingKeyPath: keyPath) {
+            return !descriptor.ascending
+        }
     }
     return false
 }
