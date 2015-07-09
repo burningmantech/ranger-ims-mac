@@ -492,8 +492,8 @@ func incident(
             return lhs.number < rhs.number
             
         case "priority":
-            if lhs.priority == nil { logError("Displayed incident \(lhs) has nil priority"); return true  }
-            if rhs.priority == nil { logError("Displayed incident \(rhs) has nil priority"); return false }
+            if lhs.priority == nil { logError("Ordered incident \(lhs) has nil priority"); return true  }
+            if rhs.priority == nil { logError("Ordered incident \(rhs) has nil priority"); return false }
             return lhs.priority! < rhs.priority!
             
         case "summary":
@@ -514,13 +514,13 @@ func incident(
             return false
             
         case "created":
-            if lhs.created == nil { logError("Displayed incident \(lhs) has nil created"); return true  }
-            if rhs.created == nil { logError("Displayed incident \(rhs) has nil created"); return false }
+            if lhs.created == nil { logError("Ordered incident \(lhs) has nil created"); return true  }
+            if rhs.created == nil { logError("Ordered incident \(rhs) has nil created"); return false }
             return lhs.created! < rhs.created!
             
         case "state":
-            if lhs.state == nil { logError("Displayed incident \(lhs) has nil state"); return true  }
-            if rhs.state == nil { logError("Displayed incident \(rhs) has nil state"); return false }
+            if lhs.state == nil { logError("Ordered incident \(lhs) has nil state"); return true  }
+            if rhs.state == nil { logError("Ordered incident \(rhs) has nil state"); return false }
             return lhs.state! < rhs.state!
             
         default:
