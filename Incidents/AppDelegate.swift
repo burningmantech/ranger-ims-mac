@@ -96,7 +96,14 @@ extension AppDelegate: NSApplicationDelegate {
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         showHideDebugMenu()
-        showDispatchQueue(self)
+
+        let defaults = NSUserDefaults.standardUserDefaults()
+
+        if defaults.stringForKey("IMSServerHostName") == nil {
+            showPreferences(self)
+        } else {
+            showDispatchQueue(self)
+        }
     }
 
 
