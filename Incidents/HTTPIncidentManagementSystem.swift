@@ -13,43 +13,59 @@ import Foundation
 class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
     let url: String
+    weak var delegate: IncidentManagementSystemDelegate?
 
+    
     private var loadingState: IMSLoadingState = IMSLoadingState.Reset
 
+    
     var incidentTypes: Set<String> {
         return _incidentTypes
     }
     private var _incidentTypes: Set<String> = Set()
 
+    
     var rangersByHandle: [String: Ranger] {
         return _rangersByHandle
     }
     private var _rangersByHandle: [String: Ranger] = [:]
 
+    
     var locationsByName: [String: Location] {
         return _locationsByName
     }
     private var _locationsByName: [String: Location] = [:]
 
+    
     var incidentsByNumber: [Int: Incident] {
         return _incidentsByNumber
     }
     private var _incidentsByNumber: [Int: Incident] = [:]
 
+    
     private var incidentETagsByNumber: [Int: String] = [:]
 
+    
     private var httpSession: HTTPSession {
         if _httpSession == nil {
-            _httpSession = HTTPSession(
+            let session = HTTPSession(
                 userAgent: "Ranger IMS (Mac OS)",
                 idleTimeOut: 30, timeOut: 30
             )
+
+            session.authHandler = {
+                (host: String, port: Int, realm: String?) -> HTTPCredential? in
+
+                guard let delegate = self.delegate as? HTTPIncidentManagementSystemDelegate else { return nil }
+
+                return delegate.handleAuth(host: host, port: port, realm: realm)
+            }
+
+            _httpSession = session
         }
         return _httpSession!
     }
     private var _httpSession: HTTPSession? = nil
-
-    weak var delegate: IncidentManagementSystemDelegate?
 
 
     init(url: String) {
@@ -62,7 +78,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             case .Reset:
                 connect()
             case .Trying:
-                logDebug("reload() while still trying to establish first conenction")
+                logDebug("reload() while still trying to establish first connection")
                 return
             case .Loading:
                 logDebug("reload() while still loading: \(loadingState)")
@@ -134,7 +150,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
     private func resetConnection() {
-        logError("Resetting IMS server connection")
+        logError("Resetting IMS server session")
 
         loadingState = IMSLoadingState.Reset
 
@@ -560,6 +576,12 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
     }
 
+}
+
+
+
+protocol HTTPIncidentManagementSystemDelegate: IncidentManagementSystemDelegate {
+    func handleAuth(host host: String, port: Int, realm: String?) -> HTTPCredential?
 }
 
 

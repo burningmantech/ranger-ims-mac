@@ -23,6 +23,8 @@ class DispatchQueueController: NSWindowController {
     var appDelegate: AppDelegate!
 
     let ims: IncidentManagementSystem
+    var imsUsername: String?
+    var imsPassword: String?
 
     var incidentControllers: [Int: IncidentController] = [:]
 
@@ -265,7 +267,7 @@ class DispatchQueueController: NSWindowController {
 
 
 
-extension DispatchQueueController: IncidentManagementSystemDelegate {
+extension DispatchQueueController: HTTPIncidentManagementSystemDelegate {
 
     func incidentDidUpdate(ims: IncidentManagementSystem, incident: Incident) {
         guard let number = incident.number else {
@@ -282,6 +284,34 @@ extension DispatchQueueController: IncidentManagementSystemDelegate {
         resort(self)
     }
 
+
+    func handleAuth(
+        host host: String,
+        port: Int,
+        realm: String?
+    ) -> HTTPCredential? {
+        dispatch_sync(
+            dispatch_get_main_queue(),
+            {
+                let passwordController = PasswordController(dispatchQueueController: self)
+                
+                if passwordController.window != nil {
+                    passwordController.showWindow(self)
+                    passwordController.window!.makeKeyAndOrderFront(self)
+                
+                    NSApp.runModalForWindow(passwordController.window!)
+                }
+            }
+        )
+        
+        guard let username = imsUsername, password = imsPassword else { return nil }
+        
+        return HTTPUsernamePasswordCredential(
+            username: username,
+            password: password
+        )
+    }
+    
 }
 
 

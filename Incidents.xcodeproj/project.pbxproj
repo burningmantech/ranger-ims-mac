@@ -54,6 +54,8 @@
 		35A5FEF51B0B605B0056DF5C /* JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5FEF41B0B605B0056DF5C /* JSONTests.swift */; };
 		35C49DBA1B0D2BEF00CB93BD /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C49DB91B0D2BEF00CB93BD /* Log.swift */; };
 		35C49DBB1B0D2E5B00CB93BD /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C49DB91B0D2BEF00CB93BD /* Log.swift */; };
+		35C691C71B5077C3003B568C /* Password.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35C691C61B5077C3003B568C /* Password.xib */; };
+		35C691C91B50793C003B568C /* PasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C691C81B50793C003B568C /* PasswordController.swift */; };
 		35D2E9BD1B18E3D50037EA32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D2E9BC1B18E3D50037EA32 /* AppDelegate.swift */; };
 		35D2E9C11B18E3F90037EA32 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35D2E9BF1B18E3F90037EA32 /* Preferences.xib */; };
 		35D2E9C21B18E3F90037EA32 /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D2E9C01B18E3F90037EA32 /* PreferencesController.swift */; };
@@ -125,6 +127,8 @@
 		35BCCD921B1911FC00AD440C /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		35BCCD931B1911FC00AD440C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		35C49DB91B0D2BEF00CB93BD /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		35C691C61B5077C3003B568C /* Password.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Password.xib; sourceTree = "<group>"; };
+		35C691C81B50793C003B568C /* PasswordController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordController.swift; sourceTree = "<group>"; };
 		35D2E9BC1B18E3D50037EA32 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		35D2E9BF1B18E3F90037EA32 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		35D2E9C01B18E3F90037EA32 /* PreferencesController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesController.swift; sourceTree = "<group>"; };
@@ -207,6 +211,7 @@
 			children = (
 				35D2E9BB1B18E3530037EA32 /* Application */,
 				35D2E9BE1B18E3E00037EA32 /* Preferences Panel */,
+				35C691C51B507779003B568C /* Password Panel */,
 				35D2E9C31B18E4030037EA32 /* Dispatch Queue Window */,
 				35205F1D1B2E310B00A1A371 /* Incident Window */,
 				3571484A1B34A733001B3B7B /* Extensions */,
@@ -236,6 +241,15 @@
 				359FC59D1B4B2C6E0001A3D4 /* DateFormatter.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		35C691C51B507779003B568C /* Password Panel */ = {
+			isa = PBXGroup;
+			children = (
+				35C691C61B5077C3003B568C /* Password.xib */,
+				35C691C81B50793C003B568C /* PasswordController.swift */,
+			);
+			name = "Password Panel";
 			sourceTree = "<group>";
 		};
 		35D2E9BB1B18E3530037EA32 /* Application */ = {
@@ -493,6 +507,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35C691C71B5077C3003B568C /* Password.xib in Resources */,
 				35F674AD1AFACA6600042EC9 /* Images.xcassets in Resources */,
 				35F674B01AFACA6600042EC9 /* MainMenu.xib in Resources */,
 				35D2E9C61B18E4140037EA32 /* DispatchQueue.xib in Resources */,
@@ -531,6 +546,7 @@
 				35D6155C1AFC142C005CB5AB /* Ranger.swift in Sources */,
 				35205F191B2A5ECE00A1A371 /* NSDataExtensions.swift in Sources */,
 				35C49DBA1B0D2BEF00CB93BD /* Log.swift in Sources */,
+				35C691C91B50793C003B568C /* PasswordController.swift in Sources */,
 				35A3E3291B45BEBB00F65BFD /* ConcentricStreetFieldDelegate.swift in Sources */,
 				350139061B0F21FA00E4A161 /* IMSProtocol.swift in Sources */,
 				35F0765B1B3885E100192A64 /* RangersTableManager.swift in Sources */,

@@ -18,9 +18,19 @@ class HTTPSession: NSObject {
         headers: HTTPHeaders,
         body:[UInt8]
     ) -> Void
+
     typealias ErrorHandler = (message: String) -> Void
 
-    private var nsSession: NSURLSession
+    typealias AuthHandler = (
+        host: String,
+        port: Int,
+        realm: String?
+    ) -> HTTPCredential?
+
+
+    private let nsSession: NSURLSession
+
+    var authHandler: AuthHandler?
 
 
     // For mock subclass in unit tests
@@ -45,17 +55,17 @@ class HTTPSession: NSObject {
         configuration.timeoutIntervalForRequest = NSTimeInterval(idleTimeOut)
         configuration.TLSMinimumSupportedProtocol = kTLSProtocol12
 
-
-        class Delegate: NSObject, NSURLSessionDelegate {
-        }
-
+        let delegate = SessionDelegate()
+        
         nsSession = NSURLSession(
             configuration: configuration,
-            delegate: Delegate(),
+            delegate: delegate,
             delegateQueue: nil
         )
 
         super.init()
+
+        delegate.session = self
     }
 
 
@@ -135,5 +145,92 @@ class HTTPConnection {
     func cancel() { nsTask.cancel () }
     func pause () { nsTask.suspend() }
     func resume() { nsTask.resume () }
+
+}
+
+
+
+protocol HTTPCredential {
+}
+
+
+
+class HTTPUsernamePasswordCredential: HTTPCredential {
+    let username: String
+    let password: String
+
+    
+    init(username: String, password:String) {
+        self.username = username
+        self.password = password
+    }
+}
+
+
+
+private class SessionDelegate: NSObject, NSURLSessionTaskDelegate {
+    
+    weak var session: HTTPSession?
+    
+    
+    @objc
+    func URLSession(
+        session: NSURLSession,
+        task: NSURLSessionTask,
+        didReceiveChallenge challenge: NSURLAuthenticationChallenge,
+        completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void
+    ) {
+        switch challenge.previousFailureCount {
+            case 0:
+                guard let authHandler = self.session?.authHandler else {
+                    completionHandler(
+                        NSURLSessionAuthChallengeDisposition.PerformDefaultHandling,
+                        nil
+                    )
+                    return
+                }
+
+// FIXME
+//                if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+//                    logInfo("Authenticating HTTP server certificate...")
+//                    
+//                }
+                
+                logInfo("Authenticating HTTP connection...")
+                
+                let credential = authHandler(
+                    host: challenge.protectionSpace.host,
+                    port: challenge.protectionSpace.port,
+                    realm: challenge.protectionSpace.realm
+                )
+                    
+                let nsCredential: NSURLCredential?
+                
+                if let credential = credential as? HTTPUsernamePasswordCredential {
+                    nsCredential = NSURLCredential(
+                        user: credential.username,
+                        password: credential.password,
+                        persistence: NSURLCredentialPersistence.ForSession
+                    )
+                } else {
+                    nsCredential = nil
+                }
+                    
+                completionHandler(
+                    NSURLSessionAuthChallengeDisposition.UseCredential,
+                    nsCredential
+                )
+                return
+
+            default:
+                break
+        }
+        
+        logInfo("Unable to authenticate HTTP connection.")
+        completionHandler(
+            NSURLSessionAuthChallengeDisposition.CancelAuthenticationChallenge,
+            nil
+        )
+    }
 
 }
