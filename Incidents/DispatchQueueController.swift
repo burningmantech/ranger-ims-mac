@@ -36,7 +36,7 @@ class DispatchQueueController: NSWindowController {
     @IBOutlet weak var loadingIndicator: NSProgressIndicator?
     @IBOutlet weak var reloadButton    : NSButton?
     @IBOutlet weak var showClosedButton: NSButton?
-    @IBOutlet weak var updatedLabel    : NSTextField?
+    @IBOutlet weak var userField       : NSTextField?
 
 
     var searchText: String {
@@ -331,7 +331,7 @@ extension DispatchQueueController: NSWindowDelegate {
         if loadingIndicator == nil { arghEvilDeath("loading indicator" ) }
         if reloadButton     == nil { arghEvilDeath("reload button"     ) }
         if showClosedButton == nil { arghEvilDeath("show closed button") }
-        if updatedLabel     == nil { arghEvilDeath("updated label"     ) }
+        if userField        == nil { arghEvilDeath("user field"        ) }
 
         reloadButton!.hidden     = false
         loadingIndicator!.hidden = true

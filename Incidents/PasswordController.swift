@@ -44,6 +44,9 @@ class PasswordController: NSWindowController {
 
 
     @IBAction func done(sender: AnyObject?) {
+        if let username = imsUsername {
+            dispatchQueueController?.userField?.stringValue = username
+        }
         self.close()
         NSApp.stopModal()
     }
