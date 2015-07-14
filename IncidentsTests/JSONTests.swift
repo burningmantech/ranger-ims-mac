@@ -371,101 +371,95 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-//    func test_deserialize_rangers() throws {
-//        let json: IncidentDictionary = [
-//            "number": 1,
-//            "ranger_handles": [ "Tool", "Splinter" ]
-//        ]
-//        
-//        let incident = try incidentFromJSON(json)
-//        
-//        XCTAssertEqual(
-//            incident,
-//            Incident(
-//                number: 1,
-//                rangers: [
-//                    Ranger(handle: "Tool"),
-//                    Ranger(handle: "Splinter")
-//                ]
-//            )
-//        )
-//    }
-//    
-//    
-//    func test_deserialize_incidentTypes() throws {
-//        let json: IncidentDictionary = [
-//            "number": 1,
-//            "incident_types": ["Medical", "Fire"]
-//        ]
-//        
-//        let incident = try incidentFromJSON(json)
-//        
-//        XCTAssertEqual(
-//            incident,
-//            Incident(
-//                number: 1,
-//                incidentTypes: ["Medical", "Fire"]
-//            )
-//        )
-//    }
-//    
-//    
-//    func test_deserialize_reportEntries() throws {
-//        let json: IncidentDictionary = [
-//            "number": 1,
-//            "report_entries": [
-//                [
-//                    "author": "Hot Yogi",
-//                    "created": "2014-08-30T21:12:50Z",
-//                    "system_entry": false,
-//                    "text": "Need diapers\nPronto"
-//                ]
-//            ]
-//        ]
-//        
-//        let incident = try incidentFromJSON(json)
-//        
-//        XCTAssertEqual(
-//            incident,
-//            Incident(
-//                number: 1,
-//                reportEntries: [
-//                    ReportEntry(
-//                        author: Ranger(handle: "Hot Yogi"),
-//                        text: "Need diapers\nPronto",
-//                        created: DateTime.fromRFC3339String("2014-08-30T21:12:50Z"),
-//                        systemEntry: false
-//                    )
-//                ]
-//            )
-//        )
-//    }
-//    
-//    
-//    func test_deserialize_created() throws {
-//        let json = [ "number": 1, "created": "2014-08-30T21:12:50Z" ]
-//        
-//        let incident = try incidentFromJSON(json)
-//        
-//        XCTAssertEqual(
-//            incident,
-//            Incident(
-//                number: 1,
-//                created: DateTime.fromRFC3339String("2014-08-30T21:12:50Z")
-//            )
-//        )
-//    }
-//    
-//    
-//    func test_deserialize_state() throws {
-//        let json = [ "number": 1, "state": "on_scene" ]
-//        
-//        let incident = try incidentFromJSON(json)
-//        
-//        XCTAssertEqual(
-//            incident,
-//            Incident(number: 1, state: IncidentState.OnScene)
-//        )
-//    }
+    func test_serialize_rangers() throws {
+        let incident = Incident(
+            number: 1,
+            rangers: [
+                Ranger(handle: "Tool"),
+                Ranger(handle: "Splinter")
+            ]
+        )
+        let json = try incidentAsJSON(incident)
+        let expected: NSDictionary = [
+            "number": 1,
+            "ranger_handles": [ "Splinter", "Tool" ]  // Should be sorted
+        ]
+
+        XCTAssertTrue(expected.isEqualToDictionary(json))
+    }
     
+    
+    func test_serialize_incidentTypes() throws {
+        let incident = Incident(
+            number: 1,
+            incidentTypes: ["Medical", "Fire"]
+        )
+        let json = try incidentAsJSON(incident)
+        let expected: NSDictionary = [
+            "number": 1,
+            "incident_types": ["Fire", "Medical"]  // Should be sorted
+        ]
+
+        XCTAssertTrue(expected.isEqualToDictionary(json))
+    }
+    
+    
+    func test_serialize_reportEntries() throws {
+        let incident = Incident(
+            number: 1,
+            reportEntries: [
+                ReportEntry(
+                    author: Ranger(handle: "Hot Yogi"),
+                    text: "Need diapers\nPronto",
+                    created: DateTime.fromRFC3339String("2014-08-30T21:12:50Z"),
+                    systemEntry: false
+                )
+            ]
+        )
+        let json = try incidentAsJSON(incident)
+        let expected: NSDictionary = [
+            "number": 1,
+            "report_entries": [
+                [
+                    "author": "Hot Yogi",
+                    "created": "2014-08-30T21:12:50Z",
+                    "system_entry": false,
+                    "text": "Need diapers\nPronto"
+                ]
+            ]
+        ]
+
+        XCTAssertTrue(expected.isEqualToDictionary(json))
+    }
+    
+    
+    func test_serialize_created() throws {
+        let incident = Incident(
+            number: 1,
+            created: DateTime.fromRFC3339String("2014-08-30T21:12:50Z")
+        )
+        let json = try incidentAsJSON(incident)
+        let expected: NSDictionary = [
+            "number": 1,
+            "created": "2014-08-30T21:12:50Z"
+        ]
+
+        XCTAssertTrue(expected.isEqualToDictionary(json))
+    }
+    
+    
+    func test_deserialize_state() throws {
+        let incident = Incident(
+            number: 1,
+            state: IncidentState.OnScene
+        )
+        let json = try incidentAsJSON(incident)
+        let expected: NSDictionary = [
+            "number": 1,
+            "state": "on_scene"
+        ]
+
+        XCTAssertTrue(expected.isEqualToDictionary(json))
+    }
+
 }

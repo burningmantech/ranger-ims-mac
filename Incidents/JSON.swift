@@ -39,8 +39,9 @@
 }
 **********************************************************************/
 
-typealias IncidentDictionary = [String: AnyObject]
-typealias LocationDictionary = [String: AnyObject]
+typealias IncidentDictionary    = [String: AnyObject]
+typealias LocationDictionary    = [String: AnyObject]
+typealias ReportEntryDictionary = [String: AnyObject]
 
 
 
@@ -209,7 +210,11 @@ func _locationFromJSON(json: JSON) throws -> Location {
 func incidentAsJSON(incident: Incident) throws -> IncidentDictionary {
     var json: IncidentDictionary = [:]
     
-    if let number = incident.number { json["number"] = number }
+    if let number        = incident.number        { json["number"        ] = number                       }
+    if let summary       = incident.summary       { json["summary"       ] = summary                      }
+    if let location      = incident.location      { json["location"      ] = try locationAsJSON(location) }
+    if let incidentTypes = incident.incidentTypes { json["incident_types"] = incidentTypes.sort()         }
+    if let created       = incident.created       { json["created"       ] = created.asRFC3339String()    }
 
     if let priority = incident.priority {
         switch priority {
@@ -219,8 +224,41 @@ func incidentAsJSON(incident: Incident) throws -> IncidentDictionary {
         }
     }
 
-    if let summary  = incident.summary  { json["summary" ] = summary                      }
-    if let location = incident.location { json["location"] = try locationAsJSON(location) }
+    if let state = incident.state {
+        switch state {
+            case IncidentState.New       : json["state"] = "new"
+            case IncidentState.OnHold    : json["state"] = "on_hold"
+            case IncidentState.Dispatched: json["state"] = "dispatched"
+            case IncidentState.OnScene   : json["state"] = "on_scene"
+            case IncidentState.Closed    : json["state"] = "closed"
+        }
+    }
+
+    if let rangers = incident.rangers {
+        var handles: [String] = []
+
+        for ranger in rangers { handles.append(ranger.handle) }
+
+        json["ranger_handles"] = handles.sort()
+    }
+
+    if let reportEntries = incident.reportEntries {
+        var jsonEntries: [ReportEntryDictionary] = []
+
+        for reportEntry in reportEntries {
+            var jsonEntry: ReportEntryDictionary = [:]
+
+            if let author = reportEntry.author { jsonEntry["author" ] = author.handle }
+
+            jsonEntry["created"     ] = reportEntry.created.asRFC3339String()
+            jsonEntry["system_entry"] = reportEntry.systemEntry
+            jsonEntry["text"        ] = reportEntry.text
+
+            jsonEntries.append(jsonEntry)
+        }
+
+        json["report_entries"] = jsonEntries
+    }
 
     return json
 }
