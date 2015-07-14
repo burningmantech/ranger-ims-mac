@@ -40,7 +40,8 @@
 **********************************************************************/
 
 typealias IncidentDictionary = [String: AnyObject]
-typealias LocationDictionary = [String: String]
+typealias LocationDictionary = [String: AnyObject]
+
 
 
 func incidentFromJSON(input: IncidentDictionary) throws -> Incident {
@@ -204,6 +205,72 @@ func _locationFromJSON(json: JSON) throws -> Location {
 }
 
 
+
+func incidentAsJSON(incident: Incident) throws -> IncidentDictionary {
+    var json: IncidentDictionary = [:]
+    
+    if let number = incident.number { json["number"] = number }
+
+    if let priority = incident.priority {
+        switch priority {
+            case .High  : json["priority"] = 1
+            case .Normal: json["priority"] = 3
+            case .Low   : json["priority"] = 5
+        }
+    }
+
+    if let summary  = incident.summary  { json["summary" ] = summary                      }
+    if let location = incident.location { json["location"] = try locationAsJSON(location) }
+
+    return json
+}
+
+
+func locationAsJSON(location: Location) throws -> LocationDictionary {
+    var json: LocationDictionary = [:]
+    
+    if let name = location.name { json["name"] = name }
+
+    if location.address == nil {
+        json["type"] = "text"
+    }
+    else if let address = location.address as? TextOnlyAddress {
+        if let description = address.textDescription {
+            json["type"       ] = "text"
+            json["description"] = description
+        }
+    }
+    else if let address = location.address as? RodGarettAddress {
+        var hasData: Bool = false
+        
+        if let concentric = address.concentric {
+            hasData = true
+            json["concentric"] = concentric.rawValue
+        }
+        if let radialHour = address.radialHour {
+            hasData = true
+            json["radial_hour"] = radialHour
+        }
+        if let radialMinute = address.radialMinute {
+            hasData = true
+            json["radial_minute"] = radialMinute
+        }
+        if let description = address.textDescription {
+            hasData = true
+            json["description"] = description
+        }
+
+        if hasData { json["type"] = "garett" }
+    }
+    else {
+        throw JSONSerializationError.UnknownAddressType(location.address!)
+    }
+
+    return json
+}
+
+
+
 enum JSONDeserializationError: ErrorType {
     case NoIncidentNumber
     case NegativeIncidentNumber
@@ -212,4 +279,10 @@ enum JSONDeserializationError: ErrorType {
     case NoReportEntryAuthor
     case NoReportEntryCreated
     case UnknownIncidentState(String)
+}
+
+
+
+enum JSONSerializationError: ErrorType {
+    case UnknownAddressType(Address)
 }
