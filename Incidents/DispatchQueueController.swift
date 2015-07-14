@@ -22,7 +22,7 @@ class DispatchQueueController: NSWindowController {
 
     var appDelegate: AppDelegate!
 
-    let ims: IncidentManagementSystem
+    let ims: HTTPIncidentManagementSystem  // FIXME: should be IncidentManagementSystem, but working around a bug
     var imsUsername: String?
     var imsPassword: String?
 
