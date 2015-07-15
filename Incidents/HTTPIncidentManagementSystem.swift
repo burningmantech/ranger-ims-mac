@@ -421,13 +421,14 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    func loadIncident(number number: Int, etag: String) {
+    func loadIncident(number number: Int, etag: String?) {
         let incidentURL = "\(self.url)incidents/\(number)"
 
-        if let loadedEtag = incidentETagsByNumber[number] {
-            if loadedEtag == etag {
-                return
-            }
+        if
+            let etag = etag,
+            let loadedEtag = incidentETagsByNumber[number]
+        {
+            if loadedEtag == etag { return }
         }
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
