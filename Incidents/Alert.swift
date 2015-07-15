@@ -11,7 +11,7 @@ import Cocoa
 
 
 func alert(title title: String = "Alert", message: String = "") {
-    logInfo(message)
+    logInfo("\(title): \(message)")
     
     let alert = NSAlert()
 
