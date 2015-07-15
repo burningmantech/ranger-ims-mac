@@ -102,8 +102,109 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     func updateIncident(incident: Incident) throws {
         let json = try incidentAsJSON(incident)
         
-        alert(title: "Unimplemented: Update Incident", message: "\(json)")
-        throw NotImplementedError.NotImplementedYet
+        guard let number = incident.number else {
+            throw IMSError.IncidentNumberNil
+        }
+        
+        let incidentURL = "\(self.url)incidents/\(number)"
+
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
+            // FIXME: There's overlap here with loadIncident()'s onResponse…
+            
+            guard let json = json else {
+                logError("Update incident #\(number) request retrieved no JSON data")
+                return
+            }
+
+            guard let incidentJSON = json as? IncidentDictionary else {
+                alert(
+                    title: "Update incident #\(number) JSON is non-conforming",
+                    message: "\(json)"
+                )
+                return
+            }
+
+            let updatedIncident: Incident
+            do {
+                updatedIncident = try incidentFromJSON(incidentJSON)
+            } catch {
+                alert(
+                    title: "Unable to parse updated incident #\(number) JSON",
+                    message: "\(error)\n\(incidentJSON)"
+                )
+                return
+            }
+
+            guard let updatedNumber = updatedIncident.number else {
+                alert(
+                    title: "Updated incident #\(number) has no incident number",
+                    message: "\(incidentJSON)"
+                )
+                return
+            }
+            
+            guard updatedNumber == number else {
+                alert(
+                    title: "Updated incident #\(number) has different incident number",
+                    message: "\(incidentJSON)"
+                )
+                return
+            }
+            
+            let etags = headers["ETag"]
+            let etag: String?
+                
+            // Don't error out completely if we don't get an etag.
+            // We will just have to reload the incident from the server in that case.
+
+            if let etags = etags {
+                if etags.count != 1 {
+                    logError("Updated incident #\(number) response included multiple ETags: \(etags)")
+                    etag = nil
+                } else {
+                    etag = etags[0]
+                }
+            } else {
+                logError("Updated incident #\(number) response did not include an ETag.")
+                etag = nil
+            }
+
+            if let etag = etag {
+                _incidentsByNumber[number] = incident
+                incidentETagsByNumber[number] = etag
+
+                logHTTP("Updated incident #\(number)")
+
+                if let delegate = self.delegate {
+                    delegate.incidentDidUpdate(self, incident: incident)
+                }
+            }
+
+            // Read back the server's copy.
+            // Should be a no-nop because we should have stored the updated incident and etag above.
+
+            loadIncident(number: number, etag: etag)
+        }
+        
+        func onError(message: String) {
+            logError("Error while attempting incident update request: \(message)")
+        }
+
+        logHTTP("Sending incident #\(number) update request to: \(incidentURL)")
+
+        guard self.httpSession.sendJSON(
+            url: incidentURL,
+            method: HTTPMethod.POST,
+            json: json,
+            responseHandler: onResponse,
+            errorHandler: onError
+        ) != nil else {
+            logError("Unable to create incident #\(number) update connection?")
+            return
+        }
+
+        // Note we are not adding this connection to a loading group
+        // FIXME: make sure that's cool
     }
 
 
