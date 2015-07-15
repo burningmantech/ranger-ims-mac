@@ -69,6 +69,7 @@ class HTTPSession: NSObject {
     }
 
 
+    // FIXME: throw instead of returning nil?
     func send(
         request request: HTTPRequest,
         responseHandler: ResponseHandler,
@@ -84,6 +85,14 @@ class HTTPSession: NSObject {
 
         let nsRequest = NSMutableURLRequest(URL: nsURL!)
 
+        nsRequest.HTTPMethod = request.method.rawValue
+
+        for (name, values) in request.headers {
+            for value in values {
+                nsRequest.setValue(value, forHTTPHeaderField: name)
+            }
+        }
+        
         guard let task = nsSession.dataTaskWithRequest(
             nsRequest,
             completionHandler: {
