@@ -100,7 +100,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
     func updateIncident(incident: Incident) throws {
-        alert(title: "Unimplemented: Update Incident", message: "\(incident)")
+        let json = try incidentAsJSON(incident)
+        
+        alert(title: "Unimplemented: Update Incident", message: "\(json)")
         throw NotImplementedError.NotImplementedYet
     }
 
