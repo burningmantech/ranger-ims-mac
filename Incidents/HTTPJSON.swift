@@ -19,8 +19,10 @@ extension HTTPSession {
     typealias JSONErrorHandler = ErrorHandler
 
 
+    // FIXME: throw instead of returning nil?
     func sendJSON(
         url url: String,
+        method: HTTPMethod = HTTPMethod.GET,
         json: AnyObject?,
         responseHandler: JSONResponseHandler,
         errorHandler: JSONErrorHandler
@@ -40,7 +42,7 @@ extension HTTPSession {
 
         let request = HTTPRequest(
             url: url,
-            method: HTTPMethod.GET,
+            method: method,
             headers: headers,
             body: jsonBytes
         )
