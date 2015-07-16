@@ -208,9 +208,14 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
     }
 
 
-    func test_createIncident() throws {
+    func test_createIncident() {
         var incident = Incident(number: nil)
-        try ims!.createIncident(incident)
+
+        do {
+            try ims!.createIncident(incident)
+        } catch {
+            return XCTFail("\(error)")
+        }
 
         incident.number = cannedIncidents!.count + 1
 
