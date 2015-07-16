@@ -24,7 +24,7 @@ protocol IncidentManagementSystem {
 
 
 protocol IncidentManagementSystemDelegate: class {
-    func incidentDidUpdate(ims: IncidentManagementSystem, incident: Incident)
+    func incidentDidUpdate(ims ims: IncidentManagementSystem, incident: Incident)
 }
 
 

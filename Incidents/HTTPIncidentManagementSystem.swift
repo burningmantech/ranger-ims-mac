@@ -183,7 +183,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 logHTTP("Updated incident #\(number)")
 
                 if let delegate = self.delegate {
-                    delegate.incidentDidUpdate(self, incident: incident)
+                    delegate.incidentDidUpdate(ims: self, incident: incident)
                 }
             }
         }
@@ -590,7 +590,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             logHTTP("Loaded incident #\(number)")
 
             if let delegate = self.delegate {
-                delegate.incidentDidUpdate(self, incident: incident)
+                delegate.incidentDidUpdate(ims: self, incident: incident)
             }
         }
 

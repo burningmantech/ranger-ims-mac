@@ -269,7 +269,7 @@ class DispatchQueueController: NSWindowController {
 
 extension DispatchQueueController: HTTPIncidentManagementSystemDelegate {
 
-    func incidentDidUpdate(ims: IncidentManagementSystem, incident: Incident) {
+    func incidentDidUpdate(ims ims: IncidentManagementSystem, incident: Incident) {
         guard let number = incident.number else {
             logError("Updated incident has no number: \(incident)")
             return
