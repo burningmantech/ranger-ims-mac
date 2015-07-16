@@ -13,12 +13,17 @@ import Cocoa
 func alert(title title: String = "Alert", message: String = "") {
     logInfo("\(title): \(message)")
     
-    let alert = NSAlert()
+    dispatch_sync(
+        dispatch_get_main_queue(),
+        {
+            let alert = NSAlert()
 
-    alert.alertStyle = NSAlertStyle.InformationalAlertStyle
-    alert.showsHelp = false
-    alert.messageText = title
-    alert.informativeText = message
+            alert.alertStyle = NSAlertStyle.InformationalAlertStyle
+            alert.showsHelp = false
+            alert.messageText = title
+            alert.informativeText = message
 
-    alert.runModal()
+            alert.runModal()
+        }
+    )
 }
