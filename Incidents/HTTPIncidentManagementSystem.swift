@@ -192,16 +192,13 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         logHTTP("Sending incident #\(number) update request to: \(incidentURL)")
 
-        guard self.httpSession.sendJSON(
+        try self.httpSession.sendJSON(
             url: incidentURL,
             method: HTTPMethod.POST,
             json: json,
             responseHandler: onResponse,
             errorHandler: onError
-        ) != nil else {
-            logError("Unable to create incident #\(number) update connection?")
-            return
-        }
+        )
 
         // Note we are not adding this connection to a loading group
         // FIXME: make sure that's cool
@@ -237,13 +234,16 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         logHTTP("Sending ping request to: \(pingURL)")
 
-        guard let connection = self.httpSession.sendJSON(
-            url: pingURL,
-            json: nil,
-            responseHandler: onResponse,
-            errorHandler: onError
-        ) else {
-            logError("Unable to create ping connection?")
+        let connection: HTTPConnection
+        do {
+            connection = try self.httpSession.sendJSON(
+                url: pingURL,
+                json: nil,
+                responseHandler: onResponse,
+                errorHandler: onError
+            )
+        } catch {
+            logError("Unable to create ping connection: \(error)")
             resetConnection()
             return
         }
@@ -298,13 +298,16 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         logHTTP("Sending incident types request to: \(typesURL)")
 
-        guard let connection = self.httpSession.sendJSON(
-            url: typesURL,
-            json: nil,
-            responseHandler: onResponse,
-            errorHandler: onError
-        ) else {
-            logError("Unable to create incident types connection?")
+        let connection: HTTPConnection
+        do {
+            connection = try self.httpSession.sendJSON(
+                url: typesURL,
+                json: nil,
+                responseHandler: onResponse,
+                errorHandler: onError
+            )
+        } catch {
+            logError("Unable to create incident types connection: \(error)")
             resetConnection()
             return
         }
@@ -363,13 +366,16 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         logHTTP("Sending personnel request to: \(personnelURL)")
 
-        guard let connection = self.httpSession.sendJSON(
-            url: personnelURL,
-            json: nil,
-            responseHandler: onResponse,
-            errorHandler: onError
-        ) else {
-            logError("Unable to create personnel connection?")
+        let connection: HTTPConnection
+        do {
+            connection = try self.httpSession.sendJSON(
+                url: personnelURL,
+                json: nil,
+                responseHandler: onResponse,
+                errorHandler: onError
+            )
+        } catch {
+            logError("Unable to create personnel connection: \(error)")
             resetConnection()
             return
         }
@@ -432,13 +438,16 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         logHTTP("Sending locations request to: \(locationsURL)")
 
-        guard let connection = self.httpSession.sendJSON(
-            url: locationsURL,
-            json: nil,
-            responseHandler: onResponse,
-            errorHandler: onError
-        ) else {
-            logError("Unable to create locations connection?")
+        let connection: HTTPConnection
+        do {
+            connection = try self.httpSession.sendJSON(
+                url: locationsURL,
+                json: nil,
+                responseHandler: onResponse,
+                errorHandler: onError
+            )
+        } catch {
+            logError("Unable to create locations connection: \(error)")
             resetConnection()
             return
         }
@@ -503,13 +512,16 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         logHTTP("Sending incident list request to: \(incidentsURL)")
 
-        guard let connection = self.httpSession.sendJSON(
-            url: incidentsURL,
-            json: nil,
-            responseHandler: onResponse,
-            errorHandler: onError
-        ) else {
-            logError("Unable to create incident list connection?")
+        let connection: HTTPConnection
+        do {
+            connection = try self.httpSession.sendJSON(
+                url: incidentsURL,
+                json: nil,
+                responseHandler: onResponse,
+                errorHandler: onError
+            )
+        } catch {
+            logError("Unable to create incident list connection: \(error)")
             resetConnection()
             return
         }
@@ -585,13 +597,16 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         logHTTP("Sending incident #\(number) request to: \(incidentURL)")
 
-        guard let connection = self.httpSession.sendJSON(
-            url: incidentURL,
-            json: nil,
-            responseHandler: onResponse,
-            errorHandler: onError
-        ) else {
-            logError("Unable to create incident #\(number) connection?")
+        let connection: HTTPConnection
+        do {
+            connection = try self.httpSession.sendJSON(
+                url: incidentURL,
+                json: nil,
+                responseHandler: onResponse,
+                errorHandler: onError
+            )
+        } catch {
+            logError("Unable to create incident #\(number) connection: \(error)")
             resetConnection()
             return
         }

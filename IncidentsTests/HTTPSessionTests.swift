@@ -33,11 +33,17 @@ class HTTPSessionSendTests: XCTestCase {
             XCTAssertEqual(message, "Invalid URL: \(targetURL)")
         }
 
-        session.send(
-            request: request,
-            responseHandler: responseHandler,
-            errorHandler: errorHandler
-        )
+        do {
+            try session.send(
+                request: request,
+                responseHandler: responseHandler,
+                errorHandler: errorHandler
+            )
+        } catch HTTPError.InvalidURL(let badURL) {
+            XCTAssertEqual(badURL, targetURL)
+        } catch {
+            XCTFail("\(error)")
+        }
     }
 
 
@@ -79,15 +85,19 @@ class HTTPSessionSendTests: XCTestCase {
             expectation.fulfill()
         }
 
-        let connection = session.send(
-            request: request,
-            responseHandler: responseHandler,
-            errorHandler: errorHandler
-        )
-        XCTAssertNotNil(connection)
+        let connection: HTTPConnection
+        do {
+            connection = try session.send(
+                request: request,
+                responseHandler: responseHandler,
+                errorHandler: errorHandler
+            )
+        } catch {
+            return XCTFail("\(error)")
+        }
 
         waitForExpectationsWithTimeout(30, handler: {
-            (error) in connection!.cancel()
+            (error) in connection.cancel()
         })
     }
 

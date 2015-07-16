@@ -19,14 +19,13 @@ extension HTTPSession {
     typealias JSONErrorHandler = ErrorHandler
 
 
-    // FIXME: throw instead of returning nil?
     func sendJSON(
         url url: String,
         method: HTTPMethod = HTTPMethod.GET,
         json: AnyObject?,
         responseHandler: JSONResponseHandler,
         errorHandler: JSONErrorHandler
-    ) -> HTTPConnection? {
+    ) throws -> HTTPConnection {
 
         var headers = HTTPHeaders()
         headers.add(name: "Accept", value: "application/json")
@@ -37,7 +36,7 @@ extension HTTPSession {
         } else {
             // FIXME *********************************
             alert(title: "Unimplemented: Send JSON", message: "\(json)")
-            return nil
+            throw NotImplementedError.NotImplementedYet
         }
 
         let request = HTTPRequest(
@@ -107,10 +106,12 @@ extension HTTPSession {
             responseHandler(headers: headers, json: json)
         }
 
-        return self.send(
+        let connection = try self.send(
             request: request,
             responseHandler: onResponse,
             errorHandler: errorHandler
         )
+
+        return connection
     }
 }

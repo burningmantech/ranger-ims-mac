@@ -69,18 +69,16 @@ class HTTPSession: NSObject {
     }
 
 
-    // FIXME: throw instead of returning nil?
     func send(
         request request: HTTPRequest,
         responseHandler: ResponseHandler,
         errorHandler: ErrorHandler
-    ) -> HTTPConnection? {
+    ) throws -> HTTPConnection {
 
         let nsURL = NSURL(string: request.url)
 
         if nsURL == nil {
-            errorHandler(message: "Invalid URL: \(request.url)")
-            return nil
+            throw HTTPError.InvalidURL(request.url)
         }
 
         let nsRequest = NSMutableURLRequest(URL: nsURL!)
@@ -124,7 +122,7 @@ class HTTPSession: NSObject {
                 responseHandler(url: request.url, status: status, headers: headers, body: body)
             }
         ) else {
-            return nil
+            throw HTTPError.InternalError("Unable to create HTTP task")
         }
 
         task.resume()
@@ -242,4 +240,11 @@ private class SessionDelegate: NSObject, NSURLSessionTaskDelegate {
         )
     }
 
+}
+
+
+
+enum HTTPError: ErrorType {
+    case InternalError(String)
+    case InvalidURL(String)
 }
