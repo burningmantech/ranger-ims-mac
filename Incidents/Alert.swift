@@ -13,7 +13,7 @@ import Cocoa
 func alert(title title: String = "Alert", message: String = "") {
     logInfo("\(title): \(message)")
     
-    dispatch_sync(
+    dispatch_async(
         dispatch_get_main_queue(),
         {
             let alert = NSAlert()
