@@ -83,6 +83,45 @@ class IncidentController: NSWindowController {
         }
     }
 
+
+    func incidentDidUpdate(ims ims: IncidentManagementSystem, updatedIncident: Incident) {
+        guard originalIncident!.number == updatedIncident.number else {
+            logError("Incident controller for incident \(originalIncident) got an update for a different incident: \(incident)")
+            return
+        }
+        
+        // Modify the view such that any changes from originalIncident to
+        // updatedIncident are reflected but if there is an unsaved change in
+        // the view that wasn't changed in updatedIncident, leave it modified.
+        // So if the user modifies a field and someone else saves a change to
+        // that field first, the modifications here will get lost, but at least
+        // local changes that were not modified by someone else will be
+        // preserved.
+        
+        let diff = updatedIncident.diffFrom(originalIncident!)
+
+        incident = incident!.applyDiff(diff)
+        originalIncident = updatedIncident
+
+        dispatch_sync(
+            dispatch_get_main_queue(),
+            {
+                self.updateView()
+            }
+        )
+
+        if incident! != originalIncident! {
+            do {
+                let diff = try incidentAsJSON(incident!.diffFrom(originalIncident!))
+                logDebug("Updated incident view but left some changes in place: \(diff)")
+            } catch {
+                logDebug("Updated incident view but left some changes in place: [ERROR COMPUTING DIFF]")
+            }
+        } else {
+            logDebug("Updated incident view")
+        }
+    }
+
 }
 
 

@@ -278,7 +278,7 @@ extension DispatchQueueController: HTTPIncidentManagementSystemDelegate {
         logDebug("Incident updated: \(incident)")
         
         if let incidentController = incidentControllers[number] {
-            alert(title: "Implement Me", message: "incidentDidUpdate() with controller \(incidentController)")
+            incidentController.incidentDidUpdate(ims: ims, updatedIncident: incident)
         }
 
         resort(self)
