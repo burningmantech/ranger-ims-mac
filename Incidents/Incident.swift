@@ -206,6 +206,22 @@ struct Incident: CustomStringConvertible, Hashable {
         )
     }
 
+
+    func applyDiff(diff: Incident) -> Incident {
+        var newIncident = self
+        
+        if diff.priority      != nil { newIncident.priority      = diff.priority      }
+        if diff.summary       != nil { newIncident.summary       = diff.summary       }
+        if diff.location      != nil { newIncident.location      = diff.location      }
+        if diff.rangers       != nil { newIncident.rangers       = diff.rangers       }
+        if diff.incidentTypes != nil { newIncident.incidentTypes = diff.incidentTypes }
+        if diff.reportEntries != nil { newIncident.reportEntries = diff.reportEntries }
+        if diff.created       != nil { newIncident.created       = diff.created       }
+        if diff.state         != nil { newIncident.state         = diff.state         }
+        
+        return newIncident
+    }
+
 }
 
 
