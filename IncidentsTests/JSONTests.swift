@@ -21,10 +21,12 @@ class IncidentJSONDeserializationTests: XCTestCase {
     }
 
 
-    func test_deserialize_number() throws {
+    func test_deserialize_number() {
         let json = [ "number": 1 ]
 
-        let incident = try incidentFromJSON(json)
+        let incident: Incident
+        do { incident = try incidentFromJSON(json) }
+        catch { return XCTFail("\(error)") }
 
         XCTAssertEqual(incident, Incident(number: 1))
     }
@@ -39,7 +41,7 @@ class IncidentJSONDeserializationTests: XCTestCase {
     }
 
 
-    func test_deserialize_priority() throws {
+    func test_deserialize_priority() {
         for (jsonPriority, expectedPriority) in [
             1: IncidentPriority.High,
             2: IncidentPriority.High,
@@ -49,7 +51,9 @@ class IncidentJSONDeserializationTests: XCTestCase {
         ] {
             let json = [ "number": 1, "priority": jsonPriority ]
 
-            let incident = try incidentFromJSON(json)
+            let incident: Incident
+            do { incident = try incidentFromJSON(json) }
+            catch { return XCTFail("\(error)") }
 
             XCTAssertEqual(
                 incident,
@@ -59,10 +63,12 @@ class IncidentJSONDeserializationTests: XCTestCase {
     }
 
 
-    func test_deserialize_summary() throws {
+    func test_deserialize_summary() {
         let json = [ "number": 1, "summary": "Cheese and pickles" ]
 
-        let incident = try incidentFromJSON(json)
+        let incident: Incident
+        do { incident = try incidentFromJSON(json) }
+        catch { return XCTFail("\(error)") }
 
         XCTAssertEqual(
             incident,
@@ -71,7 +77,7 @@ class IncidentJSONDeserializationTests: XCTestCase {
     }
 
 
-    func test_deserialize_address_text() throws {
+    func test_deserialize_address_text() {
         let json: IncidentDictionary = [
             "number": 1,
             "location": [
@@ -81,7 +87,9 @@ class IncidentJSONDeserializationTests: XCTestCase {
             ]
         ]
 
-        let incident = try incidentFromJSON(json)
+        let incident: Incident
+        do { incident = try incidentFromJSON(json) }
+        catch { return XCTFail("\(error)") }
 
         XCTAssertEqual(
             incident,
@@ -98,7 +106,7 @@ class IncidentJSONDeserializationTests: XCTestCase {
     }
 
 
-    func test_deserialize_address_garett() throws {
+    func test_deserialize_address_garett() {
         let json: IncidentDictionary = [
             "number": 1,
             "location": [
@@ -111,7 +119,9 @@ class IncidentJSONDeserializationTests: XCTestCase {
             ]
         ]
 
-        let incident = try incidentFromJSON(json)
+        let incident: Incident
+        do { incident = try incidentFromJSON(json) }
+        catch { return XCTFail("\(error)") }
 
         if let _ = incident.location {
             XCTAssertEqual(
@@ -135,13 +145,15 @@ class IncidentJSONDeserializationTests: XCTestCase {
     }
 
 
-    func test_deserialize_rangers() throws {
+    func test_deserialize_rangers() {
         let json: IncidentDictionary = [
             "number": 1,
             "ranger_handles": [ "Tool", "Splinter" ]
         ]
 
-        let incident = try incidentFromJSON(json)
+        let incident: Incident
+        do { incident = try incidentFromJSON(json) }
+        catch { return XCTFail("\(error)") }
 
         XCTAssertEqual(
             incident,
@@ -156,13 +168,15 @@ class IncidentJSONDeserializationTests: XCTestCase {
     }
 
 
-    func test_deserialize_incidentTypes() throws {
+    func test_deserialize_incidentTypes() {
         let json: IncidentDictionary = [
             "number": 1,
             "incident_types": ["Medical", "Fire"]
         ]
 
-        let incident = try incidentFromJSON(json)
+        let incident: Incident
+        do { incident = try incidentFromJSON(json) }
+        catch { return XCTFail("\(error)") }
 
         XCTAssertEqual(
             incident,
@@ -174,7 +188,7 @@ class IncidentJSONDeserializationTests: XCTestCase {
     }
 
 
-    func test_deserialize_reportEntries() throws {
+    func test_deserialize_reportEntries() {
         let json: IncidentDictionary = [
             "number": 1,
             "report_entries": [
@@ -187,7 +201,9 @@ class IncidentJSONDeserializationTests: XCTestCase {
             ]
         ]
 
-        let incident = try incidentFromJSON(json)
+        let incident: Incident
+        do { incident = try incidentFromJSON(json) }
+        catch { return XCTFail("\(error)") }
 
         XCTAssertEqual(
             incident,
@@ -206,10 +222,12 @@ class IncidentJSONDeserializationTests: XCTestCase {
     }
 
 
-    func test_deserialize_created() throws {
+    func test_deserialize_created() {
         let json = [ "number": 1, "created": "2014-08-30T21:12:50Z" ]
 
-        let incident = try incidentFromJSON(json)
+        let incident: Incident
+        do { incident = try incidentFromJSON(json) }
+        catch { return XCTFail("\(error)") }
 
         XCTAssertEqual(
             incident,
@@ -221,10 +239,12 @@ class IncidentJSONDeserializationTests: XCTestCase {
     }
 
 
-    func test_deserialize_state() throws {
+    func test_deserialize_state() {
         let json = [ "number": 1, "state": "on_scene" ]
 
-        let incident = try incidentFromJSON(json)
+        let incident: Incident
+        do { incident = try incidentFromJSON(json) }
+        catch { return XCTFail("\(error)") }
 
         XCTAssertEqual(
             incident,
@@ -238,18 +258,26 @@ class IncidentJSONDeserializationTests: XCTestCase {
 
 class IncidentJSONSerializationTests: XCTestCase {
     
-    func test_serialize_noNumber() throws {
+    func test_serialize_noNumber() {
         let incident = Incident(number: nil)
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+
         let expected: NSDictionary = [:]
         
         XCTAssertTrue(expected.isEqualToDictionary(json))
     }
     
     
-    func test_serialize_number() throws {
+    func test_serialize_number() {
         let incident = Incident(number: 1)
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+
         let expected: NSDictionary = [
             "number": 1
         ]
@@ -258,9 +286,13 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_serialize_negativeNumber() throws {
+    func test_serialize_negativeNumber() {
         let incident = Incident(number: -1)
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+        
         let expected: NSDictionary = [
             "number": -1
         ]
@@ -269,14 +301,18 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_serialize_priority() throws {
+    func test_serialize_priority() {
         for (priority, jsonPriority) in [
             IncidentPriority.High  : 1,
             IncidentPriority.Normal: 3,
             IncidentPriority.Low   : 5,
         ] {
             let incident = Incident(number: 1, priority: priority)
-            let json = try incidentAsJSON(incident)
+
+            let json: IncidentDictionary
+            do { json = try incidentAsJSON(incident) }
+            catch { return XCTFail("\(error)") }
+            
             let expected: NSDictionary = [
                 "number": 1,
                 "priority": jsonPriority
@@ -287,9 +323,13 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_serialize_summary() throws {
+    func test_serialize_summary() {
         let incident = Incident(number: 1, summary: "Cheese and pickles")
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+        
         let expected: NSDictionary = [
             "number": 1,
             "summary": "Cheese and pickles"
@@ -299,12 +339,16 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_serialize_address_nil() throws {
+    func test_serialize_address_nil() {
         let incident = Incident(
             number: 1,
             location: Location(name: "Camp Fishes")
         )
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+        
         let expected: NSDictionary = [
             "number": 1,
             "location": [
@@ -317,7 +361,7 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_serialize_address_text() throws {
+    func test_serialize_address_text() {
         let incident = Incident(
             number: 1,
             location: Location(
@@ -327,7 +371,11 @@ class IncidentJSONSerializationTests: XCTestCase {
                 )
             )
         )
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+        
         let expected: NSDictionary = [
             "number": 1,
             "location": [
@@ -341,7 +389,7 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_serialize_address_garett() throws {
+    func test_serialize_address_garett() {
         let incident = Incident(
             number: 1,
             location: Location(
@@ -354,7 +402,11 @@ class IncidentJSONSerializationTests: XCTestCase {
                 )
             )
         )
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+        
         let expected: NSDictionary = [
             "number": 1,
             "location": [
@@ -371,7 +423,7 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_serialize_rangers() throws {
+    func test_serialize_rangers() {
         let incident = Incident(
             number: 1,
             rangers: [
@@ -379,7 +431,11 @@ class IncidentJSONSerializationTests: XCTestCase {
                 Ranger(handle: "Splinter")
             ]
         )
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+        
         let expected: NSDictionary = [
             "number": 1,
             "ranger_handles": [ "Splinter", "Tool" ]  // Should be sorted
@@ -389,12 +445,16 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_serialize_incidentTypes() throws {
+    func test_serialize_incidentTypes() {
         let incident = Incident(
             number: 1,
             incidentTypes: ["Medical", "Fire"]
         )
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+        
         let expected: NSDictionary = [
             "number": 1,
             "incident_types": ["Fire", "Medical"]  // Should be sorted
@@ -404,7 +464,7 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_serialize_reportEntries() throws {
+    func test_serialize_reportEntries() {
         let incident = Incident(
             number: 1,
             reportEntries: [
@@ -416,7 +476,11 @@ class IncidentJSONSerializationTests: XCTestCase {
                 )
             ]
         )
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+        
         let expected: NSDictionary = [
             "number": 1,
             "report_entries": [
@@ -433,12 +497,16 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_serialize_created() throws {
+    func test_serialize_created() {
         let incident = Incident(
             number: 1,
             created: DateTime.fromRFC3339String("2014-08-30T21:12:50Z")
         )
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+        
         let expected: NSDictionary = [
             "number": 1,
             "created": "2014-08-30T21:12:50Z"
@@ -448,12 +516,16 @@ class IncidentJSONSerializationTests: XCTestCase {
     }
     
     
-    func test_deserialize_state() throws {
+    func test_deserialize_state() {
         let incident = Incident(
             number: 1,
             state: IncidentState.OnScene
         )
-        let json = try incidentAsJSON(incident)
+
+        let json: IncidentDictionary
+        do { json = try incidentAsJSON(incident) }
+        catch { return XCTFail("\(error)") }
+        
         let expected: NSDictionary = [
             "number": 1,
             "state": "on_scene"
