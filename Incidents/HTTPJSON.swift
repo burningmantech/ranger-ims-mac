@@ -31,12 +31,17 @@ extension HTTPSession {
         headers.add(name: "Accept", value: "application/json")
 
         let jsonBytes: [UInt8]
-        if json == nil {
+        if let json = json {
+            var jsonOptions = NSJSONWritingOptions()
+            if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+                jsonOptions.insert(NSJSONWritingOptions.PrettyPrinted)
+            }
+            
+            let nsData = try NSJSONSerialization.dataWithJSONObject(json, options: jsonOptions)
+            jsonBytes = nsData.asBytes()
+        }
+        else {
             jsonBytes = []
-        } else {
-            // FIXME *********************************
-            alert(title: "Unimplemented: Send JSON", message: "\(json)")
-            throw NotImplementedError.NotImplementedYet
         }
 
         let request = HTTPRequest(
@@ -103,9 +108,17 @@ extension HTTPSession {
                 json = nil
             }
 
+            if let json = json {
+                logJSON("Received JSON", json)
+            }
+
             responseHandler(headers: headers, json: json)
         }
 
+        if let json = json {
+            logJSON("Sending JSON", json)
+        }
+        
         let connection = try self.send(
             request: request,
             responseHandler: onResponse,
@@ -113,5 +126,12 @@ extension HTTPSession {
         )
 
         return connection
+    }
+
+
+    private func logJSON(message: String, _ json: AnyObject?) {
+        if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+            logInfo("\(message):\n\(json)")
+        }
     }
 }
