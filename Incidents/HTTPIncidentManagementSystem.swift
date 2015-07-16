@@ -112,12 +112,13 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             // FIXME: There's overlap here with loadIncident()'s onResponse…
             
             // Read back the server's copy.
-            // Should be a no-nop because we should have stored the updated incident and etag above.
+            // Should be a no-nop because we will store the updated incident and etag below.
+            // But if there's any error here, we should at least fetch the server copy.
 
             var etag: String? = nil
             
             defer {
-                loadIncident(number: number, etag: etag)
+                loadIncident(number: number, etag: etag, solo: true)
             }
 
             guard let json = json else {
@@ -535,7 +536,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    func loadIncident(number number: Int, etag: String?) {
+    func loadIncident(number number: Int, etag: String?, solo: Bool = false) {
         let incidentURL = "\(self.url)incidents/\(number)"
 
         if
@@ -546,10 +547,12 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            removeConnectionForLoadingGroup(
-                group: IMSLoadingGroup.Incidents,
-                id: IMSConnectionID.Incidents(number)
-            )
+            if !solo {
+                removeConnectionForLoadingGroup(
+                    group: IMSLoadingGroup.Incidents,
+                    id: IMSConnectionID.Incidents(number)
+                )
+            }
 
             guard let incidentDictionary = json as? IncidentDictionary else {
                 logError("Incident #\(number) JSON is non-conforming: \(json)")
@@ -612,11 +615,13 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             return
         }
 
-        addConnectionForLoadingGroup(
-            group: IMSLoadingGroup.Incidents,
-            id: IMSConnectionID.Incidents(number),
-            connection: connection
-        )
+        if !solo {
+            addConnectionForLoadingGroup(
+                group: IMSLoadingGroup.Incidents,
+                id: IMSConnectionID.Incidents(number),
+                connection: connection
+            )
+        }
     }
 
     
