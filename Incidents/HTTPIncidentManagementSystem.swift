@@ -111,6 +111,15 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
             // FIXME: There's overlap here with loadIncident()'s onResponse…
             
+            // Read back the server's copy.
+            // Should be a no-nop because we should have stored the updated incident and etag above.
+
+            var etag: String? = nil
+            
+            defer {
+                loadIncident(number: number, etag: etag)
+            }
+
             guard let json = json else {
                 logError("Update incident #\(number) request retrieved no JSON data")
                 return
@@ -151,22 +160,19 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
             
-            let etags = headers["ETag"]
-            let etag: String?
-                
             // Don't error out completely if we don't get an etag.
             // We will just have to reload the incident from the server in that case.
+
+            let etags = headers["ETag"]
 
             if let etags = etags {
                 if etags.count != 1 {
                     logError("Updated incident #\(number) response included multiple ETags: \(etags)")
-                    etag = nil
                 } else {
                     etag = etags[0]
                 }
             } else {
                 logError("Updated incident #\(number) response did not include an ETag.")
-                etag = nil
             }
 
             if let etag = etag {
@@ -179,11 +185,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                     delegate.incidentDidUpdate(self, incident: incident)
                 }
             }
-
-            // Read back the server's copy.
-            // Should be a no-nop because we should have stored the updated incident and etag above.
-
-            loadIncident(number: number, etag: etag)
         }
         
         func onError(message: String) {
