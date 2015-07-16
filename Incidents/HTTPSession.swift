@@ -84,13 +84,14 @@ class HTTPSession: NSObject {
         let nsRequest = NSMutableURLRequest(URL: nsURL!)
 
         nsRequest.HTTPMethod = request.method.rawValue
+        nsRequest.HTTPBody = NSData.fromBytes(request.body)
 
         for (name, values) in request.headers {
             for value in values {
                 nsRequest.setValue(value, forHTTPHeaderField: name)
             }
         }
-        
+
         guard let task = nsSession.dataTaskWithRequest(
             nsRequest,
             completionHandler: {
