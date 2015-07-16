@@ -186,8 +186,10 @@ class DispatchQueueController: NSWindowController {
 
 
     func reloadTimerFired(timer: NSTimer) {
-        logDebug("Reloading after timer")
-        reload(true)
+        if !NSUserDefaults.standardUserDefaults().boolForKey("IMSDisableReloadTimer") {
+            logDebug("Reloading after timer")
+            reload(true)
+        }
     }
 
 

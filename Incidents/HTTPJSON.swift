@@ -33,7 +33,7 @@ extension HTTPSession {
         let jsonBytes: [UInt8]
         if let json = json {
             var jsonOptions = NSJSONWritingOptions()
-            if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+            if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPJSONLogging") {
                 jsonOptions.insert(NSJSONWritingOptions.PrettyPrinted)
             }
             
@@ -130,7 +130,7 @@ extension HTTPSession {
 
 
     private func logJSON(message: String, _ json: AnyObject?) {
-        if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPLogging") {
+        if NSUserDefaults.standardUserDefaults().boolForKey("EnableHTTPJSONLogging") {
             logInfo("\(message):\n\(json)")
         }
     }

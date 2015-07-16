@@ -513,6 +513,22 @@
                                     <binding destination="Q4x-cz-IxJ" name="value" keyPath="values.EnableHTTPLogging" id="yeA-Fo-7t1"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Enable HTTP JSON Logging" id="y74-M1-ONr">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="Q4x-cz-IxJ" name="value" keyPath="values.EnableHTTPJSONLogging" id="JuD-5h-jEz"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Enable Reload Timer" state="on" id="2RH-bm-x7S">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <binding destination="Q4x-cz-IxJ" name="value" keyPath="values.IMSDisableReloadTimer" id="KuV-Ji-eVT">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
