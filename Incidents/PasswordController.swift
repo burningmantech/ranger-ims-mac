@@ -15,12 +15,6 @@ class PasswordController: NSWindowController {
     var dispatchQueueController: DispatchQueueController?
     
     
-    var imsUsername: String? {
-        get { return dispatchQueueController?.imsUsername }
-        set { dispatchQueueController?.imsUsername = newValue }
-    }
-
-    
     var imsPassword: String? {
         get { return dispatchQueueController?.imsPassword }
         set { dispatchQueueController?.imsPassword = newValue }
@@ -44,9 +38,6 @@ class PasswordController: NSWindowController {
 
 
     @IBAction func done(sender: AnyObject?) {
-        if let username = imsUsername {
-            dispatchQueueController?.userField?.stringValue = username
-        }
         self.close()
         NSApp.stopModal()
     }

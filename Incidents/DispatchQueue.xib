@@ -11,7 +11,6 @@
                 <outlet property="reloadButton" destination="Nlw-Bf-HID" id="TgW-6Q-zds"/>
                 <outlet property="searchField" destination="RsS-6c-dHe" id="oFV-CV-ove"/>
                 <outlet property="showClosedButton" destination="Ddb-4N-bt8" id="OWu-PW-pri"/>
-                <outlet property="userField" destination="kf4-KH-mAw" id="3IY-Na-f1Q"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="uHx-q8-H3f"/>
             </connections>
         </customObject>
@@ -213,6 +212,9 @@
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="sqc-L2-9yk" name="value" keyPath="values.IMSUserName" id="Yz3-NE-SBl"/>
+                        </connections>
                     </textField>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="Ddb-4N-bt8">
                         <rect key="frame" x="578" y="19" width="104" height="18"/>

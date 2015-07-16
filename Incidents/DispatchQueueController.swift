@@ -23,7 +23,6 @@ class DispatchQueueController: NSWindowController {
     var appDelegate: AppDelegate!
 
     let ims: HTTPIncidentManagementSystem  // FIXME: should be IncidentManagementSystem, but working around a bug
-    var imsUsername: String?
     var imsPassword: String?
 
     var incidentControllers: [Int: IncidentController] = [:]
@@ -36,7 +35,6 @@ class DispatchQueueController: NSWindowController {
     @IBOutlet weak var loadingIndicator: NSProgressIndicator?
     @IBOutlet weak var reloadButton    : NSButton?
     @IBOutlet weak var showClosedButton: NSButton?
-    @IBOutlet weak var userField       : NSTextField?
 
 
     var searchText: String {
@@ -306,8 +304,13 @@ extension DispatchQueueController: HTTPIncidentManagementSystemDelegate {
             }
         )
         
-        guard let username = imsUsername, password = imsPassword else { return nil }
-        
+        guard let
+            username = NSUserDefaults.standardUserDefaults().stringForKey("IMSUserName"),
+            password = imsPassword
+        else {
+            return nil
+        }
+
         return HTTPUsernamePasswordCredential(
             username: username,
             password: password
@@ -333,7 +336,6 @@ extension DispatchQueueController: NSWindowDelegate {
         if loadingIndicator == nil { arghEvilDeath("loading indicator" ) }
         if reloadButton     == nil { arghEvilDeath("reload button"     ) }
         if showClosedButton == nil { arghEvilDeath("show closed button") }
-        if userField        == nil { arghEvilDeath("user field"        ) }
 
         reloadButton!.hidden     = false
         loadingIndicator!.hidden = true
