@@ -12,6 +12,13 @@ import Cocoa
 
 class ConcentricStreetFieldDelegate: CompletingControlDelegate {
     
+    override init() {
+        super.init()
+
+        allowNonMatchingCompletions = false
+    }
+
+    
     override var completionValues: [String] {
         return [
             ConcentricStreet.Esplanade.description,

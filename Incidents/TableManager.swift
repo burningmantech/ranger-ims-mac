@@ -20,6 +20,10 @@ class TableManager: CompletingControlDelegate {
 
     init(incidentController: IncidentController) {
         self.incidentController = incidentController
+
+        super.init()
+
+        allowNonMatchingCompletions = false
     }
     
 

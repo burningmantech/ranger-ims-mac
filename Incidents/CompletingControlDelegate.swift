@@ -12,6 +12,8 @@ import Cocoa
 
 class CompletingControlDelegate: NSObject, NSTextFieldDelegate {
 
+    var allowNonMatchingCompletions = true
+    
     var amCompleting  = false
     var amBackspacing = false
 
@@ -67,17 +69,34 @@ class CompletingControlDelegate: NSObject, NSTextFieldDelegate {
         forPartialWordRange charRange: NSRange,
         indexOfSelectedItem index: UnsafeMutablePointer<Int>
     ) -> [String] {
-        let currentWord = control.stringValue.lowercaseString
+        let input       = control.stringValue
+        let currentWord = input.lowercaseString
         
-        if currentWord == "?" { return completionValues }
-        
-        var result: [String] = []
-        for word in completionValues {
-            if word.lowercaseString.hasPrefix(currentWord) {
-                result.append(word)
+        var completions: [String]
+
+        if currentWord == "?" {
+            completions = completionValues
+        }
+        else {
+            completions = []
+
+            if allowNonMatchingCompletions && input.characters.count > 0 {
+                completions.append(input)
+            }
+
+            for word in completionValues {
+                if word.lowercaseString.hasPrefix(currentWord) {
+                    completions.append(word)
+                }
             }
         }
-        return result
+
+        if completions.count == 1 {
+            control.stringValue = completions[0]
+            return []
+        }
+        
+        return completions
     }
     
 }
