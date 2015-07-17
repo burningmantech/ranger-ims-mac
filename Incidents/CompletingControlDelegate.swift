@@ -72,9 +72,9 @@ class CompletingControlDelegate: NSObject, NSTextFieldDelegate {
         if currentWord == "?" { return completionValues }
         
         var result: [String] = []
-        for handle in completionValues {
-            if handle.lowercaseString.hasPrefix(currentWord) {
-                result.append(handle)
+        for word in completionValues {
+            if word.lowercaseString.hasPrefix(currentWord) {
+                result.append(word)
             }
         }
         return result
