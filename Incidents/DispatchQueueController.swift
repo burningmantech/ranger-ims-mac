@@ -12,8 +12,9 @@ import Cocoa
 
 struct FilteredIncidentsCache {
     let searchText: String
-    let incidents: [Incident]
+    let allIncidents: [Incident]
     let openIncidents: [Incident]
+    let activeIncidents: [Incident]
 }
 
 
@@ -34,7 +35,7 @@ class DispatchQueueController: NSWindowController {
     @IBOutlet weak var dispatchTable   : NSTableView?
     @IBOutlet weak var loadingIndicator: NSProgressIndicator?
     @IBOutlet weak var reloadButton    : NSButton?
-    @IBOutlet weak var showClosedButton: NSButton?
+    @IBOutlet weak var stateFilterPopUp: NSPopUpButton?
 
 
     var searchText: String {
@@ -42,14 +43,6 @@ class DispatchQueueController: NSWindowController {
             return ""
         }
         return searchFieldCell.stringValue
-    }
-
-
-    var showClosed: Bool {
-        guard let showClosedState = showClosedButton?.state else {
-            return false
-        }
-        return showClosedState == NSOnState
     }
 
 
@@ -84,23 +77,29 @@ class DispatchQueueController: NSWindowController {
             }
         }
 
-        var filteredIncidents    : [Incident] = []
-        var filteredOpenIncidents: [Incident] = []
+        var filteredAllIncidents   : [Incident] = []
+        var filteredOpenIncidents  : [Incident] = []
+        var filteredActiveIncidents: [Incident] = []
 
         for incident in sortedIncidents {
             // FIXME *************************  SEARCH  *************************************
-            filteredIncidents.append(incident)
 
-            if !showClosed && incident.state != IncidentState.Closed {
+            filteredAllIncidents.append(incident)
+
+            if incident.state != IncidentState.Closed {
                 filteredOpenIncidents.append(incident)
-            }
 
+                if incident.state != IncidentState.OnHold {
+                    filteredActiveIncidents.append(incident)
+                }
+            }
         }
 
         _filteredIncidentsCache = FilteredIncidentsCache(
             searchText: searchText,
-            incidents: filteredIncidents,
-            openIncidents: filteredOpenIncidents
+            allIncidents: filteredAllIncidents,
+            openIncidents: filteredOpenIncidents,
+            activeIncidents: filteredActiveIncidents
         )
         
         return _filteredIncidentsCache!
@@ -335,11 +334,13 @@ extension DispatchQueueController: NSWindowDelegate {
         if dispatchTable    == nil { arghEvilDeath("dispatch table"    ) }
         if loadingIndicator == nil { arghEvilDeath("loading indicator" ) }
         if reloadButton     == nil { arghEvilDeath("reload button"     ) }
-        if showClosedButton == nil { arghEvilDeath("show closed button") }
+        if stateFilterPopUp == nil { arghEvilDeath("state filter popup") }
 
         reloadButton!.hidden     = false
         loadingIndicator!.hidden = true
 
+        stateFilterPopUp!.selectItemWithTag(StateFilterTag.Open.rawValue)
+        
         if self.respondsToSelector(Selector("openClickedIncident")) {
             dispatchTable!.doubleAction = Selector("openClickedIncident")
         } else {
@@ -413,10 +414,22 @@ extension DispatchQueueController: NSTableViewDataSource {
     // Not NSTableViewDataSource, but related
 
     var viewableIncidents: [Incident] {
-        if showClosed {
-            return filteredIncidentsCache.incidents
-        } else {
-            return filteredIncidentsCache.openIncidents
+        guard let stateFilterPopUp = stateFilterPopUp else {
+            logError("No state filter popup?")
+            return []
+        }
+        
+        let selected = stateFilterPopUp.selectedTag()
+        
+        guard let filterTag = StateFilterTag(rawValue: selected) else {
+            logError("Unknown filter tag: \(selected)")
+            return []
+        }
+        
+        switch filterTag {
+            case .All   : return filteredIncidentsCache.allIncidents
+            case .Open  : return filteredIncidentsCache.openIncidents
+            case .Active: return filteredIncidentsCache.activeIncidents
         }
     }
 
@@ -561,6 +574,14 @@ func incident(
             logError("Unknown sort descriptor key path: \(keyPath)")
             return false
     }
+}
+
+
+
+enum StateFilterTag: Int {
+    case All    = 1
+    case Open   = 2
+    case Active = 3
 }
 
 

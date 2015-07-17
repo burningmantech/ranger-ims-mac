@@ -65,11 +65,11 @@ extension IncidentController {
         
         if let state = state {
             switch state {
-            case .New       : stateTag = .New
-            case .OnHold    : stateTag = .OnHold
-            case .Dispatched: stateTag = .Dispatched
-            case .OnScene   : stateTag = .OnScene
-            case .Closed    : stateTag = .Closed
+                case .New       : stateTag = .New
+                case .OnHold    : stateTag = .OnHold
+                case .Dispatched: stateTag = .Dispatched
+                case .OnScene   : stateTag = .OnScene
+                case .Closed    : stateTag = .Closed
             }
         } else {
             stateTag = .New
@@ -84,9 +84,9 @@ extension IncidentController {
         
         if let priority = priority {
             switch priority {
-            case .High  : priorityTag = .High
-            case .Normal: priorityTag = .Normal
-            case .Low   : priorityTag = .Low
+                case .High  : priorityTag = .High
+                case .Normal: priorityTag = .Normal
+                case .Low   : priorityTag = .Low
             }
         } else {
             priorityTag = .Normal
