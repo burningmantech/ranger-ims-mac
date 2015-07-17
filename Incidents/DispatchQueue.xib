@@ -226,12 +226,12 @@
                     </textField>
                     <popUpButton horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2SQ-L7-twX" userLabel="State Filter Popup">
                         <rect key="frame" x="610" y="15" width="73" height="26"/>
-                        <popUpButtonCell key="cell" type="push" title="All" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="19O-3s-1Wl" id="MFE-JD-8rl" userLabel="State Filter Popup Cell">
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="MFE-JD-8rl" userLabel="State Filter Popup Cell">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                             <menu key="menu" id="NBf-5b-pC3" userLabel="State Filter Popup Menu">
                                 <items>
-                                    <menuItem title="All" state="on" tag="1" id="19O-3s-1Wl"/>
+                                    <menuItem title="All" tag="1" id="19O-3s-1Wl"/>
                                     <menuItem title="Open" state="on" tag="2" id="tFE-Wr-4YA">
                                         <modifierMask key="keyEquivalentModifierMask"/>
                                     </menuItem>
