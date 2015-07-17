@@ -18,6 +18,7 @@ class IncidentController: NSWindowController {
     var originalIncident: Incident?
     var rangersTableManager: RangersTableManager?
     var typesTableManager: IncidentTypesTableManager?
+    var locationNameDelegate: LocationNameFieldDelegate?
     var concentricAddressDelegate: ConcentricStreetFieldDelegate?
     
     @IBOutlet weak var numberField                   : NSTextField?
@@ -168,6 +169,9 @@ extension IncidentController: NSWindowDelegate {
         typesTable!.setDelegate(typesTableManager)
         typeToAddField!.delegate = typesTableManager
 
+        locationNameDelegate = LocationNameFieldDelegate(incidentController: self)
+        locationNameField!.delegate = locationNameDelegate
+        
         concentricAddressDelegate = ConcentricStreetFieldDelegate()
         locationConcentricAddressField!.delegate = concentricAddressDelegate
 

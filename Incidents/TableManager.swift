@@ -18,6 +18,7 @@ class TableManager: CompletingControlDelegate {
 
     override var completionValues: [String] { return [] }
 
+    
     init(incidentController: IncidentController) {
         self.incidentController = incidentController
 

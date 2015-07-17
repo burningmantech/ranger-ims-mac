@@ -52,6 +52,7 @@
 		35A5FEEF1B0A221A0056DF5C /* HTTPSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5FEEB1B09D97B0056DF5C /* HTTPSession.swift */; };
 		35A5FEF31B0B5D9A0056DF5C /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5FEF21B0B5D9A0056DF5C /* JSON.swift */; };
 		35A5FEF51B0B605B0056DF5C /* JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35A5FEF41B0B605B0056DF5C /* JSONTests.swift */; };
+		35AF268D1B59AD4200C283E2 /* LocationNameFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AF268C1B59AD4200C283E2 /* LocationNameFieldDelegate.swift */; };
 		35C49DBA1B0D2BEF00CB93BD /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C49DB91B0D2BEF00CB93BD /* Log.swift */; };
 		35C49DBB1B0D2E5B00CB93BD /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C49DB91B0D2BEF00CB93BD /* Log.swift */; };
 		35C691C71B5077C3003B568C /* Password.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35C691C61B5077C3003B568C /* Password.xib */; };
@@ -123,6 +124,7 @@
 		35A5FEF01B0B5CD90056DF5C /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		35A5FEF21B0B5D9A0056DF5C /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		35A5FEF41B0B605B0056DF5C /* JSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONTests.swift; sourceTree = "<group>"; };
+		35AF268C1B59AD4200C283E2 /* LocationNameFieldDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationNameFieldDelegate.swift; sourceTree = "<group>"; };
 		35BCCD911B1911FC00AD440C /* COPYRIGHT.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = COPYRIGHT.md; sourceTree = "<group>"; };
 		35BCCD921B1911FC00AD440C /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		35BCCD931B1911FC00AD440C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				352233FD1B3E195200F6BD02 /* IncidentController_edit.swift */,
 				35F0765A1B3885E100192A64 /* RangersTableManager.swift */,
 				352144231B3F1D59000C1AAE /* IncidentTypesTableManager.swift */,
+				35AF268C1B59AD4200C283E2 /* LocationNameFieldDelegate.swift */,
 				35A3E3281B45BEBB00F65BFD /* ConcentricStreetFieldDelegate.swift */,
 			);
 			name = "Incident Window";
@@ -564,6 +567,7 @@
 				351CD3911B48F35B00C8B6E5 /* Alert.swift in Sources */,
 				350265D91B0425A200F0544B /* Incident.swift in Sources */,
 				358AAAA51B2A014600D5A4AE /* HTTPJSON.swift in Sources */,
+				35AF268D1B59AD4200C283E2 /* LocationNameFieldDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
