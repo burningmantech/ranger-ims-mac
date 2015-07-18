@@ -82,8 +82,6 @@ class DispatchQueueController: NSWindowController {
         var filteredActiveIncidents: [Incident] = []
 
         for incident in sortedIncidents {
-            // FIXME *************************  SEARCH  *************************************
-
             filteredAllIncidents.append(incident)
 
             if incident.state != IncidentState.Closed {
@@ -413,6 +411,67 @@ extension DispatchQueueController: NSTableViewDataSource {
 
     // Not NSTableViewDataSource, but related
 
+
+    func searchIncidents(incidents: [Incident]) -> [Incident] {
+        let searchText = self.searchText
+
+        if searchText.characters.count == 0 {
+            return incidents
+        }
+        
+        // Tokenine the search text
+        let whiteSpace = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+        let tokens = searchText.componentsSeparatedByCharactersInSet(whiteSpace)
+        
+        func matchString(input: String) -> Bool {
+            for token in tokens {
+                if token.characters.count == 0 { continue }
+                
+                if input.rangeOfString(token) != nil {
+                    return true
+                }
+            }
+            return false
+        }
+
+        func matchIncident(incident: Incident) -> Bool {
+            if let term = incident.summary                        { if matchString(term) { return true } }
+            if let term = incident.location?.name                 { if matchString(term) { return true } }
+            if let term = incident.location?.address?.description { if matchString(term) { return true } }
+
+            if let rangers = incident.rangers {
+                for ranger in rangers {
+                    if matchString(ranger.handle) { return true}
+                }
+            }
+            
+            if let incidentTypes = incident.incidentTypes {
+                for incidentType in incidentTypes {
+                    if matchString(incidentType) { return true }
+                }
+            }
+            
+            if let reportEntries = incident.reportEntries {
+                for reportEntry in reportEntries {
+                    if matchString(reportEntry.text) { return true }
+                }
+            }
+            
+            return false
+        }
+        
+        // Search through each incident
+
+        var result: [Incident] = []
+
+        for incident in incidents {
+            if matchIncident(incident) { result.append(incident) }
+        }
+
+        return result
+    }
+
+
     var viewableIncidents: [Incident] {
         guard let stateFilterPopUp = stateFilterPopUp else {
             logError("No state filter popup?")
@@ -426,11 +485,15 @@ extension DispatchQueueController: NSTableViewDataSource {
             return []
         }
         
+        let filteredIncidents: [Incident]
+        
         switch filterTag {
-            case .All   : return filteredIncidentsCache.allIncidents
-            case .Open  : return filteredIncidentsCache.openIncidents
-            case .Active: return filteredIncidentsCache.activeIncidents
+            case .All   : filteredIncidents = filteredIncidentsCache.allIncidents
+            case .Open  : filteredIncidents = filteredIncidentsCache.openIncidents
+            case .Active: filteredIncidents = filteredIncidentsCache.activeIncidents
         }
+
+        return searchIncidents(filteredIncidents)
     }
 
 
