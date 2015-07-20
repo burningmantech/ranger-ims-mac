@@ -28,14 +28,14 @@ class TableManager: CompletingControlDelegate {
     }
     
 
-    // FIXME
+    // FIXME: This is faking up an abstract class
     func addStringValue(value: String) -> Bool {
         assert(false, "Unimplemented by subclass")
         return false
     }
 
     
-    // FIXME
+    // FIXME: This is faking up an abstract class
     func removeValue(value: AnyObject) {
         assert(false, "Unimplemented by subclass")
     }
