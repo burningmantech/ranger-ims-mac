@@ -10,22 +10,6 @@ import Cocoa
 
 
 
-struct FilteredIncidentsCache {
-    let allIncidents: [Incident]
-    let openIncidents: [Incident]
-    let activeIncidents: [Incident]
-}
-
-
-
-struct ViewableIncidentsCache {
-    let searchText: String
-    let filterTag: StateFilterTag
-    let incidents: [Incident]
-}
-
-
-
 class DispatchQueueController: NSWindowController {
 
     var appDelegate: AppDelegate!
@@ -158,11 +142,6 @@ class DispatchQueueController: NSWindowController {
 
 
     override init(window: NSWindow?) {
-//        ims = InMemoryIncidentManagementSystem()
-//
-//        // For debugging... ************************************************************************************
-//        _populateWithFakeData(ims as! InMemoryIncidentManagementSystem)
-
         let defaults = NSUserDefaults.standardUserDefaults()
 
         let scheme: String
@@ -663,166 +642,24 @@ func incident(
 
 
 
-enum StateFilterTag: Int {
-    case All    = 1
-    case Open   = 2
-    case Active = 3
+struct FilteredIncidentsCache {
+    let allIncidents: [Incident]
+    let openIncidents: [Incident]
+    let activeIncidents: [Incident]
 }
 
 
 
-// ===================================================================== //
-
-func _populateWithFakeData(ims: InMemoryIncidentManagementSystem) {
-    let date1String = "1971-04-20T16:20:04Z"
-    let date2String = "1972-06-29T08:04:15Z"
-    let date3String = "1972-06-30T18:40:51Z"
-    let date4String = "1972-06-30T18:40:52Z"
-
-    let date1 = DateTime.fromRFC3339String(date1String)
-    let date2 = DateTime.fromRFC3339String(date2String)
-    let date3 = DateTime.fromRFC3339String(date3String)
-    let date4 = DateTime.fromRFC3339String(date4String)
-
-    let cannedIncidentTypes = Set([
-        "Airport",
-        "Animal",
-        "Art",
-        "Assault",
-        "Fire",
-        "Law Enforcement",
-        "Medical",
-        "Staff",
-        "Theft",
-        "Vehicle",
-    ])
+struct ViewableIncidentsCache {
+    let searchText: String
+    let filterTag: StateFilterTag
+    let incidents: [Incident]
+}
 
 
-    let cannedRangers = [
-        "k8"         : Ranger(handle: "k8"         ),
-        "Safety Phil": Ranger(handle: "Safety Phil"),
-        "Splinter"   : Ranger(handle: "Splinter"   ),
-        "Tool"       : Ranger(handle: "Tool"       ),
-        "Tulsa"      : Ranger(handle: "Tulsa"      ),
-    ]
 
-    let cannedLocations = [
-        "The Man": Location(
-            name: "The Man",
-            address: Address(textDescription: "The Man")
-        ),
-        "The Temple": Location(
-            name: "The Temple",
-            address: Address(textDescription: "The Temple")
-        ),
-        "Camp Fishes": Location(
-            name: "Camp Fishes",
-            address: RodGarettAddress(
-                concentric: ConcentricStreet.J,
-                radialHour: 3,
-                radialMinute: 30,
-                textDescription: "Big fish tank"
-            )
-        ),
-    ]
-
-    let cannedIncidents = [
-        Incident(
-            number: 1,
-            priority: IncidentPriority.Normal,
-            summary: "Participant fell from structure at Camp Fishes",
-            location: cannedLocations["Camp Fishes"]!,
-            rangers: [cannedRangers["Splinter"]!],
-            incidentTypes: ["Medical"],
-            reportEntries: [
-                ReportEntry(
-                    author: cannedRangers["k8"]!,
-                    text: "Participant fell from structure at Camp Fishes.\nSplinter on scene.",
-                    created: date1
-                )
-            ],
-            created: date1,
-            state: IncidentState.OnScene
-        ),
-        Incident(
-            number: 2,
-            priority: IncidentPriority.Low,
-            summary: "Lost keys",
-            location: Location(
-                address: Address(textDescription: "Near the portos on 9:00 promenade")
-            ),
-            rangers: [cannedRangers["Safety Phil"]!],
-            created: date2,
-            state: IncidentState.OnHold
-        ),
-        Incident(
-            number: 3,
-            priority: IncidentPriority.High,
-            summary: "Speeding near the Man",
-            location: cannedLocations["The Man"]!,
-            rangers: [cannedRangers["Tulsa"]!],
-            incidentTypes: ["Vehicle"],
-            reportEntries: [
-                ReportEntry(
-                    author: cannedRangers["Tool"]!,
-                    text: "Black sedan, unlicensed, travelling at high speed around the Man.",
-                    created: date3
-                )
-            ],
-            created: date2,
-            state: IncidentState.Dispatched
-        ),
-        Incident(
-            number: 4,
-            priority: IncidentPriority.High,
-            summary: "Need MHB at the Temple",
-            location: cannedLocations["The Temple"]!,
-            rangers: [cannedRangers["Tulsa"]!],
-            incidentTypes: ["Medical"],
-            reportEntries: [
-                ReportEntry(
-                    author: cannedRangers["Tool"]!,
-                    text: "Highly agitated male at Temple.",
-                    created: date4
-                )
-            ],
-            created: date4,
-            state: IncidentState.Closed
-        ),
-        Incident(
-            number: 5,
-            priority: IncidentPriority.Normal,
-            created: date4,
-            state: IncidentState.New
-        ),
-    ]
-
-    for incidentType in cannedIncidentTypes {
-        ims.addIncidentType(incidentType)
-    }
-
-    for ranger in cannedRangers.values {
-        ims.addRanger(ranger)
-    }
-
-    for incident in cannedIncidents {
-        let incidentWithoutNumber = Incident(
-            number       : nil,
-            priority     : incident.priority,
-            summary      : incident.summary,
-            location     : incident.location,
-            rangers      : incident.rangers,
-            incidentTypes: incident.incidentTypes,
-            reportEntries: incident.reportEntries,
-            created      : incident.created,
-            state        : incident.state
-        )
-
-        do {
-            try ims.createIncident(incidentWithoutNumber)
-        } catch {
-            logError("Unable to create incident: \(error)")
-            alert(title: "Unable to create incident", message: "\(error)")
-        }
-    }
+enum StateFilterTag: Int {
+    case All    = 1
+    case Open   = 2
+    case Active = 3
 }
