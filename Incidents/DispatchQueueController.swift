@@ -11,10 +11,17 @@ import Cocoa
 
 
 struct FilteredIncidentsCache {
-    let searchText: String
     let allIncidents: [Incident]
     let openIncidents: [Incident]
     let activeIncidents: [Incident]
+}
+
+
+
+struct ViewableIncidentsCache {
+    let searchText: String
+    let filterTag: StateFilterTag
+    let incidents: [Incident]
 }
 
 
@@ -71,38 +78,76 @@ class DispatchQueueController: NSWindowController {
 
 
     var filteredIncidentsCache: FilteredIncidentsCache {
-        if let cache = _filteredIncidentsCache {
-            if cache.searchText == searchText {
-                return cache
-            }
-        }
+        if _filteredIncidentsCache == nil {
+            var filteredAllIncidents   : [Incident] = []
+            var filteredOpenIncidents  : [Incident] = []
+            var filteredActiveIncidents: [Incident] = []
 
-        var filteredAllIncidents   : [Incident] = []
-        var filteredOpenIncidents  : [Incident] = []
-        var filteredActiveIncidents: [Incident] = []
+            for incident in sortedIncidents {
+                filteredAllIncidents.append(incident)
 
-        for incident in sortedIncidents {
-            filteredAllIncidents.append(incident)
+                if incident.state != IncidentState.Closed {
+                    filteredOpenIncidents.append(incident)
 
-            if incident.state != IncidentState.Closed {
-                filteredOpenIncidents.append(incident)
-
-                if incident.state != IncidentState.OnHold {
-                    filteredActiveIncidents.append(incident)
+                    if incident.state != IncidentState.OnHold {
+                        filteredActiveIncidents.append(incident)
+                    }
                 }
             }
-        }
 
-        _filteredIncidentsCache = FilteredIncidentsCache(
-            searchText: searchText,
-            allIncidents: filteredAllIncidents,
-            openIncidents: filteredOpenIncidents,
-            activeIncidents: filteredActiveIncidents
-        )
-        
+            _filteredIncidentsCache = FilteredIncidentsCache(
+                allIncidents: filteredAllIncidents,
+                openIncidents: filteredOpenIncidents,
+                activeIncidents: filteredActiveIncidents
+            )
+        }
         return _filteredIncidentsCache!
     }
     private var _filteredIncidentsCache: FilteredIncidentsCache? = nil
+
+    
+    var viewableIncidents: [Incident] {
+        guard let stateFilterPopUp = stateFilterPopUp else {
+            logError("No state filter popup?")
+            return []
+        }
+        
+        let selected = stateFilterPopUp.selectedTag()
+        
+        guard let filterTag = StateFilterTag(rawValue: selected) else {
+            logError("Unknown filter tag: \(selected)")
+            return []
+        }
+        
+        let filteredIncidents: [Incident]
+        
+        switch filterTag {
+        case .All   : filteredIncidents = filteredIncidentsCache.allIncidents
+        case .Open  : filteredIncidents = filteredIncidentsCache.openIncidents
+        case .Active: filteredIncidents = filteredIncidentsCache.activeIncidents
+        }
+        
+        let searchText = self.searchText
+        
+        if searchText.characters.count == 0 { return filteredIncidents; }
+        
+        if let cache = _viewableIncidentsCache {
+            if cache.searchText == searchText && cache.filterTag == filterTag {
+                return cache.incidents
+            }
+        }
+        
+        let incidents = searchIncidents(incidents: filteredIncidents, searchText: searchText)
+
+        _viewableIncidentsCache = ViewableIncidentsCache(
+            searchText: searchText,
+            filterTag: filterTag,
+            incidents: incidents
+        )
+        
+        return incidents
+    }
+    private var _viewableIncidentsCache: ViewableIncidentsCache?
 
 
     convenience init(appDelegate: AppDelegate) {
@@ -412,7 +457,7 @@ extension DispatchQueueController: NSTableViewDataSource {
     // Not NSTableViewDataSource, but related
 
 
-    func searchIncidents(incidents: [Incident]) -> [Incident] {
+    func searchIncidents(incidents incidents: [Incident], searchText: String) -> [Incident] {
         let searchText = self.searchText
 
         if searchText.characters.count == 0 {
@@ -472,31 +517,6 @@ extension DispatchQueueController: NSTableViewDataSource {
     }
 
 
-    var viewableIncidents: [Incident] {
-        guard let stateFilterPopUp = stateFilterPopUp else {
-            logError("No state filter popup?")
-            return []
-        }
-        
-        let selected = stateFilterPopUp.selectedTag()
-        
-        guard let filterTag = StateFilterTag(rawValue: selected) else {
-            logError("Unknown filter tag: \(selected)")
-            return []
-        }
-        
-        let filteredIncidents: [Incident]
-        
-        switch filterTag {
-            case .All   : filteredIncidents = filteredIncidentsCache.allIncidents
-            case .Open  : filteredIncidents = filteredIncidentsCache.openIncidents
-            case .Active: filteredIncidents = filteredIncidentsCache.activeIncidents
-        }
-
-        return searchIncidents(filteredIncidents)
-    }
-
-
     @IBAction func updateViewedIncidents(sender: AnyObject?) {
         if let dispatchTable = self.dispatchTable {
             // Make sure UI stuff goes to the main thread
@@ -517,11 +537,13 @@ extension DispatchQueueController: NSTableViewDataSource {
 
 
     func incidentForTableRow(rowIndex: Int) throws -> Incident {
+        let viewableIncidents = self.viewableIncidents
+
         guard rowIndex >= 0 else {
             throw DispatchQueueTableSourceError.RowIndexOutOfRange(rowIndex)
         }
         
-        guard rowIndex <= viewableIncidents.count else {
+        guard rowIndex < viewableIncidents.count else {
             throw DispatchQueueTableSourceError.RowIndexOutOfRange(rowIndex)
         }
 
