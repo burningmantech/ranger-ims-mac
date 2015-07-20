@@ -97,7 +97,7 @@
                             </menuItem>
                             <menuItem title="Save" keyEquivalent="s" id="pxx-59-PXV">
                                 <connections>
-                                    <action selector="saveDocument:" target="-1" id="teZ-XB-qJY"/>
+                                    <action selector="save:" target="-1" id="LRL-ZP-s1y"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Mark Closed and Save" keyEquivalent="K" id="QOh-Xp-476"/>
