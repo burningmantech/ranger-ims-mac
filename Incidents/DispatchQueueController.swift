@@ -33,7 +33,7 @@ class DispatchQueueController: NSWindowController {
         guard let searchFieldCell = searchField?.cell as? NSSearchFieldCell else {
             return ""
         }
-        return searchFieldCell.stringValue
+        return searchFieldCell.stringValue.lowercaseString
     }
 
 
@@ -520,6 +520,7 @@ func searchIncidents(incidents incidents: [Incident], searchText: String) -> [In
     let tokens = searchText.componentsSeparatedByCharactersInSet(whiteSpace)
     
     func matchString(input: String) -> Bool {
+        let input = input.lowercaseString
         for token in tokens {
             if token.characters.count == 0 { continue }
             
