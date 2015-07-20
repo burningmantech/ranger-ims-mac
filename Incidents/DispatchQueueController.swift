@@ -519,19 +519,14 @@ func searchIncidents(incidents incidents: [Incident], searchText: String) -> [In
     let whiteSpace = NSCharacterSet.whitespaceAndNewlineCharacterSet()
     let tokens = searchText.componentsSeparatedByCharactersInSet(whiteSpace)
     
-    func matchString(input: String) -> Bool {
-        let input = input.lowercaseString
-        for token in tokens {
-            if token.characters.count == 0 { continue }
-            
-            if input.rangeOfString(token) != nil {
-                return true
-            }
+    func tokenMatchesIncident(token token: String, incident: Incident) -> Bool {
+        if token.characters.count == 0 { return true }
+        
+        func matchString(input: String) -> Bool {
+            let input = input.lowercaseString
+            return input.rangeOfString(token) != nil
         }
-        return false
-    }
-    
-    func matchIncident(incident: Incident) -> Bool {
+        
         if let term = incident.summary                        { if matchString(term) { return true } }
         if let term = incident.location?.name                 { if matchString(term) { return true } }
         if let term = incident.location?.address?.description { if matchString(term) { return true } }
@@ -557,12 +552,21 @@ func searchIncidents(incidents incidents: [Incident], searchText: String) -> [In
         return false
     }
     
+    func matchIncident(incident: Incident) -> Bool {
+        for token in tokens {
+            if !tokenMatchesIncident(token: token, incident: incident) {
+                return false
+            }
+        }
+        return true
+    }
+    
     // Search through each incident
     
     var result: [Incident] = []
     
-    for incident in incidents {
-        if matchIncident(incident) { result.append(incident) }
+    for incident in incidents where matchIncident(incident) {
+        result.append(incident)
     }
     
     return result
