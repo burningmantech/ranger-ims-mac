@@ -53,7 +53,6 @@ class DispatchQueueController: NSWindowController {
             }
         }
         guard let sortedIncidents = _sortedIncidents else {
-            logError("Sorted incidents is unexpectedly nil")
             return []
         }
         return sortedIncidents
@@ -62,7 +61,7 @@ class DispatchQueueController: NSWindowController {
 
 
     var filteredIncidentsCache: FilteredIncidentsCache {
-        if _filteredIncidentsCache == nil {
+        if self._filteredIncidentsCache == nil {
             var filteredAllIncidents   : [Incident] = []
             var filteredOpenIncidents  : [Incident] = []
             var filteredActiveIncidents: [Incident] = []
@@ -79,13 +78,20 @@ class DispatchQueueController: NSWindowController {
                 }
             }
 
-            _filteredIncidentsCache = FilteredIncidentsCache(
-                allIncidents: filteredAllIncidents,
-                openIncidents: filteredOpenIncidents,
+            self._filteredIncidentsCache = FilteredIncidentsCache(
+                allIncidents   : filteredAllIncidents,
+                openIncidents  : filteredOpenIncidents,
                 activeIncidents: filteredActiveIncidents
             )
         }
-        return _filteredIncidentsCache!
+        guard let filteredIncidentsCache = _filteredIncidentsCache else {
+            return FilteredIncidentsCache(
+                allIncidents   : [],
+                openIncidents  : [],
+                activeIncidents: []
+            )
+        }
+        return filteredIncidentsCache
     }
     private var _filteredIncidentsCache: FilteredIncidentsCache? = nil
 
@@ -647,8 +653,8 @@ func incident(
 
 
 struct FilteredIncidentsCache {
-    let allIncidents: [Incident]
-    let openIncidents: [Incident]
+    let allIncidents   : [Incident]
+    let openIncidents  : [Incident]
     let activeIncidents: [Incident]
 }
 
