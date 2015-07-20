@@ -31,6 +31,7 @@ class TableManager: CompletingControlDelegate {
     // FIXME
     func addStringValue(value: String) -> Bool {
         assert(false, "Unimplemented by subclass")
+        return false
     }
 
     
