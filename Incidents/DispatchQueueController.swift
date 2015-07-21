@@ -18,6 +18,7 @@ class DispatchQueueController: NSWindowController {
     var imsPassword: String?
 
     var incidentControllers: [Int: IncidentController] = [:]
+    var newIncidentControllers: Set<IncidentController> = []
 
     var reloadInterval: NSTimeInterval = 10
     var reloadTimer: NSTimer? = nil
@@ -288,6 +289,54 @@ class DispatchQueueController: NSWindowController {
         }
 
         openIncident(incident)
+    }
+
+
+    @IBAction func newIncident(sender: AnyObject) {
+        let incident = Incident(number: nil)
+
+        let incidentController: IncidentController
+        
+        // Create a controller for the new incident
+        incidentController = IncidentController(
+            dispatchQueueController: self,
+            incident: incident
+        )
+        newIncidentControllers.insert(incidentController)
+        
+        incidentController.showWindow(self)
+        incidentController.window?.makeKeyAndOrderFront(self)
+        
+        let incidentWindowWillClose = {
+            (notification: NSNotification) -> Void in
+            
+            guard let window = notification.object else {
+                logError("Got a window will close notification for a nil window?")
+                return
+            }
+            
+            guard let controller = window.windowController as? IncidentController else {
+                logError("Got a window will close notification for a (new) incident window with no incident controller?")
+                return
+            }
+            
+            guard controller == incidentController else {
+                logError("Got a window will close notification for a (new) incident window with a different incident controller?")
+                return
+            }
+            
+            guard self.newIncidentControllers.remove(controller) != nil else {
+                logError("Got a window will close notification for a (new) incident window no longer being tracked?")
+                return
+            }
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(
+            NSWindowWillCloseNotification,
+            object: incidentController.window,
+            queue: nil,
+            usingBlock: incidentWindowWillClose
+        )
     }
 
 }
