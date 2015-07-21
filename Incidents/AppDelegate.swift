@@ -53,6 +53,11 @@ class AppDelegate: NSObject {
     }
 
 
+    @IBAction func newIncident(sender: AnyObject) {
+        dispatchQueueController.newIncident(self)
+    }
+
+
     func showHideDebugMenu() {
         let defaults = NSUserDefaults.standardUserDefaults()
 
@@ -65,6 +70,12 @@ class AppDelegate: NSObject {
     }
 
 
+    @IBAction func showNewIncidents(sender: AnyObject) {
+        let count = dispatchQueueController.newIncidentControllers.count
+        alert(title: "New Incidents", message: "Total: \(count)")
+    }
+    
+    
     @IBAction func showOpenIncidents(sender: AnyObject) {
         let numbers = Array(dispatchQueueController.incidentControllers.keys)
         alert(title: "Open Incidents", message: "\(numbers)")

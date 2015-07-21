@@ -73,7 +73,7 @@
                         <items>
                             <menuItem title="New Incident" keyEquivalent="n" id="Was-JA-tGl">
                                 <connections>
-                                    <action selector="newDocument:" target="-1" id="4Si-XN-c54"/>
+                                    <action selector="newIncident:" target="Voe-Tx-rLC" id="oe7-CZ-Uff"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Recent Incidents" id="tXI-mr-wws">
@@ -475,10 +475,16 @@
                 <menuItem title="Debug" id="RBF-iE-q51">
                     <menu key="submenu" title="Debug" id="8pB-2R-VpE">
                         <items>
-                            <menuItem title="List Open Incidents…" id="9ya-6P-mMg">
+                            <menuItem title="Count New Incidents…" id="9ya-6P-mMg">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="showOpenIncidents:" target="Voe-Tx-rLC" id="bWj-Cj-tvd"/>
+                                    <action selector="showNewIncidents:" target="Voe-Tx-rLC" id="NJ4-Ox-jPJ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="List Open Incidents…" id="Fpw-3Z-Dik">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showOpenIncidents:" target="Voe-Tx-rLC" id="mTw-0w-aA6"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="bA7-Mw-rmq"/>
