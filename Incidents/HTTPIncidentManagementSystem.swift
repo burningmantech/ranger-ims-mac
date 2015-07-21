@@ -94,8 +94,110 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
     func createIncident(incident: Incident) throws {
-        alert(title: "Unimplemented: Create Incident", message: "\(incident)")
-        throw NotImplementedError.NotImplementedYet
+        let json = try incidentAsJSON(incident)
+        
+        guard incident.number == nil else {
+            throw IMSError.IncidentNumberNotNil(incident.number!)
+        }
+        
+        let incidentsURL = "\(self.url)incidents/"
+        
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
+            // FIXME: There's overlap here with loadIncident()'s onResponse…
+            
+            // Read back the server's copy.
+            // Should be a no-nop because we will store the updated incident and etag below.
+            // But if there's any error here, we should at least fetch the server copy.
+            
+            var etag: String? = nil
+            
+//            defer {
+//                loadIncident(number: number, etag: etag, solo: true)
+//            }
+            
+            guard let json = json else {
+                logError("Create incident request retrieved no JSON data")
+                return
+            }
+            
+            guard let incidentJSON = json as? IncidentDictionary else {
+                alert(
+                    title: "Create incident JSON is non-conforming",
+                    message: "\(json)"
+                )
+                return
+            }
+            
+//            let updatedIncident: Incident
+//            do {
+//                updatedIncident = try incidentFromJSON(incidentJSON)
+//            } catch {
+//                alert(
+//                    title: "Unable to parse updated incident #\(number) JSON",
+//                    message: "\(error)\n\(incidentJSON)"
+//                )
+//                return
+//            }
+//            
+//            guard let updatedNumber = updatedIncident.number else {
+//                alert(
+//                    title: "Updated incident #\(number) has no incident number",
+//                    message: "\(incidentJSON)"
+//                )
+//                return
+//            }
+//            
+//            guard updatedNumber == number else {
+//                alert(
+//                    title: "Updated incident #\(number) has different incident number",
+//                    message: "\(incidentJSON)"
+//                )
+//                return
+//            }
+//            
+//            // Don't error out completely if we don't get an etag.
+//            // We will just have to reload the incident from the server in that case.
+//            
+//            let etags = headers["ETag"]
+//            
+//            if let etags = etags {
+//                if etags.count != 1 {
+//                    logError("Updated incident #\(number) response included multiple ETags: \(etags)")
+//                } else {
+//                    etag = etags[0]
+//                }
+//            } else {
+//                logError("Updated incident #\(number) response did not include an ETag.")
+//            }
+//            
+//            if let etag = etag {
+//                _incidentsByNumber[number] = incident
+//                incidentETagsByNumber[number] = etag
+//                
+//                logHTTP("Updated incident #\(number)")
+//                
+//                if let delegate = self.delegate {
+//                    delegate.incidentDidUpdate(ims: self, incident: incident)
+//                }
+//            }
+        }
+        
+        func onError(message: String) {
+            logError("Error while attempting incident create request: \(message)")
+        }
+        
+        logHTTP("Sending incident create request to: \(incidentsURL)")
+        
+        try self.httpSession.sendJSON(
+            url: incidentsURL,
+            method: HTTPMethod.POST,
+            json: json,
+            responseHandler: onResponse,
+            errorHandler: onError
+        )
+        
+        // Note we are not adding this connection to a loading group
+        // FIXME: make sure that's cool
     }
 
 
