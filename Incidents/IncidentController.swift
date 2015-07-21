@@ -73,18 +73,40 @@ class IncidentController: NSWindowController {
         // Push new report entry into the incident.
         addReportEntry()
 
+        if originalIncident!.number == nil {
+            createIncident()
+        } else {
+            updateIncident()
+        }
+    }
+
+
+    func updateIncident() {
         var diff = incident!.diffFrom(originalIncident!)
         diff.number = incident!.number
         
         do {
-            try dispatchQueueController?.ims.updateIncident(diff)
+            try dispatchQueueController!.ims.updateIncident(diff)
         } catch {
             logError("Unable to update incident: \(error)")
             alert(title: "Unable to update incident", message: "\(error)")
         }
     }
 
+    
+    func createIncident() {
+        do {
+            try dispatchQueueController!.ims.createIncident(incident!)
+        } catch {
+            logError("Unable to create incident: \(error)")
+            alert(title: "Unable to create incident", message: "\(error)")
+        }
 
+        // FIXME
+        alert(title: "Fix This", message: "Somehow, we need to figure out what the new incident number is and update this view")
+    }
+    
+    
     func incidentDidUpdate(ims ims: IncidentManagementSystem, updatedIncident: Incident) {
         guard originalIncident!.number == updatedIncident.number else {
             logError("Incident controller for incident \(originalIncident) got an update for a different incident: \(incident)")
