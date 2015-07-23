@@ -53,7 +53,7 @@ extension HTTPSession {
 
         func onResponse(
             url: String,
-            status: Int,
+            status: HTTPStatus,
             headers: HTTPHeaders,
             body:[UInt8]
         ) {
@@ -63,7 +63,7 @@ extension HTTPSession {
                 )
             }
 
-            if status != HTTPStatus.OK.code {
+            if status != HTTPStatus.OK {
                 return errorHandler(
                     message: "Non-OK response status to JSON request: \(status)"
                 )

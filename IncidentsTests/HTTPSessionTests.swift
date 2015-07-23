@@ -22,7 +22,7 @@ class HTTPSessionSendTests: XCTestCase {
 
         func responseHandler(
             url: String,
-            status: Int,
+            status: HTTPStatus,
             headers: HTTPHeaders,
             data:[UInt8]
         ) -> Void {
@@ -58,12 +58,12 @@ class HTTPSessionSendTests: XCTestCase {
 
         func responseHandler(
             url: String,
-            status: Int,
+            status: HTTPStatus,
             headers: HTTPHeaders,
             body:[UInt8]
         ) -> Void {
             XCTAssertEqual(url, targetURL)
-            XCTAssertEqual(status, 200)
+            XCTAssertEqual(status, HTTPStatus.OK)
 
             if let values = headers[HTTPHeaderName.ContentType.rawValue] {
                 XCTAssertEqual(values.count, 1)
@@ -139,7 +139,7 @@ class MockNSURLSessionDataTask: NSURLSessionDataTask {
                     if request.URL?.absoluteString == "http://www.example.com/" {
                         let response = NSHTTPURLResponse(
                             URL: url,
-                            statusCode: 200,
+                            statusCode: HTTPStatus.OK.rawValue,
                             HTTPVersion: "HTTP/1.1",
                             headerFields: [
                                 HTTPHeaderName.ContentType.rawValue: "text/html; charset=utf-8"

@@ -14,7 +14,7 @@ class HTTPSession: NSObject {
 
     typealias ResponseHandler = (
         url: String,
-        status: Int,
+        status: HTTPStatus,
         headers: HTTPHeaders,
         body:[UInt8]
     ) -> Void
@@ -102,12 +102,19 @@ class HTTPSession: NSObject {
                     return
                 }
 
-                let status: Int
+                let status: HTTPStatus
                 let headers = HTTPHeaders()
 
                 if let nsHTTPResponse = nsResponse as? NSHTTPURLResponse {
-                    status = nsHTTPResponse.statusCode
+                    let statusInt = nsHTTPResponse.statusCode
 
+                    guard let _status = HTTPStatus(rawValue: statusInt) else {
+                        errorHandler(message: "Unknown HTTP status code: \(statusInt)")
+                        return
+                    }
+        
+                    status = _status
+                    
                     for (name, value) in nsHTTPResponse.allHeaderFields {
                         let stringName  = name  as! String
                         let stringValue = value as! String
@@ -115,7 +122,8 @@ class HTTPSession: NSObject {
                         headers.add(name: stringName, value: stringValue)
                     }
                 } else {
-                    status = 0
+                    errorHandler(message: "Internal error: no NSHTTPURLResponse?")
+                    return
                 }
                 
                 let body = nsData!.asBytes()
