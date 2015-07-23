@@ -40,7 +40,17 @@ extension IncidentController {
     
     
     func updateEdited() {
-        let edited = incident != originalIncident
+        let edited: Bool
+        
+        if reportEntryToAddView?.textStorage?.length != 0 {
+            edited = true
+        }
+        else if incident != originalIncident {
+            edited = true
+        }
+        else {
+            edited = false
+        }
         
         window?.documentEdited = edited
         saveButton?.enabled = edited

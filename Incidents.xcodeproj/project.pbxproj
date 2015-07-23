@@ -27,6 +27,7 @@
 		3521AD561B05665000B06A02 /* samples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3521AD551B05665000B06A02 /* samples.swift */; };
 		352233FC1B3E183300F6BD02 /* IncidentController_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352233FB1B3E183300F6BD02 /* IncidentController_view.swift */; };
 		352233FE1B3E195200F6BD02 /* IncidentController_edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352233FD1B3E195200F6BD02 /* IncidentController_edit.swift */; };
+		352FECFB1B616B3E00F8D028 /* AddReportEntryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352FECFA1B616B3E00F8D028 /* AddReportEntryViewDelegate.swift */; };
 		356CDAF01B066F990030FCF3 /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356CDAEF1B066F990030FCF3 /* HTTPRequest.swift */; };
 		3571484C1B34A745001B3B7B /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3571484B1B34A745001B3B7B /* TableView.swift */; };
 		358AAAA51B2A014600D5A4AE /* HTTPJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358AAAA41B2A014600D5A4AE /* HTTPJSON.swift */; };
@@ -105,6 +106,7 @@
 		3521AD551B05665000B06A02 /* samples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = samples.swift; sourceTree = "<group>"; };
 		352233FB1B3E183300F6BD02 /* IncidentController_view.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentController_view.swift; sourceTree = "<group>"; };
 		352233FD1B3E195200F6BD02 /* IncidentController_edit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncidentController_edit.swift; sourceTree = "<group>"; };
+		352FECFA1B616B3E00F8D028 /* AddReportEntryViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddReportEntryViewDelegate.swift; sourceTree = "<group>"; };
 		356CDAEF1B066F990030FCF3 /* HTTPRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
 		3571484B1B34A745001B3B7B /* TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		358AAAA41B2A014600D5A4AE /* HTTPJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPJSON.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				352144231B3F1D59000C1AAE /* IncidentTypesTableManager.swift */,
 				35AF268C1B59AD4200C283E2 /* LocationNameFieldDelegate.swift */,
 				35A3E3281B45BEBB00F65BFD /* ConcentricStreetFieldDelegate.swift */,
+				352FECFA1B616B3E00F8D028 /* AddReportEntryViewDelegate.swift */,
 			);
 			name = "Incident Window";
 			sourceTree = "<group>";
@@ -557,6 +560,7 @@
 				35E0D7A61B0CBA42007499C0 /* Equatable.swift in Sources */,
 				352233FE1B3E195200F6BD02 /* IncidentController_edit.swift in Sources */,
 				35A5FEEC1B09D97B0056DF5C /* HTTPSession.swift in Sources */,
+				352FECFB1B616B3E00F8D028 /* AddReportEntryViewDelegate.swift in Sources */,
 				35F674CD1AFAEA0D00042EC9 /* Location.swift in Sources */,
 				35A3E3271B4585D400F65BFD /* CompletingControlDelegate.swift in Sources */,
 				35D615601AFC1D94005CB5AB /* DateTime.swift in Sources */,

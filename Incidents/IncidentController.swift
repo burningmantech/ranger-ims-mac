@@ -20,6 +20,7 @@ class IncidentController: NSWindowController {
     var typesTableManager: IncidentTypesTableManager?
     var locationNameDelegate: LocationNameFieldDelegate?
     var concentricAddressDelegate: ConcentricStreetFieldDelegate?
+    var addReportEntryDelegate: AddReportEntryViewDelegate?
     
     @IBOutlet weak var numberField                   : NSTextField?
     @IBOutlet weak var statePopUp                    : NSPopUpButton?
@@ -197,6 +198,9 @@ extension IncidentController: NSWindowDelegate {
         concentricAddressDelegate = ConcentricStreetFieldDelegate()
         locationConcentricAddressField!.delegate = concentricAddressDelegate
 
+        addReportEntryDelegate = AddReportEntryViewDelegate(incidentController: self)
+        reportEntryToAddView!.delegate = addReportEntryDelegate
+        
         updateView()
 
         reloadButton!.hidden     = false
