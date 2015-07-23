@@ -48,7 +48,7 @@ class HTTPSession: NSObject {
 
         if userAgent != nil {
             configuration.HTTPAdditionalHeaders = [
-                "User-Agent": userAgent!
+                HTTPHeaderName.UserAgent.rawValue: userAgent!
             ]
         }
 

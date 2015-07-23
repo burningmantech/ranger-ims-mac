@@ -99,3 +99,15 @@ class HTTPHeaders: CollectionType, SequenceType {
     }
     
 }
+
+
+
+enum HTTPHeaderName: String, CustomStringConvertible {
+    case Accept      = "Accept"
+    case ContentType = "Content-Type"
+    case EntityTag   = "ETag"
+    case Location    = "Location"
+    case UserAgent   = "User-Agent"
+    
+    var description: String { return self.rawValue }
+}

@@ -65,7 +65,7 @@ class HTTPSessionSendTests: XCTestCase {
             XCTAssertEqual(url, targetURL)
             XCTAssertEqual(status, 200)
 
-            if let values = headers["Content-Type"] {
+            if let values = headers[HTTPHeaderName.ContentType.rawValue] {
                 XCTAssertEqual(values.count, 1)
                 XCTAssertTrue(values[0].hasPrefix("text/html"))
             } else {
@@ -142,7 +142,7 @@ class MockNSURLSessionDataTask: NSURLSessionDataTask {
                             statusCode: 200,
                             HTTPVersion: "HTTP/1.1",
                             headerFields: [
-                                "Content-Type": "text/html; charset=utf-8"
+                                HTTPHeaderName.ContentType.rawValue: "text/html; charset=utf-8"
                             ]
                         )
 

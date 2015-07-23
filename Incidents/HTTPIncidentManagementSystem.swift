@@ -266,7 +266,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             // Don't error out completely if we don't get an etag.
             // We will just have to reload the incident from the server in that case.
 
-            let etags = headers["ETag"]
+            let etags = headers[HTTPHeaderName.EntityTag.rawValue]
 
             if let etags = etags {
                 if etags.count != 1 {
@@ -674,7 +674,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-            guard let etags = headers["ETag"] else {
+            guard let etags = headers[HTTPHeaderName.EntityTag.rawValue] else {
                 logError("Incident #\(number) response did not include an ETag.")
                 return
             }

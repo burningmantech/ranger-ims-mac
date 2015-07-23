@@ -28,7 +28,7 @@ extension HTTPSession {
     ) throws -> HTTPConnection {
 
         var headers = HTTPHeaders()
-        headers.add(name: "Accept", value: "application/json")
+        headers.add(name: HTTPHeaderName.Accept.rawValue, value: "application/json")
 
         let jsonBytes: [UInt8]
         if let json = json {
@@ -69,7 +69,7 @@ extension HTTPSession {
                 )
             }
 
-            guard let contentTypes = headers["Content-Type"] else {
+            guard let contentTypes = headers[HTTPHeaderName.ContentType.rawValue] else {
                 return errorHandler(
                     message: "No Content-Type header in response to JSON request"
                 )
