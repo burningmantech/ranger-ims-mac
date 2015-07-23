@@ -88,6 +88,7 @@ class IncidentController: NSWindowController {
         
         do {
             try dispatchQueueController!.ims.updateIncident(diff)
+            disableEditing()
         } catch {
             logError("Unable to update incident: \(error)")
             alert(title: "Unable to update incident", message: "\(error)")
@@ -98,6 +99,7 @@ class IncidentController: NSWindowController {
     func createIncident() {
         do {
             try dispatchQueueController!.ims.createIncident(incident!)
+            disableEditing()
         } catch {
             logError("Unable to create incident: \(error)")
             alert(title: "Unable to create incident", message: "\(error)")
@@ -131,6 +133,7 @@ class IncidentController: NSWindowController {
             dispatch_get_main_queue(),
             {
                 self.updateView()
+                self.enableEditing()
             }
         )
 
