@@ -103,83 +103,20 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let incidentsURL = "\(self.url)incidents/"
         
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            // FIXME: There's overlap here with loadIncident()'s onResponse…
-            
-            // Read back the server's copy.
-            // Should be a no-nop because we will store the updated incident and etag below.
-            // But if there's any error here, we should at least fetch the server copy.
-            
-            var etag: String? = nil
-            
-//            defer {
-//                loadIncident(number: number, etag: etag, solo: true)
-//            }
-            
-            guard let json = json else {
-                logError("Create incident request retrieved no JSON data")
+
+            guard let numberValues = headers[IMSHTTPHeaderName.IncidentNumber.rawValue] else {
+                logError("Create incident response did not include a incident number header.")
                 return
             }
             
-            guard let incidentJSON = json as? IncidentDictionary else {
-                alert(
-                    title: "Create incident JSON is non-conforming",
-                    message: "\(json)"
-                )
+            guard numberValues.count == 1, let number = Int(numberValues[0]) else {
+                logError("Create incident response did included a non-conforming incident number header: \(numberValues)")
                 return
             }
-            
-//            let updatedIncident: Incident
-//            do {
-//                updatedIncident = try incidentFromJSON(incidentJSON)
-//            } catch {
-//                alert(
-//                    title: "Unable to parse updated incident #\(number) JSON",
-//                    message: "\(error)\n\(incidentJSON)"
-//                )
-//                return
-//            }
-//            
-//            guard let updatedNumber = updatedIncident.number else {
-//                alert(
-//                    title: "Updated incident #\(number) has no incident number",
-//                    message: "\(incidentJSON)"
-//                )
-//                return
-//            }
-//            
-//            guard updatedNumber == number else {
-//                alert(
-//                    title: "Updated incident #\(number) has different incident number",
-//                    message: "\(incidentJSON)"
-//                )
-//                return
-//            }
-//            
-//            // Don't error out completely if we don't get an etag.
-//            // We will just have to reload the incident from the server in that case.
-//            
-//            let etags = headers["ETag"]
-//            
-//            if let etags = etags {
-//                if etags.count != 1 {
-//                    logError("Updated incident #\(number) response included multiple ETags: \(etags)")
-//                } else {
-//                    etag = etags[0]
-//                }
-//            } else {
-//                logError("Updated incident #\(number) response did not include an ETag.")
-//            }
-//            
-//            if let etag = etag {
-//                _incidentsByNumber[number] = incident
-//                incidentETagsByNumber[number] = etag
-//                
-//                logHTTP("Updated incident #\(number)")
-//                
-//                if let delegate = self.delegate {
-//                    delegate.incidentDidUpdate(ims: self, incident: incident)
-//                }
-//            }
+
+            defer {
+                loadIncident(number: number, etag: nil, solo: true)
+            }
         }
         
         func onError(message: String) {
@@ -903,4 +840,14 @@ func ==(lhs: IMSConnectionID, rhs: IMSConnectionID) -> Bool {
 enum HTTPIMSInternalError: ErrorType {
     case IncorrectLoadingState
     case NoSuchConnection
+}
+
+
+
+enum IMSHTTPHeaderName: String, CustomStringConvertible {
+
+    case IncidentNumber = "Incident-Number"
+    
+    var description: String { return self.rawValue }
+    
 }
