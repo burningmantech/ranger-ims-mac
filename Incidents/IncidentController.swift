@@ -204,6 +204,14 @@ extension IncidentController: NSWindowDelegate {
         addReportEntryDelegate = AddReportEntryViewDelegate(incidentController: self)
         reportEntryToAddView!.delegate = addReportEntryDelegate
         
+        if incident!.number == nil {
+            // New incident.
+            // Store default UI values into the incident so that they get
+            // passed to the server even if the user doesn't change them.
+            editPriority(self)
+            editState(self)
+        }
+        
         updateView()
 
         reloadButton!.hidden     = false
