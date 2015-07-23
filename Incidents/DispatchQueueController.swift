@@ -582,6 +582,7 @@ func searchIncidents(incidents incidents: [Incident], searchText: String) -> [In
             return input.rangeOfString(token) != nil
         }
         
+        if let term = incident.number?.description            { if matchString(term) { return true } }
         if let term = incident.summary                        { if matchString(term) { return true } }
         if let term = incident.location?.name                 { if matchString(term) { return true } }
         if let term = incident.location?.address?.description { if matchString(term) { return true } }
