@@ -6,6 +6,18 @@
 //  See the file COPYRIGHT.md for terms.
 //
 
+enum HTTPHeaderName: String, CustomStringConvertible {
+    case Accept      = "Accept"
+    case ContentType = "Content-Type"
+    case EntityTag   = "ETag"
+    case Location    = "Location"
+    case UserAgent   = "User-Agent"
+    
+    var description: String { return self.rawValue }
+}
+
+
+
 class HTTPHeaders: CollectionType, SequenceType {
 
     typealias Index = DictionaryIndex<String, [String]>
@@ -98,16 +110,4 @@ class HTTPHeaders: CollectionType, SequenceType {
         }
     }
     
-}
-
-
-
-enum HTTPHeaderName: String, CustomStringConvertible {
-    case Accept      = "Accept"
-    case ContentType = "Content-Type"
-    case EntityTag   = "ETag"
-    case Location    = "Location"
-    case UserAgent   = "User-Agent"
-    
-    var description: String { return self.rawValue }
 }

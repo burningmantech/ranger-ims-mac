@@ -63,7 +63,7 @@ extension HTTPSession {
                 )
             }
 
-            if status != 200 {
+            if status != HTTPStatus.OK.code {
                 return errorHandler(
                     message: "Non-OK response status to JSON request: \(status)"
                 )
