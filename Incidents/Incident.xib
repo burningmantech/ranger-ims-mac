@@ -75,13 +75,13 @@
                     </popUpButton>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1t2-7c-vIM" userLabel="Priority Pop Up">
                         <rect key="frame" x="374" y="531" width="79" height="26"/>
-                        <popUpButtonCell key="cell" type="push" title="High" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="8py-5K-Vj3" id="kdI-Iy-ifW" userLabel="Cell">
+                        <popUpButtonCell key="cell" type="push" title="Normal" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="3" imageScaling="proportionallyDown" inset="2" selectedItem="Sgy-fL-bni" id="kdI-Iy-ifW" userLabel="Cell">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" id="ncP-wf-h5B">
                                 <items>
-                                    <menuItem title="High" state="on" tag="1" id="8py-5K-Vj3" userLabel="High"/>
-                                    <menuItem title="Normal" tag="3" id="Sgy-fL-bni" userLabel="Normal"/>
+                                    <menuItem title="High" tag="1" id="8py-5K-Vj3" userLabel="High"/>
+                                    <menuItem title="Normal" state="on" tag="3" id="Sgy-fL-bni" userLabel="Normal"/>
                                     <menuItem title="Low" tag="5" id="GFZ-uL-NIe" userLabel="Low"/>
                                 </items>
                             </menu>
