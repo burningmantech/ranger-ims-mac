@@ -104,13 +104,11 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
             guard let numberValues = headers[IMSHTTPHeaderName.IncidentNumber.rawValue] else {
-                logError("Create incident response did not include a incident number header.")
-                return
+                return onError("Create incident response did not include a incident number header.")
             }
             
             guard numberValues.count == 1, let number = Int(numberValues[0]) else {
-                logError("Create incident response did included a non-conforming incident number header: \(numberValues)")
-                return
+                return onError("Create incident response did included a non-conforming incident number header: \(numberValues)")
             }
 
             if let callback = callback { callback(number: number) }
@@ -131,9 +129,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             responseHandler: onResponse,
             errorHandler: onError
         )
-        
-        // Note we are not adding this connection to a loading group
-        // FIXME: make sure that's cool
     }
 
 
@@ -147,73 +142,22 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let incidentURL = "\(self.url)incidents/\(number)"
 
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            // FIXME: There's overlap here with loadIncident()'s onResponse…
-            
-            // Read back the server's copy.
-            // Should be a no-nop because we will store the updated incident and etag below.
-            // But if there's any error here, we should at least fetch the server copy.
+            let etag = headers[HTTPHeaderName.EntityTag.rawValue]?.last
 
-            var etag: String? = nil
-            
             defer {
+                // Read back the server's copy.
+                // Should be a no-nop because we will store the updated incident and etag below.
+                // But if there's any error here, we should at least fetch the server copy.
                 loadIncident(number: number, etag: etag, solo: true)
-            }
-
-            guard let json = json else {
-                logError("Update incident #\(number) request retrieved no JSON data")
-                return
-            }
-
-            guard let incidentJSON = json as? IncidentDictionary else {
-                alert(
-                    title: "Update incident #\(number) JSON is non-conforming",
-                    message: "\(json)"
-                )
-                return
             }
 
             let updatedIncident: Incident
             do {
-                updatedIncident = try incidentFromJSON(incidentJSON)
+                updatedIncident = try readIncident(json: json, expectedNumber: number)
             } catch {
-                alert(
-                    title: "Unable to parse updated incident #\(number) JSON",
-                    message: "\(error)\n\(incidentJSON)"
-                )
-                return
-            }
-
-            guard let updatedNumber = updatedIncident.number else {
-                alert(
-                    title: "Updated incident #\(number) has no incident number",
-                    message: "\(incidentJSON)"
-                )
-                return
+                return onError("\(error)")
             }
             
-            guard updatedNumber == number else {
-                alert(
-                    title: "Updated incident #\(number) has different incident number",
-                    message: "\(incidentJSON)"
-                )
-                return
-            }
-            
-            // Don't error out completely if we don't get an etag.
-            // We will just have to reload the incident from the server in that case.
-
-            let etags = headers[HTTPHeaderName.EntityTag.rawValue]
-
-            if let etags = etags {
-                if etags.count != 1 {
-                    logError("Updated incident #\(number) response included multiple ETags: \(etags)")
-                } else {
-                    etag = etags[0]
-                }
-            } else {
-                logError("Updated incident #\(number) response did not include an ETag.")
-            }
-
             if let etag = etag {
                 _incidentsByNumber[number] = updatedIncident
                 incidentETagsByNumber[number] = etag
@@ -239,9 +183,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             responseHandler: onResponse,
             errorHandler: onError
         )
-
-        // Note we are not adding this connection to a loading group
-        // FIXME: make sure that's cool
     }
 
 
@@ -592,36 +533,14 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 )
             }
 
-            guard let incidentDictionary = json as? IncidentDictionary else {
-                logError("Incident #\(number) JSON is non-conforming: \(json)")
-                return
-            }
-
             let incident: Incident
-            do {
-                try incident = incidentFromJSON(incidentDictionary)
-            } catch {
-                logError("Incident #\(number) JSON failed to parse: \(error)\n\(incidentDictionary)")
-                return
+            do { incident = try readIncident(json: json, expectedNumber: number) }
+            catch { return onError("\(error)") }
+
+            guard let etag = headers[HTTPHeaderName.EntityTag.rawValue]?.last else {
+                return logError("Incident #\(number) response did not include an ETag.")
             }
             
-            guard incident.number == number else {
-                logError("Incident #\(number) JSON has incorrect incident number: \(incident.number)")
-                return
-            }
-
-            guard let etags = headers[HTTPHeaderName.EntityTag.rawValue] else {
-                logError("Incident #\(number) response did not include an ETag.")
-                return
-            }
-
-            guard etags.count == 1 else {
-                logError("Incident #\(number) response included multiple ETags: \(etags)")
-                return
-            }
-
-            let etag = etags[0]
-
             _incidentsByNumber[number] = incident
             incidentETagsByNumber[number] = etag
 
@@ -749,6 +668,26 @@ protocol HTTPIncidentManagementSystemDelegate: IncidentManagementSystemDelegate 
 
 
 
+func readIncident(json json: AnyObject?, expectedNumber: Int) throws -> Incident {
+    guard let json = json else {
+        throw HTTPIMSError.NilJSON
+    }
+
+    guard let incidentDictionary = json as? IncidentDictionary else {
+        throw HTTPIMSError.NonConformingJSON(json)
+    }
+    
+    let incident = try incidentFromJSON(incidentDictionary)
+    
+    guard incident.number == expectedNumber else {
+        throw HTTPIMSError.IncidentNumberMismatch(expectedNumber, incident.number)
+    }
+
+    return incident
+}
+
+
+
 enum IMSLoadingState: CustomStringConvertible {
     case Reset
     case Trying(HTTPConnection)
@@ -836,6 +775,14 @@ func ==(lhs: IMSConnectionID, rhs: IMSConnectionID) -> Bool {
 
 
 
+enum HTTPIMSError: ErrorType {
+    case NilJSON
+    case NonConformingJSON(AnyObject?)
+    case IncidentNumberMismatch(Int, Int?)
+}
+
+
+
 enum HTTPIMSInternalError: ErrorType {
     case IncorrectLoadingState
     case NoSuchConnection
@@ -844,9 +791,7 @@ enum HTTPIMSInternalError: ErrorType {
 
 
 enum IMSHTTPHeaderName: String, CustomStringConvertible {
-
     case IncidentNumber = "Incident-Number"
     
     var description: String { return self.rawValue }
-    
 }
