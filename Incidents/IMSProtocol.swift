@@ -16,7 +16,7 @@ protocol IncidentManagementSystem {
 
     func reload()
 
-    func createIncident(Incident) throws
+    func createIncident(Incident, callback: IncidentCreatedCallback?) throws
     func updateIncident(Incident) throws
 //    func reloadIncidentWithNumber(Int) throws
 }
@@ -26,6 +26,10 @@ protocol IncidentManagementSystem {
 protocol IncidentManagementSystemDelegate: class {
     func incidentDidUpdate(ims ims: IncidentManagementSystem, incident: Incident)
 }
+
+
+
+typealias IncidentCreatedCallback = (number: Int) -> Void
 
 
 

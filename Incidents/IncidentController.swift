@@ -97,8 +97,12 @@ class IncidentController: NSWindowController {
 
     
     func createIncident() {
+        func callback(number: Int) {
+            alert(title: "Yay", message: "Got callback!")
+        }
+
         do {
-            try dispatchQueueController!.ims.createIncident(incident!)
+            try dispatchQueueController!.ims.createIncident(incident!, callback: callback)
             disableEditing()
         } catch {
             logError("Unable to create incident: \(error)")

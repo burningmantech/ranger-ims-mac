@@ -93,7 +93,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    func createIncident(incident: Incident) throws {
+    func createIncident(incident: Incident, callback: IncidentCreatedCallback?) throws {
         let json = try incidentAsJSON(incident)
         
         guard incident.number == nil else {
@@ -103,7 +103,6 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         let incidentsURL = "\(self.url)incidents/"
         
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-
             guard let numberValues = headers[IMSHTTPHeaderName.IncidentNumber.rawValue] else {
                 logError("Create incident response did not include a incident number header.")
                 return
@@ -114,9 +113,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 return
             }
 
-            defer {
-                loadIncident(number: number, etag: nil, solo: true)
-            }
+            if let callback = callback { callback(number: number) }
+
+            loadIncident(number: number, etag: nil, solo: true)
         }
         
         func onError(message: String) {

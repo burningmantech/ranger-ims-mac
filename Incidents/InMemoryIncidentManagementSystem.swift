@@ -47,7 +47,7 @@ class InMemoryIncidentManagementSystem: NSObject, IncidentManagementSystem {
     func reload() {}
 
 
-    func createIncident(incident: Incident) throws {
+    func createIncident(incident: Incident, callback: IncidentCreatedCallback?) throws {
         guard incident.number == nil else {
             throw IMSError.IncidentNumberNotNil(incident.number!)
         }
@@ -67,6 +67,8 @@ class InMemoryIncidentManagementSystem: NSObject, IncidentManagementSystem {
         )
 
         _incidentsByNumber[number] = newIncident
+
+        if let callback = callback { callback(number: number) }
     }
 
 

@@ -157,7 +157,7 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
             )
 
             do {
-                try ims.createIncident(incidentWithoutNumber)
+                try ims.createIncident(incidentWithoutNumber, callback: nil)
             } catch {
                 XCTFail("Unable to create incident: \(error)")
             }
@@ -212,7 +212,7 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
         var incident = Incident(number: nil)
 
         do {
-            try ims!.createIncident(incident)
+            try ims!.createIncident(incident, callback: nil)
         } catch {
             return XCTFail("\(error)")
         }
@@ -226,10 +226,28 @@ class InMemoryIncidentManagementSystemTests: XCTestCase {
     }
 
 
+    func test_createIncidentCallback() {
+        let incident = Incident(number: nil)
+
+        var assignedNumber: Int = -1
+
+        do {
+            try ims!.createIncident(
+                incident,
+                callback: {(n:Int) -> () in assignedNumber = n}
+            )
+        } catch {
+            return XCTFail("\(error)")
+        }
+
+        XCTAssertEqual(assignedNumber, cannedIncidents!.count + 1)
+    }
+
+
     func test_createIncidentWithNumber() {
         let incident = Incident(number: ims!.incidentsByNumber.count)
 
-        do { try ims!.createIncident(incident) } catch { return }
+        do { try ims!.createIncident(incident, callback: nil) } catch { return }
 
         XCTFail("Create incident suceeded when it should have failed.")
     }
