@@ -66,9 +66,6 @@ extension IncidentController {
     @IBAction func editState(sender: AnyObject?) {
         defer { updateView() }
 
-        let oldState: IncidentState
-        if let state = incident!.state { oldState = state } else { oldState = .New }
-        
         guard let selectedTag = statePopUp!.selectedItem?.tag else {
             logError("Unable to get selected state tag")
             return
@@ -81,14 +78,14 @@ extension IncidentController {
         
         let newState: IncidentState
         switch selectedState {
-        case .New       : newState = .New
-        case .OnHold    : newState = .OnHold
-        case .Dispatched: newState = .Dispatched
-        case .OnScene   : newState = .OnScene
-        case .Closed    : newState = .Closed
+            case .New       : newState = .New
+            case .OnHold    : newState = .OnHold
+            case .Dispatched: newState = .Dispatched
+            case .OnScene   : newState = .OnScene
+            case .Closed    : newState = .Closed
         }
         
-        if newState == oldState { return }
+        if newState == incident!.state { return }
         
         logDebug("State changed to: \(newState)")
         
@@ -99,9 +96,6 @@ extension IncidentController {
     @IBAction func editPriority(sender: AnyObject?) {
         defer { updateView() }
 
-        let oldPriority: IncidentPriority
-        if let priority = incident!.priority { oldPriority = priority } else { oldPriority = .Normal }
-        
         guard let selectedTag = priorityPopUp!.selectedItem?.tag else {
             logError("Unable to get selected priority tag")
             return
@@ -114,12 +108,12 @@ extension IncidentController {
         
         let newPriority: IncidentPriority
         switch selectedPriority {
-        case .High  : newPriority = .High
-        case .Normal: newPriority = .Normal
-        case .Low   : newPriority = .Low
+            case .High  : newPriority = .High
+            case .Normal: newPriority = .Normal
+            case .Low   : newPriority = .Low
         }
         
-        if newPriority == oldPriority { return }
+        if newPriority == incident!.priority { return }
         
         logDebug("Priority changed to: \(newPriority)")
         
