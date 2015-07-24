@@ -63,46 +63,57 @@ extension HTTPSession {
                 )
             }
 
-            if status != HTTPStatus.OK {
-                return errorHandler(
-                    message: "Non-OK response status to JSON request: \(status)"
-                )
+            let hasContent: Bool
+
+            switch status {
+                case .OK       : hasContent = true
+                case .Created  : hasContent = true
+                case .NoContent: hasContent = false
+                default:
+                    return errorHandler(
+                        message: "Non-successful or unexpected response status to JSON request: \(status)"
+                    )
             }
 
-            guard let contentTypes = headers[HTTPHeaderName.ContentType.rawValue] else {
-                return errorHandler(
-                    message: "No Content-Type header in response to JSON request"
-                )
-            }
-
-            if contentTypes.count != 1 {
-                return errorHandler(
-                    message: "Multiple Content-Types in response to JSON request: \(contentTypes)"
-                )
-            }
-            if contentTypes[0] != "application/json" {
-                return errorHandler(
-                    message: "Non-JSON Content-Type in response to JSON request: \(contentTypes[0])"
-                )
-            }
-
-            let bodyData = NSData.fromBytes(body)
             let json: AnyObject?
 
-            if bodyData.length > 0 {
-                do {
-                    json = try NSJSONSerialization.JSONObjectWithData(bodyData, options: [.AllowFragments])
-                } catch {
-                    let jsonText: String
-                    if let _jsonText = NSString(data: bodyData, encoding: NSUTF8StringEncoding) {
-                        jsonText = _jsonText as String
-                    } else {
-                        jsonText = "<unable to decode UTF-8>"
-                    }
-
+            if hasContent {
+                guard let contentTypes = headers[HTTPHeaderName.ContentType.rawValue] else {
                     return errorHandler(
-                        message: "Unable to deserialize JSON response data from \(url): \(jsonText)"
+                        message: "No Content-Type header in response to JSON request"
                     )
+                }
+
+                if contentTypes.count != 1 {
+                    return errorHandler(
+                        message: "Multiple Content-Types in response to JSON request: \(contentTypes)"
+                    )
+                }
+                if contentTypes[0] != "application/json" {
+                    return errorHandler(
+                        message: "Non-JSON Content-Type in response to JSON request: \(contentTypes[0])"
+                    )
+                }
+
+                let bodyData = NSData.fromBytes(body)
+
+                if bodyData.length > 0 {
+                    do {
+                        json = try NSJSONSerialization.JSONObjectWithData(bodyData, options: [.AllowFragments])
+                    } catch {
+                        let jsonText: String
+                        if let _jsonText = NSString(data: bodyData, encoding: NSUTF8StringEncoding) {
+                            jsonText = _jsonText as String
+                        } else {
+                            jsonText = "<unable to decode UTF-8>"
+                        }
+
+                        return errorHandler(
+                            message: "Unable to deserialize JSON response data from \(url): \(jsonText)"
+                        )
+                    }
+                } else {
+                    json = nil
                 }
             } else {
                 json = nil
