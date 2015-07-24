@@ -237,41 +237,41 @@ class DispatchQueueController: NSWindowController {
                 incident: incident
             )
             incidentControllers[number] = incidentController
+
+            let incidentWindowWillClose = {
+                (notification: NSNotification) -> Void in
+
+                guard let window = notification.object else {
+                    logError("Got a window will close notification for a nil window?")
+                    return
+                }
+
+                guard let controller = window.windowController as? IncidentController else {
+                    logError("Got a window will close notification for an incident window with no incident controller?")
+                    return
+                }
+
+                guard controller == incidentController else {
+                    logError("Got a window will close notification for an incident window with a different incident controller?")
+                    return
+                }
+
+                guard self.incidentControllers.removeValueForKey(number) != nil else {
+                    logError("Got a window will close notification for an incident window no longer being tracked?")
+                    return
+                }
+            }
+
+            NSNotificationCenter.defaultCenter().addObserverForName(
+                NSWindowWillCloseNotification,
+                object: incidentController.window,
+                queue: nil,
+                usingBlock: incidentWindowWillClose
+            )
         }
 
         incidentController.showWindow(self)
         incidentController.window?.makeKeyAndOrderFront(self)
-
-        let incidentWindowWillClose = {
-            (notification: NSNotification) -> Void in
-
-            guard let window = notification.object else {
-                logError("Got a window will close notification for a nil window?")
-                return
-            }
-
-            guard let controller = window.windowController as? IncidentController else {
-                logError("Got a window will close notification for an incident window with no incident controller?")
-                return
-            }
-
-            guard controller == incidentController else {
-                logError("Got a window will close notification for an incident window with a different incident controller?")
-                return
-            }
-
-            guard self.incidentControllers.removeValueForKey(number) != nil else {
-                logError("Got a window will close notification for an incident window no longer being tracked?")
-                return
-            }
-        }
-
-        NSNotificationCenter.defaultCenter().addObserverForName(
-            NSWindowWillCloseNotification,
-            object: incidentController.window,
-            queue: nil,
-            usingBlock: incidentWindowWillClose
-        )
     }
 
 
