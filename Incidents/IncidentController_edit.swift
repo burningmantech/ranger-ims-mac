@@ -354,13 +354,17 @@ extension IncidentController {
         
         guard reportTextTrimmed.characters.count > 0 else { return }
         
-        let entry = ReportEntry(author: nil, text: reportTextTrimmed)
+        if let username = NSUserDefaults.standardUserDefaults().stringForKey("IMSUserName") {
+            let author = Ranger(handle: username)
+            
+            let entry = ReportEntry(author: author, text: reportTextTrimmed)
         
-        if incident!.reportEntries == nil {
-            incident!.reportEntries = []
+            if incident!.reportEntries == nil {
+                incident!.reportEntries = []
+            }
+        
+            incident!.reportEntries!.append(entry)
         }
-        
-        incident!.reportEntries!.append(entry)
     }
 
 }
