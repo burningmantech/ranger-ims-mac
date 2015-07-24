@@ -215,13 +215,13 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             }
 
             if let etag = etag {
-                _incidentsByNumber[number] = incident
+                _incidentsByNumber[number] = updatedIncident
                 incidentETagsByNumber[number] = etag
 
                 logHTTP("Updated incident #\(number)")
 
                 if let delegate = self.delegate {
-                    delegate.incidentDidUpdate(ims: self, incident: incident)
+                    delegate.incidentDidUpdate(ims: self, incident: updatedIncident)
                 }
             }
         }
