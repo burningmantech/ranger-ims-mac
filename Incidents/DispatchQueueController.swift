@@ -325,9 +325,21 @@ class DispatchQueueController: NSWindowController {
                 return
             }
             
-            guard self.newIncidentControllers.remove(controller) != nil else {
-                logError("Got a window will close notification for a (new) incident window no longer being tracked?")
-                return
+            if let number = incidentController.incident?.number {
+                if self.newIncidentControllers.remove(incidentController) != nil {
+                    logError("Got a window will close notification for a (new) incident controller with a number but was still tracked as new.")
+                }
+
+                guard self.incidentControllers.removeValueForKey(number) != nil else {
+                    logError("Got a window will close notification for a (new) incident window not being tracked?")
+                    return
+                }
+            }
+            else {
+                guard self.newIncidentControllers.remove(incidentController) != nil else {
+                    logError("Got a window will close notification for a (new) incident window no longer being tracked?")
+                    return
+                }
             }
         }
         
@@ -337,6 +349,36 @@ class DispatchQueueController: NSWindowController {
             queue: nil,
             usingBlock: incidentWindowWillClose
         )
+    }
+
+
+    func incidentControllerDidCreateIncident(incidentController: IncidentController) {
+        guard let number = incidentController.incident?.number else {
+            alert(
+                title: "Internal error",
+                message: "Incident controller saved a new incident but still doesn't have an incident number."
+            )
+            return
+        }
+
+        if newIncidentControllers.remove(incidentController) == nil {
+            alert(
+                title: "Internal error",
+                message: "Incident controller saved a new incident (#\(number)) but is not tracked as a new controller."
+            )
+        }
+
+        if let existing = incidentControllers[number] {
+            if existing == incidentController {
+                alert(
+                    title: "Internal error",
+                    message: "Incident controller saved a new incident (#\(number)) that already has another controller?"
+                )
+            }
+            incidentController.window?.close()
+        }
+
+        incidentControllers[number] = incidentController
     }
 
 }

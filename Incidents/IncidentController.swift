@@ -98,7 +98,10 @@ class IncidentController: NSWindowController {
     
     func createIncident() {
         func callback(number: Int) {
-            alert(title: "Yay", message: "Got callback!")
+            incident!.number = number
+            originalIncident = incident
+
+            dispatchQueueController!.incidentControllerDidCreateIncident(self)
         }
 
         do {
@@ -108,9 +111,6 @@ class IncidentController: NSWindowController {
             logError("Unable to create incident: \(error)")
             alert(title: "Unable to create incident", message: "\(error)")
         }
-
-        // FIXME
-        alert(title: "Fix This", message: "Somehow, we need to figure out what the new incident number is and update this view")
     }
     
     
