@@ -51,7 +51,7 @@ class HTTPHeaders: CollectionType, SequenceType {
         }
 
         set(value) {
-            self.storage[key.lowercaseString] = value
+            storage[key.lowercaseString] = value
         }
     }
 
@@ -65,7 +65,7 @@ class HTTPHeaders: CollectionType, SequenceType {
         return storage.generate()
     }
 
-
+    
     func set(name name: String, value: String) {
         self[name] = [value]
     }
