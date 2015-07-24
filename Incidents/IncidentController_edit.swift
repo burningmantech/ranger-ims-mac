@@ -350,8 +350,6 @@ extension IncidentController {
             NSCharacterSet.whitespaceAndNewlineCharacterSet()
         )
         
-        textStorage.setAttributedString(NSAttributedString())
-        
         guard reportTextTrimmed.characters.count > 0 else { return }
         
         if let username = NSUserDefaults.standardUserDefaults().stringForKey("IMSUserName") {
@@ -362,8 +360,10 @@ extension IncidentController {
             if incident!.reportEntries == nil {
                 incident!.reportEntries = []
             }
-        
+            
             incident!.reportEntries!.append(entry)
+
+            textStorage.setAttributedString(NSAttributedString())
         }
     }
 
