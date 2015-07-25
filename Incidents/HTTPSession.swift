@@ -187,6 +187,8 @@ class HTTPUsernamePasswordCredential: HTTPCredential {
 private class SessionDelegate: NSObject, NSURLSessionTaskDelegate {
     
     weak var session: HTTPSession?
+
+    private var lastCredential: HTTPCredential?
     
     
     @objc
@@ -196,8 +198,31 @@ private class SessionDelegate: NSObject, NSURLSessionTaskDelegate {
         didReceiveChallenge challenge: NSURLAuthenticationChallenge,
         completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void
     ) {
+        func completeWithCredential(credential: HTTPCredential?) {
+            let nsCredential: NSURLCredential?
+            
+            if let credential = credential as? HTTPUsernamePasswordCredential {
+                nsCredential = NSURLCredential(
+                    user: credential.username,
+                    password: credential.password,
+                    persistence: NSURLCredentialPersistence.ForSession
+                )
+            } else {
+                nsCredential = nil
+            }
+            
+            completionHandler(
+                NSURLSessionAuthChallengeDisposition.UseCredential,
+                nsCredential
+            )
+        }
+        
         switch challenge.previousFailureCount {
             case 0:
+                if let lastCredential = lastCredential {
+                    return completeWithCredential(lastCredential)
+                }
+                
                 guard let authHandler = self.session?.authHandler else {
                     completionHandler(
                         NSURLSessionAuthChallengeDisposition.PerformDefaultHandling,
@@ -214,29 +239,13 @@ private class SessionDelegate: NSObject, NSURLSessionTaskDelegate {
                 
                 logInfo("Authenticating HTTP connection...")
                 
-                let credential = authHandler(
+                lastCredential = authHandler(
                     host: challenge.protectionSpace.host,
                     port: challenge.protectionSpace.port,
                     realm: challenge.protectionSpace.realm
                 )
-                    
-                let nsCredential: NSURLCredential?
-                
-                if let credential = credential as? HTTPUsernamePasswordCredential {
-                    nsCredential = NSURLCredential(
-                        user: credential.username,
-                        password: credential.password,
-                        persistence: NSURLCredentialPersistence.ForSession
-                    )
-                } else {
-                    nsCredential = nil
-                }
-                    
-                completionHandler(
-                    NSURLSessionAuthChallengeDisposition.UseCredential,
-                    nsCredential
-                )
-                return
+
+                return completeWithCredential(lastCredential)
 
             default:
                 break
