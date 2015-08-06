@@ -22,6 +22,8 @@ class IncidentController: NSWindowController {
     var concentricAddressDelegate: ConcentricStreetFieldDelegate?
     var addReportEntryDelegate: AddReportEntryViewDelegate?
     
+    var amUpdatingView: Bool = false
+    
     @IBOutlet weak var numberField                   : NSTextField?
     @IBOutlet weak var statePopUp                    : NSPopUpButton?
     @IBOutlet weak var priorityPopUp                 : NSPopUpButton?

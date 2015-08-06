@@ -13,6 +13,21 @@ import Cocoa
 extension IncidentController {
 
     func updateView() {
+        // Avoid looping
+        if (amUpdatingView) { return }
+        amUpdatingView = true
+        defer { amUpdatingView = false }
+        
+        // We want any edits that in incomplete, such as text entered into a
+        // text field that has not sent its action yet to get stored before we
+        // potentially step on the edited values below.
+        //
+        // Changing the first responder should trigger an action from the
+        // current first responder, which is where such unstored data would be.
+        // The window's content view is a harmless first responder to use.
+        
+        window?.makeFirstResponder(window?.contentView)
+        
         guard let incident = self.incident else {
             logError("Incident controller has no incident?")
             return
