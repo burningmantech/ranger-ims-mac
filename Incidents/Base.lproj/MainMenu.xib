@@ -100,7 +100,6 @@
                                     <action selector="save:" target="-1" id="LRL-ZP-s1y"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Mark Closed and Save" keyEquivalent="K" id="QOh-Xp-476"/>
                             <menuItem title="Reload" keyEquivalent="r" id="jsr-Jt-P5W"/>
                             <menuItem isSeparatorItem="YES" hidden="YES" id="aJh-i4-bef"/>
                             <menuItem title="Page Setup…" hidden="YES" keyEquivalent="P" id="qIS-W8-SiK">
