@@ -279,26 +279,20 @@ func locationAsJSON(location: Location) throws -> LocationDictionary {
         }
     }
     else if let address = location.address as? RodGarettAddress {
-        var hasData: Bool = false
-        
+        json["type"] = "garett"
+
         if let concentric = address.concentric {
-            hasData = true
             json["concentric"] = concentric.rawValue
         }
         if let radialHour = address.radialHour {
-            hasData = true
             json["radial_hour"] = radialHour
         }
         if let radialMinute = address.radialMinute {
-            hasData = true
             json["radial_minute"] = radialMinute
         }
         if let description = address.textDescription {
-            hasData = true
             json["description"] = description
         }
-
-        if hasData { json["type"] = "garett" }
     }
     else {
         throw JSONSerializationError.UnknownAddressType(location.address!)
