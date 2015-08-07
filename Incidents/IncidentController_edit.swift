@@ -128,8 +128,25 @@ extension IncidentController {
         if let name = incident!.location?.name { oldName = name } else { oldName = "" }
         let newName = locationNameField!.stringValue
         
-        if newName != oldName {
-            let newLocation: Location
+        func knownLocation() -> Location? {
+            if (
+                locationConcentricAddressField?.stringValue == "" &&
+                locationRadialAddressField?.stringValue == "" &&
+                locationDescriptionField?.stringValue == ""
+            ) {
+                if let knownLocation = dispatchQueueController?.ims.locationsByName[newName] {
+                    return knownLocation
+                }
+            }
+            
+            return nil
+        }
+
+        let newLocation: Location?
+        if let location = knownLocation() {
+            newLocation = location
+        }
+        else if newName != oldName {
             if incident!.location == nil {
                 newLocation = Location(name: newName)
             } else {
@@ -138,9 +155,13 @@ extension IncidentController {
                     address: incident!.location!.address
                 )
             }
-            
+        } else {
+            newLocation = incident!.location
+        }
+
+        if newLocation != incident!.location {
             logDebug("Location changed to: \(newLocation)")
-            
+        
             incident!.location = newLocation
         }
     }
