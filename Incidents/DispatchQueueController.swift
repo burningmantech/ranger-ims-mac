@@ -190,7 +190,7 @@ class DispatchQueueController: NSWindowController {
     }
 
 
-    func reload(force: Bool) {
+    func performReload(force: Bool=false) {
         if force && reloadTimer != nil {
             reloadTimer!.invalidate()
             reloadTimer = nil
@@ -203,7 +203,7 @@ class DispatchQueueController: NSWindowController {
             reloadTimer = NSTimer.scheduledTimerWithTimeInterval(
                 reloadInterval,
                 target: self,
-                selector: Selector("reloadTimerFired:"),
+                selector: Selector("_reloadTimerFired:"),
                 userInfo: self,
                 repeats: false
             )
@@ -211,10 +211,10 @@ class DispatchQueueController: NSWindowController {
     }
 
 
-    func reloadTimerFired(timer: NSTimer) {
+    func _reloadTimerFired(timer: NSTimer) {
         if !NSUserDefaults.standardUserDefaults().boolForKey("IMSDisableReloadTimer") {
             logDebug("Reloading after timer")
-            reload(true)
+            performReload(true)
         }
     }
 
@@ -466,7 +466,7 @@ extension DispatchQueueController: NSWindowDelegate {
             arghEvilDeath("DDispatchQueueController doesn't respond to openClickedIncident()")
         }
 
-        reload(false)
+        performReload()
     }
 
 }
@@ -583,8 +583,8 @@ extension DispatchQueueController: NSTableViewDataSource {
     }
 
 
-    @IBAction func userReload(sender: AnyObject?) {
-        reload(true)
+    @IBAction func reload(sender: AnyObject?) {
+        performReload(true)
     }
 
 }
