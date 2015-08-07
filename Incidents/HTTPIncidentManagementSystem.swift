@@ -193,10 +193,10 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     
     private func connect() {
         switch loadingState {
-        case .Reset:
-            break
-        default:
-            return
+            case .Reset:
+                break
+            default:
+                return
         }
 
         let pingURL = "\(self.url)ping/"
