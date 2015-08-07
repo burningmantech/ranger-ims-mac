@@ -113,9 +113,9 @@ class DispatchQueueController: NSWindowController {
         let filteredIncidents: [Incident]
         
         switch filterTag {
-        case .All   : filteredIncidents = filteredIncidentsCache.allIncidents
-        case .Open  : filteredIncidents = filteredIncidentsCache.openIncidents
-        case .Active: filteredIncidents = filteredIncidentsCache.activeIncidents
+            case .All   : filteredIncidents = filteredIncidentsCache.allIncidents
+            case .Open  : filteredIncidents = filteredIncidentsCache.openIncidents
+            case .Active: filteredIncidents = filteredIncidentsCache.activeIncidents
         }
         
         let searchText = self.searchText
