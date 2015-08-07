@@ -14,15 +14,17 @@ class IncidentController: NSWindowController {
 
     var dispatchQueueController: DispatchQueueController?
 
-    var incident: Incident?
+    var incident        : Incident?
     var originalIncident: Incident?
+
     var rangersTableManager: RangersTableManager?
-    var typesTableManager: IncidentTypesTableManager?
-    var locationNameDelegate: LocationNameFieldDelegate?
+    var typesTableManager  : IncidentTypesTableManager?
+
+    var locationNameDelegate     : LocationNameFieldDelegate?
     var concentricAddressDelegate: ConcentricStreetFieldDelegate?
-    var addReportEntryDelegate: AddReportEntryViewDelegate?
+    var addReportEntryDelegate   : AddReportEntryViewDelegate?
     
-    var amUpdatingView: Bool = false
+    var amUpdatingView         = false
     
     @IBOutlet weak var numberField                   : NSTextField?
     @IBOutlet weak var statePopUp                    : NSPopUpButton?
@@ -231,6 +233,43 @@ extension IncidentController: NSWindowDelegate {
         loadingIndicator!.hidden = true
 
         enableEditing()
+    }
+
+    func windowShouldClose(sender: AnyObject) -> Bool {
+        if incident! == originalIncident! {
+            return true
+        }
+        
+        let alert = NSAlert()
+
+        alert.alertStyle = NSAlertStyle.InformationalAlertStyle
+        alert.showsHelp = false
+        alert.messageText = "Incident not saved"
+        alert.informativeText = "Are you sure you want to close this without saving?"
+        alert.addButtonWithTitle("Save")
+        alert.addButtonWithTitle("Cancel")
+        alert.addButtonWithTitle("Don't Save")
+        
+        alert.beginSheetModalForWindow(
+            window!,
+            completionHandler: {
+                response -> Void in
+
+                switch response {
+                    case 1000:  // Save
+                        self.save(self)
+                        self.window!.close()
+                    case 1001:  // Cancel
+                        break
+                    case 1002:  // Don't Save
+                        self.window!.close()
+                    default:
+                        logError("Unknown modal response to save safety sheet: \(response)")
+                }
+            }
+        )
+        
+        return false
     }
 
 }
