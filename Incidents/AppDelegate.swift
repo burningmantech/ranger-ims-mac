@@ -48,6 +48,7 @@ class AppDelegate: NSObject {
     @IBAction func serverSettingsDidChange(sender: AnyObject) {
         if _dispatchQueueController != nil {
             _dispatchQueueController.close()
+            _dispatchQueueController.ims.resetConnection()
             _dispatchQueueController = nil
         }
     }
