@@ -84,6 +84,17 @@ class IncidentController: NSWindowController {
     }
 
 
+    @IBAction func reload(sender: AnyObject?) {
+        if let number = incident?.number {
+            do {
+                try dispatchQueueController?.ims.reloadIncidentWithNumber(number)
+            } catch {
+                alert(title: "Unable to reload incident", message: "\(error)")
+            }
+        }
+    }
+        
+        
     func updateIncident() {
         var diff = incident!.diffFrom(originalIncident!)
         diff.number = incident!.number
