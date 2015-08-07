@@ -536,7 +536,7 @@ extension DispatchQueueController: NSTableViewDataSource {
     @IBAction func updateViewedIncidents(sender: AnyObject?) {
         if let dispatchTable = self.dispatchTable {
             // Make sure UI stuff goes to the main thread
-            dispatch_async(dispatch_get_main_queue()) {
+            dispatch_sync(dispatch_get_main_queue()) {
                 () -> Void in
                 dispatchTable.reloadData()
             }
