@@ -18,7 +18,7 @@ protocol IncidentManagementSystem {
 
     func createIncident(Incident, callback: IncidentCreatedCallback?) throws
     func updateIncident(Incident) throws
-//    func reloadIncidentWithNumber(Int) throws
+    func reloadIncidentWithNumber(Int) throws
 }
 
 
@@ -36,4 +36,5 @@ typealias IncidentCreatedCallback = (number: Int) -> Void
 enum IMSError: ErrorType {
     case IncidentNumberNil
     case IncidentNumberNotNil(Int)
+    case NoSuchIncident(Int)
 }

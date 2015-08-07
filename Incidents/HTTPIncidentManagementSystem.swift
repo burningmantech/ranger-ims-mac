@@ -186,9 +186,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-//    func reloadIncidentWithNumber(number: Int) -> Failable {
-//        return Failable(Error("Unimplemented"))
-//    }
+    func reloadIncidentWithNumber(number: Int) throws {
+        loadIncident(number: number, etag: nil, solo: true)
+    }
     
     
     private func connect() {
@@ -515,7 +515,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-    func loadIncident(number number: Int, etag: String?, solo: Bool = false) {
+    func loadIncident(number number: Int, etag: String?, solo: Bool=false) {
         let incidentURL = "\(self.url)incidents/\(number)"
 
         if

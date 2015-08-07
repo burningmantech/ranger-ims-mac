@@ -81,12 +81,11 @@ class InMemoryIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
 
 
-//    func reloadIncidentWithNumber(number: Int) -> Failable {
-//        guard let incident = _incidentsByNumber[number] else {
-//            return Failable(Error("No such incident"))
-//        }
-//        return Failable.Success
-//    }
+    func reloadIncidentWithNumber(number: Int) throws {
+        guard _incidentsByNumber[number] != nil else {
+            throw IMSError.NoSuchIncident(number)
+        }
+    }
 
 
     // Extensions to IncidentManagementSystem for inserting data
