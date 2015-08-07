@@ -251,11 +251,15 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     private func loadIncidentTypes() {
         let typesURL = "\(self.url)incident_types/"
 
-        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
+        func removeConnection() {
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.IncidentTypes,
                 id: IMSConnectionID.IncidentTypes
             )
+        }
+        
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
+            defer { removeConnection() }
 
             guard let json = json else {
                 logError("Incident types request retrieved no JSON data")
@@ -273,8 +277,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         func onError(message: String) {
+            defer { removeConnection() }
+
             logError("Error while attempting incident types request: \(message)")
-            // resetConnection()
         }
 
         logHTTP("Sending incident types request to: \(typesURL)")
@@ -304,11 +309,15 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     private func loadPersonnel() {
         let personnelURL = "\(self.url)personnel/"
 
-        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
+        func removeConnection() {
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Personnel,
                 id: IMSConnectionID.Personnel
             )
+        }
+        
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
+            defer { removeConnection() }
 
             guard let json = json else {
                 logError("Personnel request retrieved no JSON data")
@@ -341,8 +350,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         func onError(message: String) {
+            defer { removeConnection() }
+
             logError("Error while attempting personnel request: \(message)")
-            // resetConnection()
         }
 
         logHTTP("Sending personnel request to: \(personnelURL)")
@@ -372,12 +382,16 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     private func loadLocations() {
         let locationsURL = "\(self.url)locations/"
 
-        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
+        func removeConnection() {
             removeConnectionForLoadingGroup(
                 group: IMSLoadingGroup.Locations,
                 id: IMSConnectionID.Locations
             )
-
+        }
+        
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
+            defer { removeConnection() }
+            
             guard let json = json else {
                 logError("Locations request retrieved no JSON data")
                 return
@@ -413,8 +427,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         func onError(message: String) {
+            defer { removeConnection() }
+            
             logError("Error while attempting locations request: \(message)")
-            // resetConnection()
         }
 
         logHTTP("Sending locations request to: \(locationsURL)")
@@ -444,23 +459,23 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     private func loadIncidents() {
         let incidentsURL = "\(self.url)incidents/"
 
+        func removeConnection() {
+            removeConnectionForLoadingGroup(
+                group: IMSLoadingGroup.Incidents,
+                id: IMSConnectionID.Incidents(-1)
+            )
+        }
+
         func onResponse(headers: HTTPHeaders, json: AnyObject?) {
-            func removeConnection() {
-                removeConnectionForLoadingGroup(
-                    group: IMSLoadingGroup.Incidents,
-                    id: IMSConnectionID.Incidents(-1)
-                )
-            }
+            defer { removeConnection() }
 
             guard let json = json else {
                 logError("Incident list request retrieved no JSON data")
-                removeConnection()
                 return
             }
 
             guard let incidentETags = json as? [[AnyObject]] else {
                 logError("Incident list JSON is non-conforming: \(json)")
-                removeConnection()
                 return
             }
 
@@ -481,14 +496,13 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
                 loadIncident(number: number, etag: etag)
             }
 
-            removeConnection()
-
             logHTTP("Loaded incident list")
         }
 
         func onError(message: String) {
+            defer { removeConnection() }
+
             logError("Error while attempting incident list request: \(message)")
-            // resetConnection()
         }
 
         logHTTP("Sending incident list request to: \(incidentsURL)")
@@ -525,13 +539,17 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             if loadedEtag == etag { return }
         }
 
-        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
+        func removeConnection() {
             if !solo {
                 removeConnectionForLoadingGroup(
                     group: IMSLoadingGroup.Incidents,
                     id: IMSConnectionID.Incidents(number)
                 )
             }
+        }
+            
+        func onResponse(headers: HTTPHeaders, json: AnyObject?) {
+            defer { removeConnection() }
 
             let incident: Incident
             do { incident = try readIncident(json: json, expectedNumber: number) }
@@ -552,8 +570,9 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         func onError(message: String) {
+            defer { removeConnection() }
+
             logError("Error while attempting incident #\(number) request: \(message)")
-            // resetConnection()
         }
 
         logHTTP("Sending incident #\(number) request to: \(incidentURL)")
