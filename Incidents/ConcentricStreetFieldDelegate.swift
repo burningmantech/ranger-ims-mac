@@ -33,9 +33,13 @@ class ConcentricStreetFieldDelegate: CompletingControlDelegate {
             ConcentricStreet.I.description,
             ConcentricStreet.J.description,
             ConcentricStreet.K.description,
-            ConcentricStreet.L.description
-            //ConcentricStreet.M.description
-            //ConcentricStreet.N.description
+            ConcentricStreet.L.description,
+            //ConcentricStreet.M.description,
+            //ConcentricStreet.N.description,
+            
+            ConcentricStreet.CenterCampInner.description,
+            ConcentricStreet.CenterCampService.description,
+            ConcentricStreet.CenterCampOuter.description,
         ]
     }
     

@@ -174,6 +174,10 @@ enum ConcentricStreet: Int, CustomStringConvertible {
     case M
     case N
 
+    case CenterCampInner = 100
+    case CenterCampService
+    case CenterCampOuter
+    
     // FIXME: Load names from server instead
     var description: String {
         switch self {
@@ -192,6 +196,10 @@ enum ConcentricStreet: Int, CustomStringConvertible {
             case L        : return "Laffing Sal"
             case M        : return "M"
             case N        : return "N"
+
+            case CenterCampInner  : return "Center Camp Plaza"
+            case CenterCampService: return "Route 66"
+            case CenterCampOuter  : return "Rod's Road"
         }
     }
 
