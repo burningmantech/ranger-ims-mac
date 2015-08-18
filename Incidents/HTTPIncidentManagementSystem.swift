@@ -215,11 +215,23 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
         logHTTP("Sending ping request to: \(pingURL)")
 
+        // FIXME: hacking here
+        guard let delegate = self.delegate as? HTTPIncidentManagementSystemDelegate else {
+            logError("No delegate? Can't auth.")
+            return
+        }
+
+        guard let credentials = delegate.handleAuth(host: "localhost", port: 8080, realm: nil) as? HTTPUsernamePasswordCredential else {
+            logError("No credentials? Can't auth.")
+            return
+        }
+
         let connection: HTTPConnection
         do {
             connection = try self.httpSession.sendJSON(
                 url: pingURL,
-                json: nil,
+                method: HTTPMethod.POST,
+                json: ["username": credentials.username, "password": credentials.password],
                 responseHandler: onResponse,
                 errorHandler: onError
             )

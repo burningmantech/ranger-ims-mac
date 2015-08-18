@@ -28,7 +28,8 @@ extension HTTPSession {
     ) throws -> HTTPConnection {
 
         var headers = HTTPHeaders()
-        headers.add(name: HTTPHeaderName.Accept.rawValue, value: "application/json")
+        headers.add(name: HTTPHeaderName.ContentType.rawValue, value: "application/json")
+        headers.add(name: HTTPHeaderName.Accept.rawValue     , value: "application/json")
 
         let jsonBytes: [UInt8]
         if let json = json {
@@ -57,6 +58,12 @@ extension HTTPSession {
             headers: HTTPHeaders,
             body:[UInt8]
         ) {
+            if let required = headers["x-form-auth-required"] {
+                return errorHandler(
+                    message: "x-form-auth-required\(required)"
+                )
+            }
+            
             if url != url {
                 return errorHandler(
                     message: "URL in response does not match URL in JSON request: \(url) != \(url)"
