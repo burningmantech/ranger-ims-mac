@@ -191,7 +191,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
     }
     
     
-    private func connect() {
+    private func connect(auth auth: Bool = false) {
         switch loadingState {
             case .Reset:
                 break
@@ -209,29 +209,46 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         func onError(message: String) {
+            if !auth && message == "x-form-auth-required[username-password]" {
+                logInfo("Authentication required; retrying ping.")
+                resetConnection()
+                return connect(auth: true)
+            }
+            
             logError("Error while attempting ping request: \(message)")
             resetConnection()
         }
 
-        logHTTP("Sending ping request to: \(pingURL)")
+        logHTTP("Sending ping (auth=\(auth)) request to: \(pingURL)")
 
-        // FIXME: hacking here
-        guard let delegate = self.delegate as? HTTPIncidentManagementSystemDelegate else {
-            logError("No delegate? Can't auth.")
-            return
-        }
+        let method: HTTPMethod
+        let json: AnyObject?
+        if auth {
+            method = HTTPMethod.POST
 
-        guard let credentials = delegate.handleAuth(host: "localhost", port: 8080, realm: nil) as? HTTPUsernamePasswordCredential else {
-            logError("No credentials? Can't auth.")
-            return
+            // FIXME: hacking here
+            guard let delegate = self.delegate as? HTTPIncidentManagementSystemDelegate else {
+                logError("No delegate? Can't auth.")
+                return
+            }
+
+            guard let credentials = delegate.handleAuth(host: "localhost", port: 8080, realm: nil) as? HTTPUsernamePasswordCredential else {
+                logError("No credentials? Can't auth.")
+                return
+            }
+
+            json = ["username": credentials.username, "password": credentials.password]
+        } else {
+            method = HTTPMethod.GET
+            json = nil
         }
 
         let connection: HTTPConnection
         do {
             connection = try self.httpSession.sendJSON(
                 url: pingURL,
-                method: HTTPMethod.POST,
-                json: ["username": credentials.username, "password": credentials.password],
+                method: method,
+                json: json,
                 responseHandler: onResponse,
                 errorHandler: onError
             )
