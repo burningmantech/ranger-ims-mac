@@ -408,19 +408,22 @@ extension DispatchQueueController: HTTPIncidentManagementSystemDelegate {
         port: Int,
         realm: String?
     ) -> HTTPCredential? {
-        dispatch_sync(
-            dispatch_get_main_queue(),
-            {
-                let passwordController = PasswordController(dispatchQueueController: self)
+        func obtainCredentials() {
+            let passwordController = PasswordController(dispatchQueueController: self)
+            
+            if passwordController.window != nil {
+                passwordController.showWindow(self)
+                passwordController.window!.makeKeyAndOrderFront(self)
                 
-                if passwordController.window != nil {
-                    passwordController.showWindow(self)
-                    passwordController.window!.makeKeyAndOrderFront(self)
-                
-                    NSApp.runModalForWindow(passwordController.window!)
-                }
+                NSApp.runModalForWindow(passwordController.window!)
             }
-        )
+        }
+
+        if NSThread.currentThread().isMainThread {
+            obtainCredentials()
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), obtainCredentials)
+        }
         
         guard let
             username = NSUserDefaults.standardUserDefaults().stringForKey("IMSUserName"),
@@ -536,7 +539,7 @@ extension DispatchQueueController: NSTableViewDataSource {
     @IBAction func updateViewedIncidents(sender: AnyObject?) {
         if let dispatchTable = self.dispatchTable {
             // Make sure UI stuff goes to the main thread
-            dispatch_sync(dispatch_get_main_queue()) {
+            dispatch_async(dispatch_get_main_queue()) {
                 () -> Void in
                 dispatchTable.reloadData()
             }

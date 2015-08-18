@@ -148,13 +148,16 @@ class IncidentController: NSWindowController {
         incident = incident!.applyDiff(diff)
         originalIncident = updatedIncident
 
-        dispatch_sync(
-            dispatch_get_main_queue(),
-            {
-                self.updateView()
-                self.enableEditing()
-            }
-        )
+        func updateView() {
+            self.updateView()
+            self.enableEditing()
+        }
+        
+        if NSThread.currentThread().isMainThread {
+            updateView()
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), updateView)
+        }
 
         if incident! != originalIncident! {
             do {
