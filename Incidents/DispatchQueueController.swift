@@ -537,10 +537,14 @@ extension DispatchQueueController: NSTableViewDataSource {
 
 
     @IBAction func updateViewedIncidents(sender: AnyObject?) {
-        if let dispatchTable = self.dispatchTable {
+        if self.dispatchTable != nil {
             // Make sure UI stuff goes to the main thread
             dispatch_async(dispatch_get_main_queue()) {
                 () -> Void in
+                // Because we are async here, make sure self.dispatchTable is
+                // still not nil, or we could crash if it becomes nil (eg. the
+                // user logs out).
+                guard let dispatchTable = self.dispatchTable else { return }
                 dispatchTable.reloadData()
             }
         }
