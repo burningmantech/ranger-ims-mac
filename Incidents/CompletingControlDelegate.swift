@@ -13,7 +13,8 @@ import Cocoa
 class CompletingControlDelegate: NSObject, NSTextFieldDelegate {
 
     var allowNonMatchingCompletions = true
-    
+    var startsWithMatchOnly         = false
+
     var amCompleting  = false
     var amBackspacing = false
 
@@ -40,13 +41,18 @@ class CompletingControlDelegate: NSObject, NSTextFieldDelegate {
     
     
     override func controlTextDidChange(notification: NSNotification) {
+        let fieldEditor = notification.userInfo?["NSFieldEditor"]
+
         if amBackspacing {
             amBackspacing = false
+            if let fieldEditor = fieldEditor {
+                fieldEditor.complete(self)
+            }
             return
         }
         
         if !amCompleting {
-            guard let fieldEditor = notification.userInfo?["NSFieldEditor"] else {
+            guard let fieldEditor = fieldEditor else {
                 logError("No field editor?")
                 return
             }
@@ -69,26 +75,46 @@ class CompletingControlDelegate: NSObject, NSTextFieldDelegate {
         forPartialWordRange charRange: NSRange,
         indexOfSelectedItem index: UnsafeMutablePointer<Int>
     ) -> [String] {
-        let input       = control.stringValue
-        let currentWord = input.lowercaseString
+        let input      = control.stringValue
+        let inputLower = input.lowercaseString
         
         var completions: [String]
 
-        if currentWord == "?" {
+        if inputLower == "?" {
             completions = completionValues
         }
         else {
+            var startsWithCompletions: [String] = []
+            var containsCompletions  : [String] = []
+
+            for word in completionValues {
+                let wordLower = word.lowercaseString
+
+                if wordLower == inputLower { continue } // Will be added below
+
+                if startsWithMatchOnly {
+                    if wordLower.hasPrefix(inputLower) {
+                        startsWithCompletions.append(word)
+                    }
+                } else {
+                    if wordLower.rangeOfString(inputLower) != nil {
+                        if wordLower.hasPrefix(inputLower) {
+                            startsWithCompletions.append(word)
+                        } else {
+                            containsCompletions.append(word)
+                        }
+                    }
+                }
+            }
+
             completions = []
 
-            if allowNonMatchingCompletions && input.characters.count > 0 {
+            if input.characters.count > 0 {  // && allowNonMatchingCompletions
                 completions.append(input)
             }
 
-            for word in completionValues {
-                if word.lowercaseString.hasPrefix(currentWord) {
-                    completions.append(word)
-                }
-            }
+            completions.extend(startsWithCompletions)
+            completions.extend(containsCompletions)
         }
 
         if completions.count == 1 {
