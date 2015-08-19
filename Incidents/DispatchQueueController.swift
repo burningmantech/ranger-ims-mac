@@ -38,7 +38,7 @@ class DispatchQueueController: NSWindowController {
     }
 
 
-    var sortedIncidents: [Incident] {
+    private var sortedIncidents: [Incident] {
         if _sortedIncidents == nil {
             if let sortDescriptors = dispatchTable?.sortDescriptors as [NSSortDescriptor]? {
                 func isOrderedBefore(lhs: Incident, rhs: Incident) -> Bool {
@@ -61,7 +61,7 @@ class DispatchQueueController: NSWindowController {
     private var _sortedIncidents: [Incident]? = nil
 
 
-    var filteredIncidentsCache: FilteredIncidentsCache {
+    private var filteredIncidentsCache: FilteredIncidentsCache {
         if self._filteredIncidentsCache == nil {
             var filteredAllIncidents   : [Incident] = []
             var filteredOpenIncidents  : [Incident] = []
