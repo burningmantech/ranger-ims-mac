@@ -18,7 +18,7 @@ enum HTTPHeaderName: String, CustomStringConvertible {
 
 
 
-class HTTPHeaders: CollectionType, SequenceType {
+class HTTPHeaders: CollectionType, SequenceType, CustomStringConvertible {
 
     typealias Index = DictionaryIndex<String, [String]>
     typealias Element = (String, [String])
@@ -38,6 +38,8 @@ class HTTPHeaders: CollectionType, SequenceType {
     var values: LazyForwardCollection<MapCollectionView<[String: [String]], [String]>> {
         return storage.values
     }
+
+    var description: String { return storage.description }
 
 
     init() {
