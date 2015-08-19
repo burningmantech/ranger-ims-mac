@@ -21,7 +21,7 @@ class LocationNameFieldDelegate: CompletingControlDelegate {
     
     
     override var completionValues: [String] {
-        guard let locations = incidentController.dispatchQueueController?.ims.locationsByName.keys else {
+        guard let locations = incidentController.dispatchQueueController?.locationsByName.keys else {
             logError("Can't complete; no locations?")
             return []
         }

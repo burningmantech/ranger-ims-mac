@@ -134,7 +134,7 @@ extension IncidentController {
                 locationRadialAddressField?.stringValue == "" &&
                 locationDescriptionField?.stringValue == ""
             ) {
-                if let knownLocation = dispatchQueueController?.ims.locationsByName[newName] {
+                if let knownLocation = dispatchQueueController?.locationsByName[newName] {
                     return knownLocation
                 }
             }

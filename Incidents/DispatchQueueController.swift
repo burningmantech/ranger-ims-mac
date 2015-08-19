@@ -53,9 +53,7 @@ class DispatchQueueController: NSWindowController {
                 _sortedIncidents = ims.incidentsByNumber.values.sort(isOrderedBefore)
             }
         }
-        guard let sortedIncidents = _sortedIncidents else {
-            return []
-        }
+        guard let sortedIncidents = _sortedIncidents else { return [] }
         return sortedIncidents
     }
     private var _sortedIncidents: [Incident]? = nil
@@ -95,6 +93,27 @@ class DispatchQueueController: NSWindowController {
         return filteredIncidentsCache
     }
     private var _filteredIncidentsCache: FilteredIncidentsCache? = nil
+
+
+    var locationsByName: [String: Location] {
+        if _locationsByName == nil {
+            var locationsByName = ims.locationsByName
+
+            // Sort by number so more recent-ish entries win
+            for number in ims.incidentsByNumber.keys.sort() {
+                guard let incident     = ims.incidentsByNumber[number] else { continue }
+                guard let location     = incident.location             else { continue }
+                guard let locationName = location.name                 else { continue }
+
+                locationsByName[locationName] = location
+            }
+
+            self._locationsByName = locationsByName
+        }
+        guard let locationsByName = _locationsByName else { return [:] }
+        return locationsByName
+    }
+    private var _locationsByName: [String: Location]?
 
     
     var viewableIncidents: [Incident] {
@@ -554,6 +573,10 @@ extension DispatchQueueController: NSTableViewDataSource {
     @IBAction func resort(sender: AnyObject?) {
         _sortedIncidents        = nil
         _filteredIncidentsCache = nil
+
+        // FIXME: We're nuking this cache when a user re-sorts, and not just when the data updates which is overkill.
+        // On the other hand, it's not recomputed on re-sort.
+        _locationsByName = nil
 
         updateViewedIncidents(self)
     }
