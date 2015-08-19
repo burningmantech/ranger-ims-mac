@@ -238,7 +238,8 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
             }
 
             json = ["username": credentials.username, "password": credentials.password]
-        } else {
+        }
+        else {
             method = HTTPMethod.GET
             json = nil
         }
