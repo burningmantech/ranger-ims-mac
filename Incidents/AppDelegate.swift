@@ -96,7 +96,7 @@ class AppDelegate: NSObject {
 
 
     @IBAction func showLocations(sender: AnyObject) {
-        let locations = Array(dispatchQueueController.locationsByName.values)
+        let locations = Array(dispatchQueueController.locationsByLowercaseName.values)
         alert(title: "Rangers", message: "\(locations)")
     }
 

@@ -95,9 +95,13 @@ class DispatchQueueController: NSWindowController {
     private var _filteredIncidentsCache: FilteredIncidentsCache? = nil
 
 
-    var locationsByName: [String: Location] {
-        if _locationsByName == nil {
-            var locationsByName = ims.locationsByName
+    var locationsByLowercaseName: [String: Location] {
+        if _locationsByLowercaseName == nil {
+            var locationsByLowercaseName: [String:Location] = [:]
+            
+            for locationName in ims.locationsByName.keys {
+                locationsByLowercaseName[locationName.lowercaseString] = ims.locationsByName[locationName]
+            }
 
             // Sort by number so more recent-ish entries win
             for number in ims.incidentsByNumber.keys.sort() {
@@ -105,15 +109,15 @@ class DispatchQueueController: NSWindowController {
                 guard let location     = incident.location             else { continue }
                 guard let locationName = location.name                 else { continue }
 
-                locationsByName[locationName] = location
+                locationsByLowercaseName[locationName.lowercaseString] = location
             }
 
-            self._locationsByName = locationsByName
+            self._locationsByLowercaseName = locationsByLowercaseName
         }
-        guard let locationsByName = _locationsByName else { return [:] }
-        return locationsByName
+        guard let locationsByLowercaseName = _locationsByLowercaseName else { return [:] }
+        return locationsByLowercaseName
     }
-    private var _locationsByName: [String: Location]?
+    private var _locationsByLowercaseName: [String: Location]?
 
     
     var viewableIncidents: [Incident] {
@@ -576,7 +580,7 @@ extension DispatchQueueController: NSTableViewDataSource {
 
         // FIXME: We're nuking this cache when a user re-sorts, and not just when the data updates which is overkill.
         // On the other hand, it's not recomputed on re-sort.
-        _locationsByName = nil
+        _locationsByLowercaseName = nil
 
         updateViewedIncidents(self)
     }

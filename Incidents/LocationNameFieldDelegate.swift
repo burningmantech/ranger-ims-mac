@@ -21,12 +21,20 @@ class LocationNameFieldDelegate: CompletingControlDelegate {
     
     
     override var completionValues: [String] {
-        guard let locations = incidentController.dispatchQueueController?.locationsByName.keys else {
+        guard let locationsByLowercaseName = incidentController.dispatchQueueController?.locationsByLowercaseName else {
             logError("Can't complete; no locations?")
             return []
         }
         
-        return locations.sort()
+        var locationNames: [String] = []
+
+        for locationLowerName in locationsByLowercaseName.keys {
+            guard let location = locationsByLowercaseName[locationLowerName] else { continue }
+            guard let name = location.name else { continue }
+            locationNames.append(name)
+        }
+
+        return locationNames.sort()
     }
     
 }
