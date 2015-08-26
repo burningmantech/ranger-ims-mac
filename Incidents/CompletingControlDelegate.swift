@@ -88,20 +88,22 @@ class CompletingControlDelegate: NSObject, NSTextFieldDelegate {
             var containsCompletions  : [String] = []
 
             for word in completionValues {
+                let word = word as NSString
+                
                 let wordLower = word.lowercaseString
 
                 if wordLower == inputLower { continue } // Will be added below
 
                 if startsWithMatchOnly {
                     if wordLower.hasPrefix(inputLower) {
-                        startsWithCompletions.append(word)
+                        startsWithCompletions.append(word.substringFromIndex(charRange.location))
                     }
                 } else {
                     if wordLower.rangeOfString(inputLower) != nil {
                         if wordLower.hasPrefix(inputLower) {
-                            startsWithCompletions.append(word)
+                            startsWithCompletions.append(word.substringFromIndex(charRange.location))
                         } else {
-                            containsCompletions.append(word)
+                            containsCompletions.append(word.substringFromIndex(charRange.location))
                         }
                     }
                 }
@@ -110,17 +112,18 @@ class CompletingControlDelegate: NSObject, NSTextFieldDelegate {
             completions = []
 
             if input.characters.count > 0 {  // && allowNonMatchingCompletions
-                completions.append(input)
+                let input = input as NSString
+                completions.append(input.substringFromIndex(charRange.location))
             }
 
             completions.extend(startsWithCompletions)
             completions.extend(containsCompletions)
         }
 
-        if completions.count == 1 {
-            control.stringValue = completions[0]
-            return []
-        }
+//        if completions.count == 1 {
+//            control.stringValue = completions[0]
+//            return []
+//        }
         
         return completions
     }
