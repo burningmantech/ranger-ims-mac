@@ -283,7 +283,7 @@ extension IncidentController {
         )
         
         let newLocation = Location(
-            name: incident!.location!.name,
+            name: incident!.location?.name,
             address: newAddress
         )
         
