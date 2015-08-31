@@ -105,7 +105,7 @@
                                     <action selector="reload:" target="-1" id="p8M-tu-tsg"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Log Out" id="C5S-hF-whL">
+                            <menuItem title="Log Out" enabled="NO" id="C5S-hF-whL">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="serverSettingsDidChange:" target="Voe-Tx-rLC" id="RFJ-rJ-6fs"/>
