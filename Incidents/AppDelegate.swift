@@ -111,7 +111,7 @@ extension AppDelegate: NSApplicationDelegate {
 
         let defaults = NSUserDefaults.standardUserDefaults()
 
-        if defaults.stringForKey("IMSServerHostName") == nil {
+        if defaults.stringForKey("IMSServerURI") == nil {
             showPreferences(self)
         } else {
             showDispatchQueue(self)

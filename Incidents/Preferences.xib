@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14D2134" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15B38a" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesController" customModule="Incidents" customModuleProvider="target">
@@ -13,82 +13,46 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <rect key="contentRect" x="500" y="350" width="312" height="125"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
-            <value key="minSize" type="size" width="312" height="125"/>
-            <value key="maxSize" type="size" width="312" height="125"/>
+            <rect key="contentRect" x="500" y="350" width="433" height="94"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <value key="minSize" type="size" width="400" height="94"/>
+            <value key="maxSize" type="size" width="433" height="94"/>
             <view key="contentView" id="EiT-Mj-1SZ" userLabel="Window View">
-                <rect key="frame" x="0.0" y="5" width="312" height="125"/>
+                <rect key="frame" x="0.0" y="0.0" width="433" height="94"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WeV-Gf-UtB" userLabel="Server Name Label">
-                        <rect key="frame" x="18" y="86" width="88" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Server Name:" id="Q3a-58-B9S">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WeV-Gf-UtB" userLabel="Server URI Label">
+                        <rect key="frame" x="18" y="55" width="73" height="17"/>
+                        <animations/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Server URI:" id="Q3a-58-B9S">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8oj-y9-7Bd" userLabel="Server Name Field">
-                        <rect key="frame" x="112" y="83" width="180" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="ims.example.com" drawsBackground="YES" id="Pa2-e4-lUC">
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8oj-y9-7Bd" userLabel="Server URI Field">
+                        <rect key="frame" x="97" y="52" width="316" height="22"/>
+                        <animations/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="https://ims.example.com/event/" drawsBackground="YES" id="Pa2-e4-lUC" userLabel="Server URI Text Field Cell">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                         <connections>
                             <action selector="serverSettingsDidChange:" target="-2" id="BOY-VQ-mbH"/>
-                            <binding destination="cSI-RP-DSq" name="value" keyPath="values.IMSServerHostName" id="aHT-UG-2R8"/>
-                            <outlet property="nextKeyView" destination="gQr-kF-eg9" id="hGs-uK-4Bv"/>
+                            <binding destination="cSI-RP-DSq" name="value" keyPath="values.IMSServerURI" id="dbi-jJ-m4g"/>
                         </connections>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7pb-jL-Xgr" userLabel="Server Port Label">
-                        <rect key="frame" x="28" y="54" width="78" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Server Port:" id="7zU-ZT-3d8">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gQr-kF-eg9" userLabel="Server Port Field">
-                        <rect key="frame" x="112" y="51" width="129" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="8443" drawsBackground="YES" id="Y3f-T3-AXA">
-                            <numberFormatter key="formatter" formatterBehavior="custom10_4" numberStyle="decimal" allowsFloats="NO" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="xkg-lA-nEB">
-                                <real key="minimum" value="0.0"/>
-                            </numberFormatter>
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                        <connections>
-                            <action selector="serverSettingsDidChange:" target="-2" id="VzO-mi-JWE"/>
-                            <binding destination="cSI-RP-DSq" name="value" keyPath="values.IMSServerPort" id="xTq-cn-gaI"/>
-                            <outlet property="nextKeyView" destination="8oj-y9-7Bd" id="xgv-ua-bef"/>
-                        </connections>
-                    </textField>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JhV-jK-0qn" userLabel="TLS Checkbox">
-                        <rect key="frame" x="247" y="53" width="47" height="18"/>
-                        <buttonCell key="cell" type="check" title="TLS" bezelStyle="regularSquare" imagePosition="left" alignment="right" state="on" inset="2" id="PkA-UQ-qRF">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="serverSettingsDidChange:" target="-2" id="sgG-qR-qk3"/>
-                            <binding destination="cSI-RP-DSq" name="value" keyPath="values.IMSServerDisableTLS" id="Pwu-fF-tjl">
-                                <dictionary key="options">
-                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                </dictionary>
-                            </binding>
-                        </connections>
-                    </button>
-                    <box verticalHuggingPriority="750" fixedFrame="YES" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="nPj-ul-5O2">
-                        <rect key="frame" x="20" y="40" width="272" height="5"/>
+                    <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="nPj-ul-5O2">
+                        <rect key="frame" x="12" y="41" width="409" height="5"/>
+                        <animations/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XqD-IM-Cr1" userLabel="Enable Debug Menu Checkbox">
-                        <rect key="frame" x="18" y="18" width="147" height="18"/>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="XqD-IM-Cr1" userLabel="Enable Debug Menu Checkbox">
+                        <rect key="frame" x="18" y="18" width="397" height="19"/>
+                        <animations/>
                         <buttonCell key="cell" type="check" title="Enable Debug Menu" bezelStyle="regularSquare" imagePosition="left" inset="2" id="mZB-ke-rCd">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -99,11 +63,26 @@
                         </connections>
                     </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="nPj-ul-5O2" firstAttribute="top" secondItem="8oj-y9-7Bd" secondAttribute="bottom" constant="8" symbolic="YES" id="4kD-rk-HTK"/>
+                    <constraint firstItem="8oj-y9-7Bd" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" symbolic="YES" id="8Ew-GM-VdJ"/>
+                    <constraint firstItem="8oj-y9-7Bd" firstAttribute="centerY" secondItem="WeV-Gf-UtB" secondAttribute="centerY" id="E8g-Zv-pzE"/>
+                    <constraint firstItem="8oj-y9-7Bd" firstAttribute="leading" secondItem="WeV-Gf-UtB" secondAttribute="trailing" constant="8" symbolic="YES" id="IbA-pq-8NO"/>
+                    <constraint firstAttribute="bottom" secondItem="XqD-IM-Cr1" secondAttribute="bottom" constant="20" symbolic="YES" id="T0s-gn-NLN"/>
+                    <constraint firstItem="XqD-IM-Cr1" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="UgB-hl-BKg"/>
+                    <constraint firstItem="XqD-IM-Cr1" firstAttribute="top" secondItem="nPj-ul-5O2" secondAttribute="bottom" constant="8" symbolic="YES" id="Zcq-GJ-PRz"/>
+                    <constraint firstAttribute="trailing" secondItem="8oj-y9-7Bd" secondAttribute="trailing" constant="20" symbolic="YES" id="j0r-mD-ty0"/>
+                    <constraint firstItem="WeV-Gf-UtB" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="ptt-0i-2OO"/>
+                    <constraint firstAttribute="trailing" secondItem="XqD-IM-Cr1" secondAttribute="trailing" constant="20" symbolic="YES" id="sST-x7-bl5"/>
+                    <constraint firstItem="nPj-ul-5O2" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="12" symbolic="YES" id="vUY-CN-W1Z"/>
+                    <constraint firstAttribute="trailing" secondItem="nPj-ul-5O2" secondAttribute="trailing" constant="12" symbolic="YES" id="ynA-Ca-lAa"/>
+                </constraints>
+                <animations/>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="y38-Vd-BrR"/>
             </connections>
-            <point key="canvasLocation" x="194" y="287.5"/>
+            <point key="canvasLocation" x="254.5" y="272"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="cSI-RP-DSq"/>
     </objects>

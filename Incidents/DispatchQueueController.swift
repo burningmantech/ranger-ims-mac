@@ -174,33 +174,15 @@ class DispatchQueueController: NSWindowController {
     override init(window: NSWindow?) {
         let defaults = NSUserDefaults.standardUserDefaults()
 
-        let scheme: String
-        if defaults.boolForKey("IMSServerDisableTLS") {
-            scheme = "http"
+        let uri: String
+        if let _uri = defaults.stringForKey("IMSServerURI") {
+            uri = _uri
         } else {
-            scheme = "https"
+            uri = ""
         }
 
-        let host: String
-        if let _host = defaults.stringForKey("IMSServerHostName") {
-            host = _host
-        } else {
-            host = "localhost"
-        }
-
-        let port: String
-        if let _port = defaults.stringForKey("IMSServerPort") {
-            port = ":\(_port)"
-        } else {
-            port = ""
-        }
-
-        let path = "/"
-
-        let url = "\(scheme)://\(host)\(port)\(path)"
-
-        logInfo("IMS Server: \(url)")
-        ims = HTTPIncidentManagementSystem(url: url)
+        logInfo("IMS Server: \(uri)")
+        ims = HTTPIncidentManagementSystem(url: uri)
 
         super.init(window: window)
 
