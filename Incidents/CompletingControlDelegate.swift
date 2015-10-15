@@ -116,8 +116,8 @@ class CompletingControlDelegate: NSObject, NSTextFieldDelegate {
                 completions.append(input.substringFromIndex(charRange.location))
             }
 
-            completions.extend(startsWithCompletions)
-            completions.extend(containsCompletions)
+            completions.appendContentsOf(startsWithCompletions)
+            completions.appendContentsOf(containsCompletions)
         }
 
 //        if completions.count == 1 {

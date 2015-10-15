@@ -53,7 +53,7 @@ class HTTPSession: NSObject {
         }
 
         configuration.timeoutIntervalForRequest = NSTimeInterval(idleTimeOut)
-        configuration.TLSMinimumSupportedProtocol = kTLSProtocol12
+        // configuration.TLSMinimumSupportedProtocol = SSLProtocol.TLSProtocol12
 
         let delegate = SessionDelegate()
         
@@ -92,7 +92,7 @@ class HTTPSession: NSObject {
             }
         }
 
-        guard let task = nsSession.dataTaskWithRequest(
+        let task = nsSession.dataTaskWithRequest(
             nsRequest,
             completionHandler: {
                 nsData, nsResponse, nsError -> Void in
@@ -130,9 +130,7 @@ class HTTPSession: NSObject {
 
                 responseHandler(url: request.url, status: status, headers: headers, body: body)
             }
-        ) else {
-            throw HTTPError.InternalError("Unable to create HTTP task")
-        }
+        )
 
         task.resume()
 

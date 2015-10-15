@@ -761,7 +761,7 @@ enum IMSLoadingState: CustomStringConvertible {
                 }
 
                 var s = "loading("
-                s += ", ".join(groups)
+                s += groups.joinWithSeparator(", ")
                 s += ")"
 
                 return s

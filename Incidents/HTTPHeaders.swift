@@ -31,11 +31,11 @@ class HTTPHeaders: CollectionType, SequenceType, CustomStringConvertible {
     var count     : Int   { return storage.count }
     var isEmpty   : Bool  { return storage.isEmpty }
 
-    var keys: LazyForwardCollection<MapCollectionView<[String: [String]], String>> {
+    var keys: LazyMapCollection<Dictionary<String, [String]>, String> {
         return storage.keys
     }
 
-    var values: LazyForwardCollection<MapCollectionView<[String: [String]], [String]>> {
+    var values: LazyMapCollection<Dictionary<String, [String]>, [String]> {
         return storage.values
     }
 

@@ -256,7 +256,7 @@ extension IncidentController {
             newRadialHour   = nil
             newRadialMinute = nil
         } else {
-            let newRadialComponents = split(newRadialName.characters, isSeparator: {$0 == ":"})
+            let newRadialComponents = newRadialName.characters.split(isSeparator: {$0 == ":"})
             guard newRadialComponents.count == 2 else {
                 logError("Unable to parse radial address components: \(newRadialName)")
                 return
@@ -309,7 +309,7 @@ extension IncidentController {
             let e = ConcentricStreet.E.description
 
             for prefixLength in 1...esplanade.characters.count {
-                let prefix = newConcentricName.substringToIndex(advance(esplanade.startIndex, prefixLength))
+                let prefix = newConcentricName.substringToIndex(esplanade.startIndex.advancedBy(prefixLength))
                 
                 if e.hasPrefix(prefix) { continue }  // Could be either E or Esplanade
 

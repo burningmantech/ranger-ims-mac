@@ -12,7 +12,7 @@ import Foundation
 
 extension NSData {
     class func fromBytes(bytes: [UInt8]) -> NSData {
-        return self(bytes: bytes, length: bytes.count)
+        return self.init(bytes: bytes, length: bytes.count)
     }
 
 

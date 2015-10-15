@@ -16,9 +16,9 @@ protocol IncidentManagementSystem {
 
     func reload()
 
-    func createIncident(Incident, callback: IncidentCreatedCallback?) throws
-    func updateIncident(Incident) throws
-    func reloadIncidentWithNumber(Int) throws
+    func createIncident(_: Incident, callback: IncidentCreatedCallback?) throws
+    func updateIncident(_: Incident) throws
+    func reloadIncidentWithNumber(_: Int) throws
 }
 
 

@@ -87,14 +87,14 @@ struct Incident: CustomStringConvertible, Hashable {
         for ranger in rangers {
             handles.append(ranger.handle)
         }
-        return ", ".join(handles.sort())
+        return handles.sort().joinWithSeparator(", ")
     }
 
     var incidentTypesAsText: String {
         guard let incidentTypes = self.incidentTypes else {
             return ""
         }
-        return ", ".join(incidentTypes.sort())
+        return incidentTypes.sort().joinWithSeparator(", ")
     }
 
     var summaryAsText: String {
