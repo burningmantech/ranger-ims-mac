@@ -209,7 +209,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
         }
 
         func onError(message: String) {
-            if !auth && message == "x-form-auth-required[username-password]" {
+            if !auth && message == "x-form-auth-required[\"username-password\"]" {
                 logInfo("Authentication required; retrying ping.")
                 resetConnection()
                 return connect(auth: true)
