@@ -26,7 +26,13 @@ extension IncidentController {
         // current first responder, which is where such unstored data would be.
         // The window's content view is a harmless first responder to use.
         
+        let firstResponder = window?.firstResponder;
+        
         window?.makeFirstResponder(window?.contentView)
+        
+        if let firstResponder = firstResponder {
+            window?.makeFirstResponder(firstResponder)
+        }
         
         guard let incident = self.incident else {
             logError("Incident controller has no incident?")
