@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14D2134" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8191" systemVersion="15B38b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8191"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DispatchQueueController" customModule="Incidents" customModuleProvider="target">
@@ -19,7 +19,7 @@
         <window title="Dispatch Queue" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <rect key="contentRect" x="196" y="240" width="700" height="300"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="700" height="300"/>
             <view key="contentView" id="EiT-Mj-1SZ" userLabel="Window View">
                 <rect key="frame" x="0.0" y="0.0" width="700" height="300"/>
@@ -27,6 +27,7 @@
                 <subviews>
                     <searchField wantsLayer="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RsS-6c-dHe">
                         <rect key="frame" x="20" y="258" width="660" height="22"/>
+                        <animations/>
                         <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" usesSingleLineMode="YES" bezelStyle="round" id="Gfq-gh-JLh">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -38,6 +39,7 @@
                     </searchField>
                     <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="hkF-rW-4Rh">
                         <rect key="frame" x="20" y="20" width="16" height="16"/>
+                        <animations/>
                     </progressIndicator>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="Nlw-Bf-HID">
                         <rect key="frame" x="18" y="18" width="20" height="20"/>
@@ -45,6 +47,7 @@
                             <constraint firstAttribute="width" constant="20" id="eS6-Qt-kV5"/>
                             <constraint firstAttribute="height" constant="20" id="obS-hj-bOL"/>
                         </constraints>
+                        <animations/>
                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRefreshFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="9Jv-dl-luN">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -56,19 +59,20 @@
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pno-px-x3d" userLabel="Incidents Scroll View">
                         <rect key="frame" x="20" y="46" width="660" height="204"/>
                         <clipView key="contentView" id="JKx-99-KN2" userLabel="Incidents Clip View">
-                            <rect key="frame" x="1" y="17" width="238" height="117"/>
+                            <rect key="frame" x="1" y="0.0" width="658" height="203"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="uSe-IY-Bn6" id="Ojp-VW-FpW" userLabel="Incidents Table">
-                                    <rect key="frame" x="0.0" y="0.0" width="1563" height="19"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="1563" height="180"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <animations/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
                                         <tableColumn identifier="number" editable="NO" width="45" minWidth="45" maxWidth="45" headerToolTip="Incident number" id="0KV-sG-w47" userLabel="Incident Number Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="#">
-                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -82,7 +86,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="priority" editable="NO" width="25" minWidth="25" maxWidth="25" headerToolTip="Incident priority" id="5Bc-LG-Glh" userLabel="Incident Priority Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Pri">
-                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -95,7 +99,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="created" editable="NO" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" headerToolTip="Incident created timestamp" id="7qe-dE-Cbd" userLabel="Incident Created Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Created">
-                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -108,7 +112,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="state" editable="NO" width="80" minWidth="80" maxWidth="80" headerToolTip="Incident state" id="GUF-AT-jOt" userLabel="Incident State Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="State">
-                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -121,7 +125,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="rangers" editable="NO" width="100" minWidth="60" maxWidth="600" headerToolTip="Incident personnel" id="Eou-PB-kbd" userLabel="Incident Rangers Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Rangers">
-                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -135,7 +139,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="location" editable="NO" width="125" minWidth="60" maxWidth="600" headerToolTip="Incident location" id="NOq-yS-GvQ" userLabel="Incident Location Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Location">
-                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -149,7 +153,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="incidentTypes" editable="NO" width="100" minWidth="60" maxWidth="600" headerToolTip="Incident type" id="phE-bC-Unv" userLabel="Incident Types Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Types">
-                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -163,7 +167,7 @@
                                         </tableColumn>
                                         <tableColumn identifier="summary" editable="NO" width="1000" minWidth="10" maxWidth="100000" headerToolTip="Incident summary" id="vw4-pd-12g" userLabel="Incident Summary Column">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Summary">
-                                                <font key="font" metaFont="smallSystemBold"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -182,39 +186,47 @@
                                     </connections>
                                 </tableView>
                             </subviews>
+                            <animations/>
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
+                        <animations/>
                         <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="gNC-pb-LHP">
                             <rect key="frame" x="1" y="119" width="223" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
+                            <animations/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="zQR-Ll-BBy">
                             <rect key="frame" x="224" y="17" width="15" height="102"/>
                             <autoresizingMask key="autoresizingMask"/>
+                            <animations/>
                         </scroller>
                         <tableHeaderView key="headerView" id="uSe-IY-Bn6">
-                            <rect key="frame" x="0.0" y="0.0" width="1563" height="17"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1563" height="23"/>
                             <autoresizingMask key="autoresizingMask"/>
+                            <animations/>
                         </tableHeaderView>
                     </scrollView>
-                    <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6PJ-pD-vB6">
+                    <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6PJ-pD-vB6">
                         <rect key="frame" x="42" y="20" width="88" height="17"/>
+                        <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Logged in as:" id="D1L-Re-MVu">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aUq-0e-wgb">
+                    <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aUq-0e-wgb">
                         <rect key="frame" x="563" y="20" width="43" height="17"/>
+                        <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Show:" id="jMP-ab-Yur">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kf4-KH-mAw" userLabel="Updated Field">
+                    <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kf4-KH-mAw" userLabel="Updated Field">
                         <rect key="frame" x="134" y="20" width="425" height="17"/>
+                        <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" placeholderString="…" id="ARX-Jq-pxG">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -224,8 +236,9 @@
                             <binding destination="sqc-L2-9yk" name="value" keyPath="values.IMSUserName" id="Yz3-NE-SBl"/>
                         </connections>
                     </textField>
-                    <popUpButton horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2SQ-L7-twX" userLabel="State Filter Popup">
+                    <popUpButton horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2SQ-L7-twX" userLabel="State Filter Popup">
                         <rect key="frame" x="610" y="15" width="73" height="26"/>
+                        <animations/>
                         <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="MFE-JD-8rl" userLabel="State Filter Popup Cell">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
@@ -267,6 +280,7 @@
                     <constraint firstItem="hkF-rW-4Rh" firstAttribute="centerY" secondItem="Nlw-Bf-HID" secondAttribute="centerY" id="mGo-2U-2E0"/>
                     <constraint firstItem="kf4-KH-mAw" firstAttribute="leading" secondItem="6PJ-pD-vB6" secondAttribute="trailing" constant="8" id="us9-Qh-9F3"/>
                 </constraints>
+                <animations/>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="oJC-2f-DVj"/>
