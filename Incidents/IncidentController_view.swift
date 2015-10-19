@@ -18,6 +18,11 @@ extension IncidentController {
         amUpdatingView = true
         defer { amUpdatingView = false }
         
+        guard let incident = self.incident else {
+            logError("Incident controller has no incident?")
+            return
+        }
+        
         // We want any edits that in incomplete, such as text entered into a
         // text field that has not sent its action yet to get stored before we
         // potentially step on the edited values below.
@@ -29,16 +34,11 @@ extension IncidentController {
         let firstResponder = window?.firstResponder;
         
         window?.makeFirstResponder(window?.contentView)
-        
+
         if let firstResponder = firstResponder {
             window?.makeFirstResponder(firstResponder)
         }
-        
-        guard let incident = self.incident else {
-            logError("Incident controller has no incident?")
-            return
-        }
-        
+
         if let number = incident.number {
             window?.title = "\(number): \(incident.summaryAsText)"
         } else {
