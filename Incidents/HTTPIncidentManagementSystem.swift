@@ -264,7 +264,7 @@ class HTTPIncidentManagementSystem: NSObject, IncidentManagementSystem {
 
 
     func resetConnection() {
-        logError("Resetting IMS server session")
+        logInfo("Resetting IMS server session")
 
         loadingState = IMSLoadingState.Reset
 
