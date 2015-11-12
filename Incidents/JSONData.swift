@@ -49,183 +49,155 @@ let null = NSNull()
 
 
 func incidentFromJSON(json: IncidentDictionary) throws -> Incident {
-    guard let _number = json["number"] as? Int? else {
-        throw JSONDeserializationError.InvalidDataType("number")
-    }
-    guard let number = _number else {
+    guard json.indexForKey("number") != nil else {
         throw JSONDeserializationError.NoIncidentNumber
+    }
+    guard let number = json["number"] as? Int else {
+        throw JSONDeserializationError.InvalidDataType("number")
     }
     guard number >= 0 else {
         throw JSONDeserializationError.NegativeIncidentNumber
     }
 
     let priority: IncidentPriority?
-    if json["priority"] !== null {
-        guard let _jsonPriority = json["priority"] as? Int? else {
+    if json.indexForKey("priority") == nil || json["priority"] === null {
+        priority = nil
+    } else {
+        guard let jsonPriority = json["priority"] as? Int else {
             throw JSONDeserializationError.InvalidDataType("priority")
         }
-        if let jsonPriority = _jsonPriority {
-            switch jsonPriority {
-                case 1, 2: priority = IncidentPriority.High
-                case 3   : priority = IncidentPriority.Normal
-                case 4, 5: priority = IncidentPriority.Low
+        switch jsonPriority {
+            case 1, 2: priority = IncidentPriority.High
+            case 3   : priority = IncidentPriority.Normal
+            case 4, 5: priority = IncidentPriority.Low
 
-                default:
-                    throw JSONDeserializationError.UnknownPriority(jsonPriority)
-            }
-        } else {
-            priority = nil
+            default:
+                throw JSONDeserializationError.UnknownPriority(jsonPriority)
         }
-    } else {
-        priority = nil
     }
 
     let summary: String?
-    if json["summary"] !== null {
-        guard let _summary = json["summary"] as? String? else {
+    if json.indexForKey("summary") == nil || json["summary"] === null {
+        summary = nil
+    } else {
+        guard let _summary = json["summary"] as? String else {
             throw JSONDeserializationError.InvalidDataType("summary")
         }
         summary = _summary
-    } else {
-        summary = nil
     }
 
     let location: Location?
-    if json["location"] !== null {
-        guard let jsonLocation = json["location"] as? IncidentDictionary? else {
+    if json.indexForKey("location") == nil || json["location"] === null {
+        location = nil
+    } else {
+        guard let jsonLocation = json["location"] as? IncidentDictionary else {
             throw JSONDeserializationError.InvalidDataType("location")
         }
-        if let jsonLocation = jsonLocation {
-            location = try locationFromJSON(jsonLocation)
-        } else {
-            location = nil
-        }
-    } else {
-        location = nil
+        location = try locationFromJSON(jsonLocation)
     }
 
     let rangers: Set<Ranger>
-    if json["ranger_handles"] !== null {
-        guard let handles = json["ranger_handles"] as? [String]? else {
+    if json.indexForKey("ranger_handles") == nil || json["ranger_handles"] === null {
+        rangers = Set()
+    } else {
+        guard let handles = json["ranger_handles"] as? [String] else {
             throw JSONDeserializationError.InvalidDataType("ranger_handles")
         }
-        if let handles = handles {
-            rangers = Set(handles.map({Ranger(handle: $0)}))
-        } else {
-            rangers = Set()
-        }
-    } else {
-        rangers = Set()
+        rangers = Set(handles.map({Ranger(handle: $0)}))
     }
 
     let incidentTypes: Set<String>
-    if json["incident_types"] !== null {
-        guard let jsonIncidentTypes = json["incident_types"] as? [String]? else {
+    if json.indexForKey("incident_types") == nil || json["incident_types"] === null {
+        incidentTypes = Set()
+    } else {
+        guard let jsonIncidentTypes = json["incident_types"] as? [String] else {
             throw JSONDeserializationError.InvalidDataType("incident_types")
         }
-        if let jsonIncidentTypes = jsonIncidentTypes {
-            incidentTypes = Set(jsonIncidentTypes)
-        } else {
-            incidentTypes = Set()
-        }
-    } else {
-        incidentTypes = Set()
+        incidentTypes = Set(jsonIncidentTypes)
     }
 
     let reportEntries: [ReportEntry]
-    if json["report_entries"] !== null {
-        guard let jsonReportEntries = json["report_entries"] as? [ReportEntryDictionary]? else {
+    if json.indexForKey("report_entries") == nil || json["report_entries"] === null {
+        reportEntries = []
+    } else {
+        guard let jsonReportEntries = json["report_entries"] as? [ReportEntryDictionary] else {
             throw JSONDeserializationError.InvalidDataType("report_entries")
         }
-        if let jsonReportEntries = jsonReportEntries {
-            reportEntries = try jsonReportEntries.map {
-                jsonEntry in
+        reportEntries = try jsonReportEntries.map {
+            jsonEntry in
 
-                guard let _authorHandle = jsonEntry["author"] as? String? else {
-                    throw JSONDeserializationError.InvalidDataType("author")
-                }
-                guard let authorHandle = _authorHandle else {
-                    throw JSONDeserializationError.NoReportEntryAuthor
-                }
-                let author = Ranger(handle: authorHandle)
-                
-                guard let _jsonCreated = jsonEntry["created"] as? String? else {
-                    throw JSONDeserializationError.InvalidDataType("created")
-                }
-                guard let jsonCreated = _jsonCreated else {
-                    throw JSONDeserializationError.NoReportEntryCreated
-                }
-                let created = DateTime.fromRFC3339String(jsonCreated)
-                
-                guard let _systemEntry = jsonEntry["system_entry"] as? Bool? else {
+            guard jsonEntry.indexForKey("author") != nil else {
+                throw JSONDeserializationError.NoReportEntryAuthor
+            }
+            guard let authorHandle = jsonEntry["author"] as? String else {
+                throw JSONDeserializationError.InvalidDataType("author")
+            }
+            let author = Ranger(handle: authorHandle)
+            
+            guard jsonEntry.indexForKey("created") != nil else {
+                throw JSONDeserializationError.NoReportEntryCreated
+            }
+            guard let jsonCreated = jsonEntry["created"] as? String else {
+                throw JSONDeserializationError.InvalidDataType("created")
+            }
+            let created = DateTime.fromRFC3339String(jsonCreated)
+            
+            let systemEntry: Bool
+            if jsonEntry.indexForKey("system_entry") == nil || jsonEntry["system_entry"] === null {
+                systemEntry = false  // default is false
+            } else {
+                guard let _systemEntry = jsonEntry["system_entry"] as? Bool else {
                     throw JSONDeserializationError.InvalidDataType("system_entry")
                 }
-                let systemEntry: Bool
-                if _systemEntry == nil {
-                    systemEntry = false  // default is false
-                } else {
-                    systemEntry = _systemEntry!
-                }
+                systemEntry = _systemEntry
+            }
 
-                guard let _text = jsonEntry["text"] as? String? else {
+            let text: String
+            if jsonEntry.indexForKey("text") == nil || jsonEntry["text"] === null {
+                logError("JSON for incident #\(number) has a report entry with no text")
+                text = ""
+            } else {
+                guard let _text = jsonEntry["text"] as? String else {
                     throw JSONDeserializationError.InvalidDataType("text")
                 }
-                let text: String
-                if _text == nil {
-                    logError("JSON for incident #\(number) has an empty report entry")
-                    text = ""
-                } else {
-                    text = _text!
-                }
-
-                return ReportEntry(
-                    author: author,
-                    text: text,
-                    created: created,
-                    systemEntry: systemEntry
-                )
+                text = _text
             }
-        } else {
-            reportEntries = []
+
+            return ReportEntry(
+                author: author,
+                text: text,
+                created: created,
+                systemEntry: systemEntry
+            )
         }
-    } else {
-        reportEntries = []
     }
 
     let created: DateTime?
-    if json["created"] !== null {
-        guard let jsonCreated = json["created"] as? String? else {
+    if json.indexForKey("created") == nil || json["created"] === null {
+        created = nil
+    } else {
+        guard let jsonCreated = json["created"] as? String else {
             throw JSONDeserializationError.InvalidDataType("created")
         }
-        if let jsonCreated = jsonCreated {
-            created = DateTime.fromRFC3339String(jsonCreated)
-        } else {
-            created = nil
-        }
-    } else {
-        created = nil
+        created = DateTime.fromRFC3339String(jsonCreated)
     }
     
     let state: IncidentState?
-    if json["state"] !== null {
-        guard let jsonState = json["state"] as? String? else {
+    if json.indexForKey("state") == nil || json["state"] === null {
+        state = nil
+    } else {
+        guard let jsonState = json["state"] as? String else {
             throw JSONDeserializationError.InvalidDataType("state")
         }
-        if let jsonState = jsonState {
-            switch jsonState {
-                case "new"       : state = IncidentState.New
-                case "on_hold"   : state = IncidentState.OnHold
-                case "dispatched": state = IncidentState.Dispatched
-                case "on_scene"  : state = IncidentState.OnScene
-                case "closed"    : state = IncidentState.Closed
-                default:
-                    throw JSONDeserializationError.UnknownIncidentState(jsonState)
-            }
-        } else {
-            state = nil
+        switch jsonState {
+            case "new"       : state = IncidentState.New
+            case "on_hold"   : state = IncidentState.OnHold
+            case "dispatched": state = IncidentState.Dispatched
+            case "on_scene"  : state = IncidentState.OnScene
+            case "closed"    : state = IncidentState.Closed
+            default:
+                throw JSONDeserializationError.UnknownIncidentState(jsonState)
         }
-    } else {
-        state = nil
     }
 
     return Incident(
@@ -245,27 +217,23 @@ func incidentFromJSON(json: IncidentDictionary) throws -> Incident {
 
 func locationFromJSON(json: LocationDictionary) throws -> Location {
     let locationType: String
-    if json["type"] !== null {
-        guard let _locationType = json["type"] as? String? else {
+    if json.indexForKey("type") == nil || json["type"] === null {
+        locationType = "text"  // default is text
+    } else {
+        guard let _locationType = json["type"] as? String else {
             throw JSONDeserializationError.InvalidDataType("type")
         }
-        if _locationType == nil {
-            locationType = "text"  // default is text
-        } else {
-            locationType = _locationType!
-        }
-    } else {
-        locationType = "text"  // default is text
+        locationType = _locationType
     }
 
     let textDescription: String?
-    if json["description"] !== null {
-        guard let _textDescription = json["description"] as? String? else {
+    if json.indexForKey("description") == nil || json["description"] === null {
+        textDescription = nil
+    } else {
+        guard let _textDescription = json["description"] as? String else {
             throw JSONDeserializationError.InvalidDataType("description")
         }
         textDescription = _textDescription
-    } else {
-        textDescription = nil
     }
 
     let locationAddress: Address?
@@ -275,37 +243,33 @@ func locationFromJSON(json: LocationDictionary) throws -> Location {
 
         case "garett":
             let radialHour: Int?
-            if json["radial_hour"] !== null {
-                guard let _radialHour = json["radial_hour"] as? Int? else {
+            if json.indexForKey("radial_hour") == nil || json["radial_hour"] === null {
+                radialHour = nil
+            } else {
+                guard let _radialHour = json["radial_hour"] as? Int else {
                     throw JSONDeserializationError.InvalidDataType("radial_hour")
                 }
                 radialHour = _radialHour
-            } else {
-                radialHour = nil
             }
 
             let radialMinute: Int?
-            if json["radial_minute"] !== null {
-                guard let _radialMinute = json["radial_minute"] as? Int? else {
+            if json.indexForKey("radial_minute") == nil || json["radial_minute"] === null {
+                radialMinute = nil
+            } else {
+                guard let _radialMinute = json["radial_minute"] as? Int else {
                     throw JSONDeserializationError.InvalidDataType("radial_minute")
                 }
                 radialMinute = _radialMinute
-            } else {
-                radialMinute = nil
             }
 
             let concentric: ConcentricStreet?
-            if json["concentric"] !== null {
-                guard let jsonConcentric = json["concentric"] as? Int? else {
+            if json.indexForKey("concentric") == nil || json["concentric"] === null {
+                concentric = nil
+            } else {
+                guard let jsonConcentric = json["concentric"] as? Int else {
                     throw JSONDeserializationError.InvalidDataType("concentric")
                 }
-                if jsonConcentric == nil {
-                    concentric = nil
-                } else {
-                    concentric = ConcentricStreet(rawValue: jsonConcentric!)
-                }
-            } else {
-                concentric = nil
+                concentric = ConcentricStreet(rawValue: jsonConcentric)
             }
 
             locationAddress = RodGarettAddress(
