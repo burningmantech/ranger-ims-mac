@@ -215,16 +215,27 @@ private class SessionDelegate: NSObject, NSURLSessionTaskDelegate {
             )
         }
         
+        func defaultHandler() {
+            completionHandler(
+                NSURLSessionAuthChallengeDisposition.PerformDefaultHandling,
+                nil
+            )
+        }
+        
         switch challenge.previousFailureCount {
             case 0:
                 if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+//                    if let trust = challenge.protectionSpace.serverTrust {
+//                        let credential = NSURLCredential(trust: trust)
+//                        return completionHandler(
+//                            NSURLSessionAuthChallengeDisposition.UseCredential,
+//                            credential
+//                        )
+//                    }
+
                     // This is a request to authenticate *the server* (eg. it's TLS certificate).
                     // We'll ask for the default handling of that here.
-                    completionHandler(
-                        NSURLSessionAuthChallengeDisposition.PerformDefaultHandling,
-                        nil
-                    )
-                    return
+                    return defaultHandler()
                 }
                 
                 if let lastCredential = lastCredential {
@@ -233,11 +244,10 @@ private class SessionDelegate: NSObject, NSURLSessionTaskDelegate {
                 
                 guard let authHandler = self.session?.authHandler else {
                     // The application did not provide an auth handler; use the default handling.
-                    completionHandler(
+                    return completionHandler(
                         NSURLSessionAuthChallengeDisposition.PerformDefaultHandling,
                         nil
                     )
-                    return
                 }
                 
                 logInfo("Authenticating HTTP connection...")
@@ -255,7 +265,7 @@ private class SessionDelegate: NSObject, NSURLSessionTaskDelegate {
         }
         
         logInfo("Unable to authenticate HTTP connection.")
-        completionHandler(
+        return completionHandler(
             NSURLSessionAuthChallengeDisposition.CancelAuthenticationChallenge,
             nil
         )
