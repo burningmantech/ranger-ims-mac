@@ -217,23 +217,28 @@ private class SessionDelegate: NSObject, NSURLSessionTaskDelegate {
         
         switch challenge.previousFailureCount {
             case 0:
-                if let lastCredential = lastCredential {
-                    return completeWithCredential(lastCredential)
-                }
-                
-                guard let authHandler = self.session?.authHandler else {
+                if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+                    // This is a request to authenticate *the server* (eg. it's TLS certificate).
+                    // We'll ask for the default handling of that here.
                     completionHandler(
                         NSURLSessionAuthChallengeDisposition.PerformDefaultHandling,
                         nil
                     )
                     return
                 }
-
-// FIXME
-//                if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
-//                    logInfo("Authenticating HTTP server certificate...")
-//                    
-//                }
+                
+                if let lastCredential = lastCredential {
+                    return completeWithCredential(lastCredential)
+                }
+                
+                guard let authHandler = self.session?.authHandler else {
+                    // The application did not provide an auth handler; use the default handling.
+                    completionHandler(
+                        NSURLSessionAuthChallengeDisposition.PerformDefaultHandling,
+                        nil
+                    )
+                    return
+                }
                 
                 logInfo("Authenticating HTTP connection...")
                 
