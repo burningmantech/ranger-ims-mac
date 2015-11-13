@@ -225,15 +225,58 @@ private class SessionDelegate: NSObject, NSURLSessionTaskDelegate {
         switch challenge.previousFailureCount {
             case 0:
                 if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
-//                    if let trust = challenge.protectionSpace.serverTrust {
-//                        let credential = NSURLCredential(trust: trust)
-//                        return completionHandler(
-//                            NSURLSessionAuthChallengeDisposition.UseCredential,
-//                            credential
-//                        )
-//                    }
+                    // This is a request to authenticate *the server* (eg. validate its TLS certificate).
 
-                    // This is a request to authenticate *the server* (eg. it's TLS certificate).
+                    if let trust = challenge.protectionSpace.serverTrust {
+                        var result = SecTrustResultType(kSecTrustResultInvalid)
+                        let status = SecTrustEvaluate(trust, &result)
+
+                        guard status == errSecSuccess else {
+                            logError(
+                                "Error calling SecTrustEvaluate(). status=\(status)\n" +
+                                "See Result Codes in https://developer.apple.com/library/mac/documentation/Security/Reference/certifkeytrustservices/"
+                            )
+                            return defaultHandler()
+                        }
+                        
+                        let proceed: Bool
+                        
+                        switch Int(result) {
+                            case kSecTrustResultInvalid: // SecTrustEvaluate probably failed
+                                proceed = false
+                            case kSecTrustResultProceed: // User indicated "always trust"
+                                proceed = true
+                            case kSecTrustResultDeny:  // User indicated "never trust"
+                                proceed = false
+                            case kSecTrustResultUnspecified:  // Default ("use system policy")
+                                proceed = false
+                            case kSecTrustResultRecoverableTrustFailure:  // eg. expired cert
+                                // FIXME: Add way to ask the user if we can continue
+                                // If so, use the SecTrustSettingsSetTrustSettings function to set
+                                // the user trust setting to kSecTrustResultProceed and call
+                                // SecTrustEvaluate again.
+                                proceed = false
+                            case kSecTrustResultFatalTrustFailure:  // eg. corrupt cert
+                                proceed = false
+                            case kSecTrustResultOtherError:  // eg. SecTrustEvaluate internal error
+                                proceed = false
+                            default:
+                                logError(
+                                    "Unknown result from SecTrustEvaluate(): \(result)\n" +
+                                    "See https://developer.apple.com/library/mac/documentation/Security/Reference/certifkeytrustservices/index.html#//apple_ref/c/tdef/SecTrustResultType"
+                                )
+                                proceed = false
+                        }
+
+                        if proceed {
+                            let credential = NSURLCredential(trust: trust)
+                            return completionHandler(
+                                NSURLSessionAuthChallengeDisposition.UseCredential,
+                                credential
+                            )
+                        }
+                    }
+
                     // We'll ask for the default handling of that here.
                     return defaultHandler()
                 }
