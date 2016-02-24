@@ -17,7 +17,7 @@
 // To avoid accidental data modifications, properties below
 // are made read-only.
 
-class Address: CustomStringConvertible, Hashable, NillishEquatable {
+class Address: CustomStringConvertible, Comparable, Hashable, NillishEquatable {
 
     var hashValue: Int {
         var hash = 0
@@ -50,7 +50,7 @@ class Address: CustomStringConvertible, Hashable, NillishEquatable {
 }
 
 func ==(lhs: Address, rhs: Address) -> Bool {
-    return lhs.hashValue == rhs.hashValue
+    return lhs.textDescription == rhs.textDescription
 }
 
 func <(lhs: Address, rhs: Address) -> Bool {
@@ -126,6 +126,19 @@ class RodGarettAddress: Address {
         )
     }
     
+}
+
+func ==(lhs: RodGarettAddress, rhs: RodGarettAddress) -> Bool {
+    if (
+        lhs.concentric      == rhs.concentric      &&
+        lhs.radialHour      == rhs.radialHour      &&
+        lhs.radialMinute    == rhs.radialMinute    &&
+        lhs.textDescription == rhs.textDescription
+    ) {
+        return true
+    } else {
+        return false
+    }
 }
 
 func <(lhs: RodGarettAddress, rhs: RodGarettAddress) -> Bool {
