@@ -29,6 +29,51 @@ class AddressDescriptionTests: XCTestCase {
 
 
 
+class AddressComparisonTests: XCTestCase {
+    
+    func test_equal() {
+        XCTAssertEqual(
+            Address(textDescription: "Ranger Outpost Tokyo"),
+            Address(textDescription: "Ranger Outpost Tokyo")
+        )
+    }
+    
+    
+    func test_notEqual() {
+        XCTAssertNotEqual(
+            Address(textDescription: "Ranger Outpost Berlin"),
+            Address(textDescription: "Ranger Outpost Tokyo")
+        )
+    }
+    
+    
+    func test_lessThan() {
+        XCTAssertLessThan(
+            Address(textDescription: "Ranger Outpost Berlin"),
+            Address(textDescription: "Ranger Outpost Tokyo")
+        )
+    }
+    
+    
+    func test_notLessThan_greater() {
+        XCTAssertFalse(
+            Address(textDescription: "Ranger Outpost Tokyo") <
+            Address(textDescription: "Ranger Outpost Berlin")
+        )
+    }
+    
+    
+    func test_notLessThan_equal() {
+        XCTAssertFalse(
+            Address(textDescription: "Ranger Outpost Tokyo") <
+            Address(textDescription: "Ranger Outpost Tokyo")
+        )
+    }
+    
+}
+
+
+
 class AddressNillishTests: XCTestCase {
 
     func test_nilAttributes() {
@@ -95,6 +140,263 @@ class RodGarettAddressDescriptionTests: XCTestCase {
         )
     }
 
+}
+
+
+
+class RodGarrettAddressComparisonTests: XCTestCase {
+    
+    func test_equal() {
+        XCTAssertEqual(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ),
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+    
+    
+    func test_notEqual_concentric() {
+        XCTAssertNotEqual(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ),
+            RodGarettAddress(
+                concentric: ConcentricStreet.A,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+
+
+    func test_notEqual_hour() {
+        XCTAssertNotEqual(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ),
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 3,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+
+
+    func test_notEqual_minute() {
+        XCTAssertNotEqual(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ),
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 00,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+
+
+    func test_notEqual_description() {
+        XCTAssertNotEqual(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ),
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Shazbot"
+            )
+        )
+    }
+    
+    
+    func test_lessThan_concentric() {
+        XCTAssertLessThan(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ),
+            RodGarettAddress(
+                concentric: ConcentricStreet.D,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+    
+    
+    func test_lessThan_hour() {
+        XCTAssertLessThan(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ),
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 9,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+    
+    
+    func test_lessThan_minute() {
+        XCTAssertLessThan(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ),
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 45,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+    
+    
+    func test_lessThan_description() {
+        XCTAssertLessThan(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ),
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Shazbot"
+            )
+        )
+    }
+    
+    
+    func test_notLessThan_greater_concentric() {
+        XCTAssertFalse(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ) <
+            RodGarettAddress(
+                concentric: ConcentricStreet.A,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+    
+    
+    func test_notLessThan_greater_hour() {
+        XCTAssertFalse(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ) <
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 2,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+    
+    
+    func test_notLessThan_greater_minute() {
+        XCTAssertFalse(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ) <
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 00,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+    
+    
+    func test_notLessThan_greater_description() {
+        XCTAssertFalse(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ) <
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Awesome"
+            )
+        )
+    }
+    
+    
+    func test_notLessThan_equal() {
+        XCTAssertFalse(
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            ) <
+            RodGarettAddress(
+                concentric: ConcentricStreet.C,
+                radialHour: 8,
+                radialMinute: 30,
+                textDescription: "Camp Equilibrium"
+            )
+        )
+    }
+    
 }
 
 
