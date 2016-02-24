@@ -14,8 +14,11 @@
 // from Equatable, which cannot be used because… generics
 // get involved and you then have to declare Locations as
 // having a specific type of address, which is weak.
+//
 // To avoid accidental data modifications, properties below
 // are made read-only.
+
+
 
 class Address: CustomStringConvertible, Comparable, Hashable, NillishEquatable {
 
@@ -47,14 +50,24 @@ class Address: CustomStringConvertible, Comparable, Hashable, NillishEquatable {
         return textDescription == nil
     }
 
+
+    func isEqualTo(other: Address) -> Bool {
+        return textDescription == other.textDescription
+    }
+
+    
+    func isLessThan(other: Address) -> Bool {
+        return textDescription < other.textDescription
+    }
+
 }
 
 func ==(lhs: Address, rhs: Address) -> Bool {
-    return lhs.textDescription == rhs.textDescription
+    return lhs.isEqualTo(rhs)
 }
 
 func <(lhs: Address, rhs: Address) -> Bool {
-    return lhs.textDescription < rhs.textDescription
+    return lhs.isLessThan(rhs)
 }
 
 
@@ -126,50 +139,58 @@ class RodGarettAddress: Address {
         )
     }
     
-}
 
-func ==(lhs: RodGarettAddress, rhs: RodGarettAddress) -> Bool {
-    if (
-        lhs.concentric      == rhs.concentric      &&
-        lhs.radialHour      == rhs.radialHour      &&
-        lhs.radialMinute    == rhs.radialMinute    &&
-        lhs.textDescription == rhs.textDescription
-    ) {
-        return true
-    } else {
-        return false
+    override func isEqualTo(other: Address) -> Bool {
+        let _other = other
+        guard let other = other as? RodGarettAddress else {
+            return super.isEqualTo(_other)
+        }
+        
+        return (
+            concentric      == other.concentric      &&
+            radialHour      == other.radialHour      &&
+            radialMinute    == other.radialMinute    &&
+            textDescription == other.textDescription
+        )
     }
-}
 
-func <(lhs: RodGarettAddress, rhs: RodGarettAddress) -> Bool {
-    if lhs.concentric == nil {
-        return true
-    } else if lhs.concentric! < rhs.concentric! {
-        return true
-    } else if lhs.concentric! != rhs.concentric! {
-        return false
-    } else if lhs.radialHour == nil {
-        return true
-    } else if lhs.radialHour < rhs.radialHour {
-        return true
-    } else if lhs.radialHour > rhs.radialHour {
-        return false
-    } else if lhs.radialMinute == nil {
-        return true
-    } else if lhs.radialMinute < rhs.radialMinute {
-        return true
-    } else if lhs.radialMinute > rhs.radialMinute {
-        return false
-    } else if lhs.textDescription == nil {
-        return true
-    } else {
-        return lhs.textDescription < rhs.textDescription
+
+    override func isLessThan(other: Address) -> Bool {
+        let _other = other
+        guard let other = other as? RodGarettAddress else {
+            return super.isLessThan(_other)
+        }
+
+        if concentric == nil {
+            return true
+        } else if concentric! < other.concentric! {
+            return true
+        } else if concentric! != other.concentric! {
+            return false
+        } else if radialHour == nil {
+            return true
+        } else if radialHour < other.radialHour {
+            return true
+        } else if radialHour > other.radialHour {
+            return false
+        } else if radialMinute == nil {
+            return true
+        } else if radialMinute < other.radialMinute {
+            return true
+        } else if radialMinute > other.radialMinute {
+            return false
+        } else if textDescription == nil {
+            return true
+        } else {
+            return textDescription < other.textDescription
+        }
     }
+
 }
 
 
 
-enum ConcentricStreet: Int, CustomStringConvertible {
+enum ConcentricStreet: Int, CustomStringConvertible, Comparable {
 
     case Esplanade = 0
     case A
