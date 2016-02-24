@@ -54,6 +54,7 @@ struct DateTime: CustomStringConvertible, Comparable, Hashable {
         return DateTime.formatter.stringFromDate(nsDate)
     }
     
+
     func asLongString() -> String {
         return DateTime.longFormatter.stringFromDate(nsDate)
     }
