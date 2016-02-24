@@ -11,20 +11,22 @@ import Foundation
 
 
 extension NSData {
+
     class func fromBytes(bytes: [UInt8]) -> NSData {
         return self.init(bytes: bytes, length: bytes.count)
     }
 
 
     func asBytes() -> [UInt8] {
-        let p = UnsafePointer<UInt8>(self.bytes)
+        let pointer = UnsafePointer<UInt8>(self.bytes)
 
         // Get our buffer pointer and make an array out of it
         let buffer = UnsafeBufferPointer<UInt8>(
-            start:p,
+            start:pointer,
             count:self.length
         )
-        let bytes = [UInt8](buffer)
-        return bytes
+
+        return [UInt8](buffer)
     }
+
 }
